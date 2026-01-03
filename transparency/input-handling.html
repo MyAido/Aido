@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input & Keyboard Audit | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/permissions.html">Permissions</a>
+            <a href="/transparency/accessibility.html">Accessibility</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Input Handling & Keyboard Audit</h1>
+            <p>How we handle your keystrokes, clipboard, and input data when using the Aido Keyboard.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content">
+            <aside class="audit-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-header">Core Audit</li>
+                    <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                            Constitution</a></li>
+                    <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line"
+                                style="margin-right:8px"></i>
+                            Permissions</a></li>
+                    <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                            Accessibility Service</a></li>
+                    <li><a href="/transparency/input-handling.html" class="active"><i class="ri-keyboard-box-line"
+                                style="margin-right:8px"></i> Input Handling</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Logic & Data</li>
+                    <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line"
+                                style="margin-right:8px"></i> Code
+                            Behavior</a></li>
+                    <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line"
+                                style="margin-right:8px"></i> Data
+                            Processing</a></li>
+                    <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i>
+                            User
+                            Controls</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Safety</li>
+                    <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                                style="margin-right:8px"></i>
+                            Zero Tolerance</a></li>
+                </ul>
+            </aside>
+
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-keyboard-line" style="color: var(--primary);"></i> The Custom Keyboard</h2>
+                    <p>Aido includes an optional on-screen keyboard (`AidoInputMethodService`). Because keyboards can
+                        technically see everything you type, we are completely transparent about how ours works.</p>
+
+                    <div class="info-box">
+                        <h4><i class="ri-shield-check-line"></i> Local Processing Policy</h4>
+                        <p>The keyboard logic runs entirely on your device. We do not have a "cloud learning" server
+                            that uploads your typing habits. Your dictionary and shortcuts stay on your phone.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-clipboard-line" style="color: var(--primary);"></i> Clipboard Manager</h2>
+                    <p>Aido offers a Clipboard History feature. This data is sensitive, so we treat it with extreme
+                        caution.</p>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="ri-hard-drive-2-line" style="color: var(--success); margin-top: 3px;"></i>
+                            <div>
+                                <strong>Stored Locally Only:</strong><br>
+                                Clipboard history is saved in a local database (`Room Database`) on your device. It is
+                                never synced to the cloud.
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="ri-timer-line" style="color: var(--success); margin-top: 3px;"></i>
+                            <div>
+                                <strong>Not Permanent:</strong><br>
+                                You can clear your clipboard history at any time with a single tap.
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-lock-password-line" style="color: var(--primary);"></i> Sensitive Fields
+                        (Passwords)</h2>
+                    <p>When you focus on a password field (marked with standard Android flags):</p>
+                    <div class="info-box danger">
+                        <h4>Aido automatically:</h4>
+                        <ol style="padding-left: 20px;">
+                            <li>Disables all AI triggers.</li>
+                            <li>Disables clipboard caching for that field.</li>
+                            <li>Ensures no text is stored in memory buffers longer than necessary for display.</li>
+                        </ol>
+                        <p style="margin-top: 10px; font-weight: 600;">We do not want your passwords. They are a
+                            liability, not an asset.</p>
+                    </div>
+                </section>
+
+                <!-- Page Navigation -->
+                <div class="page-navigation">
+                    <a href="/transparency/accessibility.html" class="nav-btn prev-btn">
+                        <i class="ri-arrow-left-line"></i> Accessibility
+                    </a>
+                    <a href="/transparency/code-behavior.html" class="nav-btn next-btn">
+                        Code Behavior <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility Service</a></li>
+            <li><a href="/transparency/input-handling.html" class="active"><i class="ri-keyboard-box-line"
+                        style="margin-right:8px"></i> Input Handling</a></li>
+            <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line" style="margin-right:8px"></i>
+                    Code
+                    Behavior</a></li>
+            <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line" style="margin-right:8px"></i>
+                    Data
+                    Processing</a></li>
+            <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User
+                    Controls</a>
+            </li>
+            <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                        style="margin-right:8px"></i> Zero
+                    Tolerance</a></li>
+            <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit
+                    Summary</a></li>
+            <li><a href="/transparency/resources.html"><i class="ri-book-2-line" style="margin-right:8px"></i>
+                    Resources</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

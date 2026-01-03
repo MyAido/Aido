@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guides & Support - Aido</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo"><i class="ri-flashlight-fill" style="color: var(--primary);"></i>
+                Aido</a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../features.html">Features</a>
+                <a href="index.html" class="active">Guides</a>
+                <a href="../contact.html">Support</a>
+                <a href="../download.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Get
+                    App</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        <div class="container">
+            <h1 style="text-align: center; margin-bottom: 3rem;">How can we help?</h1>
+
+            <!-- Search placeholder -->
+            <div style="max-width: 600px; margin: 0 auto 4rem; position: relative;">
+                <input type="text" placeholder="Search guides..."
+                    style="width: 100%; padding: 16px 24px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 1rem;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+                <a href="xiaomi-fix.html" class="glass-card" style="display: block; transition: transform 0.2s;">
+                    <div style="color: var(--warning); font-size: 2rem; margin-bottom: 1rem;"><i
+                            class="ri-alert-line"></i></div>
+                    <h3>Fix for Xiaomi/Redmi</h3>
+                    <p>App not working on your Redmi device? Follow this troubleshooting guide to fix accessibility
+                        issues.</p>
+                </a>
+
+                <a href="getting-started.html" class="glass-card" style="display: block;">
+                    <div style="color: var(--primary); font-size: 2rem; margin-bottom: 1rem;"><i
+                            class="ri-rocket-line"></i></div>
+                    <h3>Getting Started</h3>
+                    <p>Learn how to install, set up, and make your first AI request with Aido in minutes.</p>
+                </a>
+
+                <a href="api-setup.html" class="glass-card" style="display: block;">
+                    <div style="color: var(--secondary); font-size: 2rem; margin-bottom: 1rem;"><i
+                            class="ri-key-2-line"></i></div>
+                    <h3>Custom API Keys</h3>
+                    <p>How to use your own OpenAI or Gemini API keys for unlimited usage and custom models.</p>
+                </a>
+
+                <a href="preprompts.html" class="glass-card" style="display: block;">
+                    <div style="color: var(--accent); font-size: 2rem; margin-bottom: 1rem;"><i
+                            class="ri-user-settings-line"></i></div>
+                    <h3>Custom Pre-prompts</h3>
+                    <p>Master the art of creating custom AI personas and text transformation rules.</p>
+                </a>
+            </div>
+
+            <div style="margin-top: 4rem; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                <h3>Still need help?</h3>
+                <p>Check out our <a href="../contact.html" style="color: var(--primary);">Contact Support</a> page or
+                    join our Discord community.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

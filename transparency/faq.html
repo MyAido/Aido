@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+    <style>
+        .faq-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .faq-item h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/faq.html" class="active">FAQ</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p>Common questions about Aido's privacy, security, and functionality.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-key-line" style="color: var(--primary);"></i> Permissions & Privacy</h2>
+
+                    <div class="faq-item">
+                        <h3>Q: Why does Aido need Accessibility Service permission?</h3>
+                        <p><strong>A:</strong> Aido is an "overlay" AI assistant that works inside other apps (WhatsApp,
+                            Gmail, etc.). Android requires the Accessibility Service permission to read text from other
+                            apps and insert AI responses. We use it ONLY when you trigger a command (like
+                            <code>@aido</code>), not continuously. See our <a href="/transparency/accessibility.html"
+                                style="color: var(--primary);">Accessibility Disclosure</a> for technical details.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Can Aido see my passwords or banking information?</h3>
+                        <p><strong>A:</strong> No. First, Android prevents screen reading in banking apps
+                            (<code>FLAG_SECURE</code>).
+                            Second, you can explicitly <strong>Blocklist</strong> apps in Settings for a verified
+                            guarantee.
+                            We have a <a href="/transparency/zero-tolerance.html" style="color: var(--primary);">Zero
+                                Tolerance
+                                Policy</a> against capturing sensitive credentials.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Does Aido work with password managers like Bitwarden or 1Password?</h3>
+                        <p><strong>A:</strong> Yes! Add your password manager to the app blacklist in Aido Settings →
+                            Disabled Apps. This ensures Aido never activates when you're using your password manager.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Can the developers see my prompts or conversations?</h3>
+                        <p><strong>A:</strong> No. Your prompts go directly from your phone to the AI provider (Google
+                            Gemini, OpenAI, etc.). We don't operate a "middleman" server that logs your text. See <a
+                                href="/transparency/data-safety.html" style="color: var(--primary);">Data Safety</a> for
+                            the complete
+                            data flow.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-settings-3-line" style="color: var(--primary);"></i> Functionality & Features</h2>
+
+                    <div class="faq-item">
+                        <h3>Q: Can Aido work completely offline?</h3>
+                        <p><strong>A:</strong> Partially. You can use offline AI models (Gemini Nano, SmolLM) for basic
+                            tasks. However, advanced features like GPT-4 require internet. Offline models run entirely
+                            on your device with zero data transmission.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: How do I revoke Accessibility permission?</h3>
+                        <p><strong>A:</strong> Go to: <strong>Android Settings → Accessibility → Aido → Toggle
+                                OFF</strong>. You can also disable the custom keyboard via <strong>Settings → Languages
+                                & Input → Virtual Keyboard → Manage Keyboards</strong>.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: What happens to my data if I uninstall Aido?</h3>
+                        <p><strong>A:</strong> All local data (clipboard history, saved prompts, API keys) is
+                            immediately deleted from your device. Since we don't store your data on our servers, there's
+                            nothing to delete remotely. Your data is gone permanently.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Does Aido drain battery?</h3>
+                        <p><strong>A:</strong> Aido uses a lightweight foreground service that activates only when text
+                            input is detected. We prioritize battery efficiency over aggressive scanning. The
+                            <code>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code> permission is optional and only prevents
+                            Android from killing the service mid-use.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-check-line" style="color: var(--primary);"></i> Security & Compliance</h2>
+
+                    <div class="faq-item">
+                        <h3>Q: Is my API key safe?</h3>
+                        <p><strong>A:</strong> Yes. All API keys are stored in Android's Encrypted Shared Preferences
+                            using AES-256 encryption. They never leave your device and are not accessible to other apps.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Is Aido GDPR compliant?</h3>
+                        <p><strong>A:</strong> Yes. We process minimal personal data (only what you explicitly type as
+                            prompts), and it's sent directly to AI providers with their own GDPR compliance. You have
+                            the right to access, delete, and port your data at any time. See our <a
+                                href="/transparency/privacy-policy.html" style="color: var(--primary);">Privacy
+                                Policy</a>.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Has Aido been audited by a third party?</h3>
+                        <p><strong>A:</strong> Not yet. However, "Independently Auditable" means anyone with technical
+                            knowledge can verify our claims using Android debugging tools and network analysis. We
+                            welcome independent security researchers to review the app.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: What if Aido gets hacked or has a data breach?</h3>
+                        <p><strong>A:</strong> Since we don't store user data on servers, a traditional "data breach" is
+                            unlikely. If a vulnerability is discovered in the app itself, we will issue an immediate
+                            update and notify users via the Google Play release notes. See our <a
+                                href="/transparency/incidents.html" style="color: var(--primary);">Incident Response
+                                Plan</a>.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-customer-service-line" style="color: var(--primary);"></i> Support & Contact</h2>
+
+                    <div class="faq-item">
+                        <h3>Q: How do I report a bug or privacy concern?</h3>
+                        <p><strong>A:</strong> Email us at <a href="mailto:aiqknow@gmail.com"
+                                style="color: var(--primary);">aiqknow@gmail.com</a>. For urgent security issues, please
+                            include "SECURITY" in the subject line. We respond within 48 hours.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Q: Can I request my data be deleted?</h3>
+                        <p><strong>A:</strong> Since all data is stored locally on your device, simply uninstalling the
+                            app deletes everything. There's no cloud data to delete. For questions about AI provider
+                            data retention, contact them directly (Google, OpenAI).</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. Transparency Center. <a href="../index.html"
+                    style="text-decoration: underline;">Return to Main Site</a></p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility</a></li>
+            <li><a href="/transparency/faq.html" class="active"><i class="ri-question-line"
+                        style="margin-right:8px"></i> FAQ</a></li>
+            <li><a href="/transparency/privacy-policy.html"><i class="ri-file-text-line" style="margin-right:8px"></i>
+                    Privacy
+                    Policy</a></li>
+            <li><a href="/transparency/changelog.html"><i class="ri-history-line" style="margin-right:8px"></i>
+                    Changelog</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

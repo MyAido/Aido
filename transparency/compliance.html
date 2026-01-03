@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Tracker | Aido</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+    <style>
+        .compliance-item {
+            background: white;
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .compliance-item.partial {
+            border-left-color: var(--warning);
+        }
+
+        .compliance-item.not-applicable {
+            border-left-color: var(--text-light);
+            opacity: 0.7;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-compliant {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--success);
+        }
+
+        .status-partial {
+            background: rgba(202, 138, 4, 0.1);
+            color: var(--warning);
+        }
+
+        .status-na {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--text-light);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/compliance.html" class="active">Compliance</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Compliance Tracker</h1>
+            <p>Our adherence to privacy regulations and platform policies worldwide.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-global-line" style="color: var(--primary);"></i> Privacy Regulations</h2>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            COMPLIANT</span>
+                        <h3>GDPR (General Data Protection Regulation)</h3>
+                        <p><strong>Jurisdiction:</strong> European Union</p>
+                        <p><strong>Status:</strong> Fully Compliant</p>
+                        <p><strong>Key Requirements Met:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Lawful basis for processing
+                                (user consent via app usage)</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Data minimization (only
+                                text prompts processed)</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Right to access, delete,
+                                and port data</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Privacy by design and
+                                default</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Data subject rights
+                                documented in <a href="/transparency/rights.html" style="color: var(--primary);">Your Rights</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            COMPLIANT</span>
+                        <h3>CCPA (California Consumer Privacy Act)</h3>
+                        <p><strong>Jurisdiction:</strong> California, USA</p>
+                        <p><strong>Status:</strong> Fully Compliant</p>
+                        <p><strong>Key Requirements Met:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Notice at collection (via
+                                Privacy Policy)</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Right to know what data is
+                                collected</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Right to deletion</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> <strong>Do Not
+                                    Sell:</strong> We do NOT sell personal information</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> No discrimination for
+                                exercising rights</li>
+                        </ul>
+                    </div>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            COMPLIANT</span>
+                        <h3>COPPA (Children's Online Privacy Protection Act)</h3>
+                        <p><strong>Jurisdiction:</strong> United States</p>
+                        <p><strong>Status:</strong> Compliant (App not directed at children)</p>
+                        <p><strong>Key Requirements Met:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> App intended for users 13+
+                            </li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> No knowingcollection from
+                                children under 13</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Children's Privacy policy
+                                available at <a href="/transparency/coppa.html" style="color: var(--primary);">COPPA</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            COMPLIANT</span>
+                        <h3>Age-Appropriate Design Code (UK)</h3>
+                        <p><strong>Jurisdiction:</strong> United Kingdom</p>
+                        <p><strong>Status:</strong> Compliant</p>
+                        <p><strong>Key Principles Met:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Privacy by default</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Minimal data collection
+                            </li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> No profiling or behavioral
+                                tracking</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Transparency and clear
+                                language</li>
+                        </ul>
+                    </div>
+
+                    <div class="compliance-item partial">
+                        <span class="status-indicator status-partial"><i class="ri-information-line"></i> PARTIAL</span>
+                        <h3>PIPEDA (Personal Information Protection and Electronic Documents Act)</h3>
+                        <p><strong>Jurisdiction:</strong> Canada</p>
+                        <p><strong>Status:</strong> Substantially Compliant</p>
+                        <p><strong>Notes:</strong> Aido follows PIPEDA principles (consent, minimal collection,
+                            security). However, formal PIPEDA certification is not required for our app type.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-google-play-line" style="color: var(--primary);"></i> Platform Policies</h2>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            COMPLIANT</span>
+                        <h3>Google Play Store Policies</h3>
+                        <p><strong>Key Requirements Met:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> <strong>Accessibility
+                                    Service:</strong> Justified use disclosed in Transparency Center</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> <strong>Data Safety
+                                    Form:</strong> Accurate declaration of no server-side data collection</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> <strong>Privacy
+                                    Policy:</strong> Available at <a href="/transparency/privacy-policy.html"
+                                    style="color: var(--primary);">Privacy Policy</a></li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i>
+                                <strong>Permissions:</strong> All permissions justified in <a href="/transparency/permissions.html"
+                                    style="color: var(--primary);">Permissions Map</a></li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> <strong>No Deceptive
+                                    Behavior:</strong> Complete transparency about functionality</li>
+                        </ul>
+                    </div>
+
+                    <div class="compliance-item not-applicable">
+                        <span class="status-indicator status-na">N/A</span>
+                        <h3>Apple App Store Review Guidelines</h3>
+                        <p><strong>Status:</strong> Not Applicable (Android-only app)</p>
+                        <p><em>Aido is currently only available on Android. If we expand to iOS, we will comply with
+                                Apple's guidelines.</em></p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-check-line" style="color: var(--primary);"></i> Industry Best Practices</h2>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            FOLLOWING</span>
+                        <h3>OWASP Mobile Application Security</h3>
+                        <p><strong>Key Practices:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Secure data storage
+                                (encrypted SharedPreferences, SQLCipher)</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> HTTPS/TLS for all network
+                                communication</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Input validation and
+                                sanitization</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Minimal permissions
+                                principle</li>
+                        </ul>
+                    </div>
+
+                    <div class="compliance-item">
+                        <span class="status-indicator status-compliant"><i class="ri-checkbox-circle-line"></i>
+                            FOLLOWING</span>
+                        <h3>Privacy by Design Framework</h3>
+                        <p><strong>7 Foundational Principles:</strong></p>
+                        <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Proactive not reactive</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Privacy as the default
+                                setting</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Privacy embedded into
+                                design</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Full functionality (privacy
+                                doesn't compromise usability)</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> End-to-end security</li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Visibility and transparency
+                            </li>
+                            <li><i class="ri-check-line" style="color: var(--success);"></i> Respect for user privacy
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-file-list-line" style="color: var(--primary);"></i> Ongoing Compliance</h2>
+                    <p>We maintain compliance through:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Regular Reviews:</strong> Quarterly review of privacy policies and practices</li>
+                        <li><strong>Changelog Updates:</strong> Document all changes affecting privacy or permissions
+                        </li>
+                        <li><strong>Monitoring:</strong> Track new regulations and platform policy updates</li>
+                        <li><strong>User Rights:</strong> Respond to data subject requests within regulatory timelines
+                        </li>
+                        <li><strong>Security Audits:</strong> Regular dependency updates and vulnerability scanning</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-contacts-book-line" style="color: var(--primary);"></i> Compliance Contact</h2>
+                    <p>For compliance questions or concerns:</p>
+                    <p><strong>Email:</strong> <a href="mailto:aiqknow@gmail.com"
+                            style="color: var(--primary);">aiqknow@gmail.com</a><br>
+                        <strong>Data Protection Officer:</strong> Available via email above
+                    </p>
+                </section>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <h4><i class="ri-information-line"></i> Disclaimer</h4>
+                    <p style="margin-bottom: 0;">This compliance tracker is provided for transparency purposes. While we
+                        strive for accuracy, it should not be considered legal advice. For specific legal questions
+                        about data protection, consult a qualified attorney in your jurisdiction.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. <a href="../index.html" style="text-decoration: underline;">Return to Main Site</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i> Constitution</a></li>
+            <li><a href="/transparency/compliance.html" class="active"><i class="ri-shield-check-line" style="margin-right:8px"></i>
+                    Compliance</a></li>
+            <li><a href="/transparency/privacy-policy.html"><i class="ri-file-text-line" style="margin-right:8px"></i> Privacy
+                    Policy</a></li>
+            <li><a href="/transparency/rights.html"><i class="ri-user-shield-line" style="margin-right:8px"></i> Your Rights</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Commands - Aido Features</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo"><i class="ri-flashlight-fill" style="color: var(--primary);"></i>
+                Aido</a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../features.html" class="active">Features</a>
+                <a href="../guides/index.html">Guides</a>
+                <a href="../contact.html">Support</a>
+                <a href="../download.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Get
+                    App</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <main style="padding-top: 100px; padding-bottom: 80px;">
+        <div class="container">
+            <div class="animate-slide-up">
+                <a href="../features.html"
+                    style="display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); margin-bottom: 2rem; text-decoration: none;">
+                    <i class="ri-arrow-left-line"></i> Back to Features
+                </a>
+                <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem;">Utility <span
+                        class="text-gradient-primary">Commands</span></h1>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin-bottom: 4rem;">
+                    Boost your productivity with 30+ built-in utility commands. Calculate, convert, encode, or
+                    transform text instantly without leaving your app.
+                </p>
+            </div>
+
+            <!-- Categories -->
+            <div style="display: grid; gap: 4rem;">
+
+                <!-- Math & Helpers -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-calculator-line"
+                            style="margin-right: 10px;"></i> Math & Calculations</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: var(--primary);">Smart Calculator</h4>
+                            <p class="code-block">25 * 4 + 10</p>
+                            <p style="color: var(--text-secondary);">Result: 110</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary);">Factorial</h4>
+                            <p class="code-block">5.factorial</p>
+                            <p style="color: var(--text-secondary);">Result: 120</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary);">Average</h4>
+                            <p class="code-block">1,2,3,4,5.avg</p>
+                            <p style="color: var(--text-secondary);">Result: 3</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary);">Percentage</h4>
+                            <p class="code-block">20% of 500.percentage</p>
+                            <p style="color: var(--text-secondary);">Result: 100</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Tools -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-text"
+                            style="margin-right: 10px;"></i> Text Manipulation</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4>Case Conversion</h4>
+                            <ul style="list-style: none; color: var(--text-secondary);">
+                                <li><code>hello.upper</code> → HELLO</li>
+                                <li><code>HELLO.lower</code> → hello</li>
+                                <li><code>hello world.title</code> → Hello World</li>
+                                <li><code>hello world.camel</code> → helloWorld</li>
+                                <li><code>hello world.snake</code> → hello_world</li>
+                                <li><code>hello world.kebab</code> → hello-world</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Extraction & Cleaning</h4>
+                            <ul style="list-style: none; color: var(--text-secondary);">
+                                <li><code>text.trim</code> → Remove whitespace</li>
+                                <li><code>text.slug</code> → url-friendly-slug</li>
+                                <li><code>text.extract:emails</code> → Get all emails</li>
+                                <li><code>text.extract:urls</code> → Get all URLs</li>
+                                <li><code>list.sort</code> → Sort lines</li>
+                                <li><code>list.shuffle</code> → Randomize lines</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web & Network -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-global-line"
+                            style="margin-right: 10px;"></i> Web & Network</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: var(--accent);">URL Shortener</h4>
+                            <p class="code-block">google.com.short</p>
+                            <p style="color: var(--text-secondary);">Result: is.gd/...</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent);">QR Code</h4>
+                            <p class="code-block">Hello.qr</p>
+                            <p style="color: var(--text-secondary);">Result: [QR Image]</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent);">Network Info</h4>
+                            <p class="code-block">.ip</p>
+                            <p class="code-block">google.com.ping</p>
+                            <p style="color: var(--text-secondary);">Result: Pinging...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temporary Email -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-mail-line"
+                            style="margin-right: 10px;"></i> Temporary Email</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: var(--accent);">Generate Email</h4>
+                            <p class="code-block">.email:get</p>
+                            <p style="color: var(--text-secondary);">Full details (email + password)</p>
+                            <p class="code-block">.email:new</p>
+                            <p style="color: var(--text-secondary);">New email with full details</p>
+                            <p class="code-block">.mail</p>
+                            <p style="color: var(--text-secondary);">Quick email (address only)</p>
+                            <p class="code-block">.new:mail</p>
+                            <p style="color: var(--text-secondary);">New quick email</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent);">Check Inbox</h4>
+                            <p class="code-block">.email:inbox</p>
+                            <p style="color: var(--text-secondary);">View all messages</p>
+                            <p class="code-block">.inbox:mail</p>
+                            <p style="color: var(--text-secondary);">Alternative inbox check</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent);">Extract Codes</h4>
+                            <p class="code-block">.email:code</p>
+                            <p style="color: var(--text-secondary);">Extract OTP/verification codes</p>
+                            <p class="code-block">.code:mail</p>
+                            <p style="color: var(--text-secondary);">Extract codes/links/tokens</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translation -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-translate"
+                            style="margin-right: 10px;"></i> Translation</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: var(--accent);">Usage</h4>
+                            <p class="code-block">text.tr:en</p>
+                            <p style="color: var(--text-secondary);">Translate to target language</p>
+                            <p class="code-block">नमस्ते.tr:en</p>
+                            <p style="color: var(--text-secondary);">Hello (auto-detects source)</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent);">Popular Languages</h4>
+                            <p style="color: var(--text-secondary);">
+                                <code>:en</code> English &nbsp;|&nbsp;
+                                <code>:hi</code> Hindi<br>
+                                <code>:es</code> Spanish &nbsp;|&nbsp;
+                                <code>:fr</code> French<br>
+                                <code>:de</code> German &nbsp;|&nbsp;
+                                <code>:ja</code> Japanese<br>
+                                <code>:ar</code> Arabic &nbsp;|&nbsp;
+                                <code>:zh</code> Chinese
+                            </p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent);">Supported Languages</h4>
+                            <details style="color: var(--text-secondary); cursor: pointer;">
+                                <summary style="color: var(--accent); margin-bottom: 8px;">View All Languages →
+                                </summary>
+                                <div
+                                    style="max-height: 200px; overflow-y: auto; padding: 8px; font-size: 0.9em; line-height: 1.6;">
+                                    <strong>Common:</strong><br>
+                                    :en (English) | :hi (Hindi) | :es (Spanish) | :fr (French) | :de (German) | :it
+                                    (Italian) | :pt (Portuguese) | :ru (Russian) | :ja (Japanese) | :ko (Korean) | :zh
+                                    (Chinese) | :ar (Arabic)
+                                    <br><br>
+                                    <strong>Indian Languages:</strong><br>
+                                    :bn (Bengali) | :ur (Urdu) | :ta (Tamil) | :te (Telugu) | :mr (Marathi) | :gu
+                                    (Gujarati) | :kn (Kannada)
+                                    <br><br>
+                                    <strong>Other:</strong><br>
+                                    :nl (Dutch) | :pl (Polish) | :tr (Turkish) | :vi (Vietnamese) | :th (Thai) | :id
+                                    (Indonesian) | :ms (Malay) | :sv (Swedish) | :da (Danish) | :no (Norwegian) | :fi
+                                    (Finnish)
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Encoders & Security -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-lock-line"
+                            style="margin-right: 10px;"></i> Encoders & Security</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4>Encoders</h4>
+                            <ul style="list-style: none; color: var(--text-secondary);">
+                                <li><code>Text.b64:encode</code></li>
+                                <li><code>Text.hex:encode</code></li>
+                                <li><code>Text.binary:encode</code></li>
+                                <li><code>SOS.morse:encode</code></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Security</h4>
+                            <ul style="list-style: none; color: var(--text-secondary);">
+                                <li><code>.pass</code> → Random Password</li>
+                                <li><code>.uuid</code> → Generate UUID</li>
+                                <li><code>text.hash:md5</code></li>
+                                <li><code>text.hash:sha256</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fun & Random -->
+                <div class="glass-card">
+                    <h2 class="text-gradient-primary" style="margin-bottom: 2rem;"><i class="ri-gamepad-line"
+                            style="margin-right: 10px;"></i> Fun & Random</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: var(--success);">Dice & Flip</h4>
+                            <p class="code-block">.dice</p>
+                            <p class="code-block">.flip</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--success);">Random Number</h4>
+                            <p class="code-block">1 to 100 .random</p>
+                            <p style="color: var(--text-secondary);">Result: 42</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--success);">Emoji & Art</h4>
+                            <p class="code-block">happy.emoji</p>
+                            <p class="code-block">AIDO.ascii</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="../download.html" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.1rem;">Try
+                    Utility Commands</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container copyright">
+            <p>&copy; 2026 Aido App</p>
+        </div>
+    </footer>
+
+    <style>
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--accent);
+            display: inline-block;
+            margin-bottom: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</body>
+
+</html>

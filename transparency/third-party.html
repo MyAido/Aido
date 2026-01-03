@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third-Party Services | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/permissions.html">Permissions</a>
+            <a href="/transparency/third-party.html" class="active">Third-Party</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Third-Party Services & SDKs</h1>
+            <p>Complete disclosure of all external services and libraries integrated into Aido.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content">
+            <aside class="audit-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-header">Core Audit</li>
+                    <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                            Constitution</a></li>
+                    <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                            Permissions</a></li>
+                    <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                            Accessibility Service</a></li>
+                    <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line" style="margin-right:8px"></i>
+                            Input Handling</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Logic & Data</li>
+                    <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line" style="margin-right:8px"></i> Code
+                            Behavior</a></li>
+                    <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line" style="margin-right:8px"></i> Data
+                            Processing</a></li>
+                    <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User
+                            Controls</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Safety</li>
+                    <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line" style="margin-right:8px"></i>
+                            Zero Tolerance</a></li>
+                    <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit Summary</a>
+                    </li>
+                </ul>
+            </aside>
+
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-cloud-line" style="color: var(--primary);"></i> AI Provider APIs</h2>
+                    <p>Aido integrates with the following AI service providers:</p>
+
+                    <table class="permission-table">
+                        <tr>
+                            <th>Service</th>
+                            <th>Purpose</th>
+                            <th>Data Sent</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Gemini API</strong></td>
+                            <td>AI text generation when using Gemini models</td>
+                            <td>Your text prompts only. No device info, contacts, or metadata.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OpenAI API</strong></td>
+                            <td>AI text generation when using GPT models</td>
+                            <td>Your text prompts only. No device info, contacts, or metadata.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Groq API</strong></td>
+                            <td>Fast AI inference (if selected by user)</td>
+                            <td>Your text prompts only. No device info, contacts, or metadata.</td>
+                        </tr>
+                    </table>
+
+                    <div class="info-box success" style="margin-top: 1.5rem;">
+                        <p style="margin: 0;"><strong>Important:</strong> We use these APIs in "stateless" mode. Each
+                            request is independent, and the AI providers do not store conversation history unless you
+                            explicitly configure API settings to do so.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-code-box-line" style="color: var(--primary);"></i> Android Libraries & SDKs</h2>
+                    <p>The following Android libraries are bundled within the app:</p>
+
+                    <table class="permission-table">
+                        <tr>
+                            <th>Library</th>
+                            <th>Purpose</th>
+                            <th>Privacy Impact</th>
+                        </tr>
+                        <tr>
+                            <td><strong>AndroidX Libraries</strong></td>
+                            <td>Core Android UI and compatibility components</td>
+                            <td><span style="color: var(--success); font-weight: bold;">NO</span> data collection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kotlin Coroutines</strong></td>
+                            <td>Asynchronous programming for smooth UI</td>
+                            <td><span style="color: var(--success); font-weight: bold;">NO</span> data collection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Room Database</strong></td>
+                            <td>Local storage for preprompts and settings</td>
+                            <td><span style="color: var(--success); font-weight: bold;">NO</span> data collection (local
+                                only)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ktor / OkHttp</strong></td>
+                            <td>HTTP client for API communication</td>
+                            <td><span style="color: var(--success); font-weight: bold;">NO</span> independent data
+                                collection</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-cross-line" style="color: var(--danger);"></i> What We DO NOT Use</h2>
+                    <p>To maintain your privacy, Aido explicitly <strong>does NOT include</strong>:</p>
+
+                    <ul style="line-height: 1.8; margin-left: 20px;">
+                        <li><i class="ri-close-circle-fill" style="color: var(--danger);"></i> <strong>Google Analytics
+                                / Firebase Analytics</strong> - No usage tracking</li>
+                        <li><i class="ri-close-circle-fill" style="color: var(--danger);"></i> <strong>Crashlytics /
+                                Sentry</strong> - No crash reporting with user data</li>
+                        <li><i class="ri-close-circle-fill" style="color: var(--danger);"></i> <strong>Facebook
+                                SDK</strong> - No social media integration</li>
+                        <li><i class="ri-close-circle-fill" style="color: var(--danger);"></i> <strong>AdMob / Ad
+                                Networks</strong> - No advertisements</li>
+                        <li><i class="ri-close-circle-fill" style="color: var(--danger);"></i> <strong>Push Notification
+                                Services</strong> - No marketing notifications</li>
+                        <li><i class="ri-close-circle-fill" style="color: var(--danger);"></i> <strong>Third-party
+                                Trackers</strong> - No behavioral analytics</li>
+                    </ul>
+                </section>
+
+                <!-- <section class="audit-section">
+                    <h2><i class="ri-contacts-book-line" style="color: var(--primary);"></i> Offline AI Models</h2>
+                    <p>When using on-device AI, Aido may download the following models:</p> -->
+
+                <div class="info-box">
+                    <h4>Model Sources</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Google AI:</strong> Google</li>
+                        <li><strong>Hugging Face Models:</strong> Hugging Face</li>
+                    </ul>
+                    <!-- <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Privacy Note:</strong> Offline models run
+                        entirely on your device. No data leaves your phone during offline inference.</p> -->
+                </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i> Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i> Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility Service</a></li>
+            <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line" style="margin-right:8px"></i> Input
+                    Handling</a></li>
+            <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line" style="margin-right:8px"></i> Code
+                    Behavior</a></li>
+            <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line" style="margin-right:8px"></i> Data
+                    Processing</a></li>
+            <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User Controls</a>
+            </li>
+            <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line" style="margin-right:8px"></i> Zero
+                    Tolerance</a></li>
+            <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit Summary</a></li>
+                    <li><a href="/transparency/resources.html"><i class="ri-book-2-line" style="margin-right:8px"></i> Resources</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>
+

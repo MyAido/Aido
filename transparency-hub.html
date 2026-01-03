@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparency Center | Aido</title>
+    <meta name="description"
+        content="Aido's Transparency Center. We believe in radical honesty. Explore our open-source licenses, security practices, privacy policy, and live code audits.">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Custom Styles for Transparency Landing */
+        .transparency-hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .trust-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            transition: var(--trans-med);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .trust-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
+        }
+
+        .trust-card>i {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .trust-card h3 {
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+
+        .trust-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .trust-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .trust-link:hover {
+            color: var(--accent);
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 60px 0;
+            margin: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item h2 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="ri-shield-check-fill" style="color: var(--primary);"></i> Aido <span
+                    style="font-weight: 400; opacity: 0.8; margin-left: 0.5rem; font-size: 0.9em;">Transparency</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="transparency/index.html">Audit</a>
+                <a href="transparency/security.html">Security</a>
+                <a href="transparency/incidents.html">Incidents</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Open Menu"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <main>
+        <section class="transparency-hero">
+            <div class="container animate-slide-up">
+                <span
+                    style="color: var(--success); background: rgba(16, 185, 129, 0.1); padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(16, 185, 129, 0.2); display: inline-block; margin-bottom: 1.5rem;">
+                    <i class="ri-check-double-line"></i> Independently Auditable
+                </span>
+                <h1>We Have Nothing to Hide.<br><span class="text-gradient-primary">See For Yourself.</span></h1>
+                <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
+                    Trust is earned, not claimed. We disclose our entire data flow, security practices, and third-party
+                    integrations so you can verify our privacy claims.
+                </p>
+            </div>
+        </section>
+
+        <section class="container animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="trust-grid">
+                <!-- Card 1 -->
+                <a href="transparency/index.html" class="trust-card">
+                    <i class="ri-file-shield-line" style="color: var(--primary);"></i>
+                    <h3>The Constitution</h3>
+                    <p>Our core operating rules. Read how we bind ourselves to never store your data.</p>
+                    <span class="trust-link">Read Constitution <i class="ri-arrow-right-line"></i></span>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="transparency/permissions.html" class="trust-card">
+                    <i class="ri-lock-unlock-line" style="color: var(--accent);"></i>
+                    <h3>Permissions Map</h3>
+                    <p>Every Android permission we request, explained in plain English with "Promise NOT to do" clauses.
+                    </p>
+                    <span class="trust-link">View Map <i class="ri-arrow-right-line"></i></span>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="transparency/security.html" class="trust-card">
+                    <i class="ri-shield-keyhole-line" style="color: var(--secondary);"></i>
+                    <h3>Security Practices</h3>
+                    <p>Encryption standards, key storage, and network verification videos showing our "silence".</p>
+                    <span class="trust-link">Verify Security <i class="ri-arrow-right-line"></i></span>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="transparency/third-party.html" class="trust-card">
+                    <i class="ri-share-line" style="color: var(--warning);"></i>
+                    <h3>Third-Party Services</h3>
+                    <p>A complete list of every SDK and API we use. No hidden trackers, no ad networks.</p>
+                    <span class="trust-link">Who We Work With <i class="ri-arrow-right-line"></i></span>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="transparency/incidents.html" class="trust-card">
+                    <i class="ri-error-warning-line" style="color: #ef4444;"></i>
+                    <h3>Incident Response</h3>
+                    <p>Our plan for vulnerabilities. Includes our Bug Bounty program and Hall of Fame.</p>
+                    <span class="trust-link">View Plan <i class="ri-arrow-right-line"></i></span>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="transparency/resources.html" class="trust-card">
+                    <i class="ri-book-2-line" style="color: #64748b;"></i>
+                    <h3>Resources & Docs</h3>
+                    <p>Privacy Policy, Terms of Service, Open Source Licenses, and Compliance docs.</p>
+                    <span class="trust-link">Browse Library <i class="ri-arrow-right-line"></i></span>
+                </a>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="container">
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <h2>0</h2>
+                        <p>Trackers or Ads</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>0</h2>
+                        <p>Data Sold</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>100%</h2>
+                        <p>User Controlled</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>256-bit</h2>
+                        <p>Encryption</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" style="padding-bottom: 100px;">
+            <div class="cta-box">
+                <h2>Ready to verify?</h2>
+                <p>Start by reading our core Constitution to understand our philosophy.</p>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="transparency/index.html" class="btn btn-primary"
+                        style="background: var(--primary); padding: 12px 30px; border-radius: 8px; font-weight: 600; color: white;">Start
+                        Audit</a>
+                    <a href="index.html"
+                        style="padding: 12px 30px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; font-weight: 600; color: white;">Back
+                        to Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: rgba(0,0,0,0.3); padding: 50px 0; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 Aido App. Built with <i class="ri-heart-fill" style="color: var(--accent);"></i> and
+                Integrity.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script (Inline for simplicity) -->
+    <script>
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '80px';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.background = 'var(--bg-darker)';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.padding = '20px';
+                navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+            }
+        });
+    </script>
+</body>
+
+</html>

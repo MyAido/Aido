@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://myaido.web.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://myaido.web.app/download.html</loc><priority>0.9</priority></url>
+  <url><loc>https://myaido.web.app/features.html</loc><priority>0.8</priority></url>
+  <url><loc>https://myaido.web.app/features/ai-writer.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/features/customization.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/features/shortcuts.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/features/utility-commands.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/guides/</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/guides/xiaomi-fix.html</loc><priority>0.6</priority></url>
+  <url><loc>https://myaido.web.app/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://myaido.web.app/privacy.html</loc><priority>0.5</priority></url>
+  <url><loc>https://myaido.web.app/terms.html</loc><priority>0.5</priority></url>
+  
+  <!-- Transparency Center -->
+  <url><loc>https://myaido.web.app/transparency/</loc><priority>0.9</priority></url>
+  <url><loc>https://myaido.web.app/transparency/permissions.html</loc><priority>0.8</priority></url>
+  <url><loc>https://myaido.web.app/transparency/accessibility.html</loc><priority>0.8</priority></url>
+  <url><loc>https://myaido.web.app/transparency/input-handling.html</loc><priority>0.8</priority></url>
+  <url><loc>https://myaido.web.app/transparency/code-behavior.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/transparency/data-safety.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/transparency/controls.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/transparency/zero-tolerance.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/transparency/summary.html</loc><priority>0.7</priority></url>
+  <url><loc>https://myaido.web.app/transparency/rights.html</loc><priority>0.6</priority></url>
+  <url><loc>https://myaido.web.app/transparency/security.html</loc><priority>0.6</priority></url>
+  <url><loc>https://myaido.web.app/transparency/incidents.html</loc><priority>0.5</priority></url>
+  <url><loc>https://myaido.web.app/transparency/compliance.html</loc><priority>0.5</priority></url>
+  <url><loc>https://myaido.web.app/transparency/coppa.html</loc><priority>0.5</priority></url>
+  <url><loc>https://myaido.web.app/transparency/licenses.html</loc><priority>0.4</priority></url>
+  <url><loc>https://myaido.web.app/transparency/resources.html</loc><priority>0.4</priority></url>
+</urlset>

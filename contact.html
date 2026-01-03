@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Support - Aido AI Assistant</title>
+    <meta name="description"
+        content="Get help with Aido. Contact our support team for assistance, bug reports, or feature requests.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://myaido.web.app/contact.html">
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo"><i class="ri-flashlight-fill" style="color: var(--primary);"></i> Aido</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="guides/index.html">Guides</a>
+                <a href="contact.html" class="active">Support</a>
+                <a href="download.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Get
+                    App</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        <div class="container" style="max-width: 800px;">
+            <h1 style="text-align: center; margin-bottom: 3rem;">Get in Touch</h1>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 4rem;">
+                <a href="mailto:aiqknow@gmail.com" class="glass-card" style="text-align: center; display: block;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);"><i
+                            class="ri-mail-send-line"></i></div>
+                    <h3>Email Support</h3>
+                    <p>aiqknow@gmail.com</p>
+                </a>
+                <a href="#" class="glass-card" style="text-align: center; display: block;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: #5865F2;"><i class="ri-discord-fill"></i>
+                    </div>
+                    <h3>Discord Community</h3>
+                    <p>Join 50+ users</p>
+                </a>
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin-bottom: 1.5rem;">Send us a message</h3>
+                <form onsubmit="event.preventDefault(); alert('Message sent! (Demo)');">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">Name</label>
+                        <input type="text"
+                            style="width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;"
+                            required>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">Email</label>
+                        <input type="email"
+                            style="width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;"
+                            required>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">Message</label>
+                        <textarea
+                            style="width: 100%; padding: 12px; height: 150px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

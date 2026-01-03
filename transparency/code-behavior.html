@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Behavior Audit | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+    <style>
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -30px;
+            width: 2px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .flow-step:last-child::before {
+            display: none;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/permissions.html">Permissions</a>
+            <a href="/transparency/accessibility.html">Accessibility</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Code Behavior Audit</h1>
+            <p>A simplified, transparent explanation of the actual logic running inside the app.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content">
+            <aside class="audit-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-header">Core Audit</li>
+                    <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                            Constitution</a></li>
+                    <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line"
+                                style="margin-right:8px"></i>
+                            Permissions</a></li>
+                    <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                            Accessibility Service</a></li>
+                    <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                                style="margin-right:8px"></i>
+                            Input Handling</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Logic & Data</li>
+                    <li><a href="/transparency/code-behavior.html" class="active"><i class="ri-code-s-slash-line"
+                                style="margin-right:8px"></i> Code Behavior</a></li>
+                    <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line"
+                                style="margin-right:8px"></i> Data
+                            Processing</a></li>
+                    <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i>
+                            User
+                            Controls</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Safety</li>
+                    <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                                style="margin-right:8px"></i>
+                            Zero Tolerance</a></li>
+                </ul>
+            </aside>
+
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-cpu-line" style="color: var(--primary);"></i> The Logic Flow</h2>
+                    <p>When you use Aido, the app follows a strict, predictable flowchart. This logic is hard-coded and
+                        cannot be changed remotely.</p>
+
+                    <div style="margin-top: 2rem;">
+                        <div class="flow-step">
+                            <div class="step-icon">1</div>
+                            <div class="step-content">
+                                <strong>Event Detection</strong><br>
+                                The app detects a text change event on your screen (e.g., you typed a letter).
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-icon">2</div>
+                            <div class="step-content">
+                                <strong>Safety Filter</strong><br>
+                                The code checks: Is this a password field? Is this app on the Blacklist? If yes, it
+                                <strong>immediately stops</strong>.
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-icon">3</div>
+                            <div class="step-content">
+                                <strong>Trigger Check</strong><br>
+                                It scans <strong>only the current line</strong> for specific triggers like
+                                <code>@aido</code>, <code>@fixg</code>, or <code>@tone</code>.
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-icon">4</div>
+                            <div class="step-content">
+                                <strong>Processing (API Call)</strong><br>
+                                If a trigger is found, the prompt is sent securely to the AI Provider (Gemini/OpenAI).
+                                An <code>isProcessing</code> flag is set to handle screen updates.
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-icon">5</div>
+                            <div class="step-content">
+                                <strong>Text Replacement</strong><br>
+                                The response is received and swapped into the text field. The memory of the prompt is
+                                cleared.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-cross-line" style="color: var(--primary);"></i> No Remote Command Control
+                    </h2>
+                    <div class="info-box success">
+                        <p><strong>Aido does not include any remote feature flags or command channels to change
+                                Accessibility behavior without an app update.</strong></p>
+                        <p style="margin-top: 0.5rem; margin-bottom: 0;">Any logic change requires a Play Store update,
+                            which you initiate. The app cannot be remotely instructed to behave differently than the
+                            version you installed.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-bug-line" style="color: var(--warning);"></i> Bug vs. Feature</h2>
+                    <div class="info-box">
+                        <h4>A note on occasional glitches</h4>
+                        <p>Sometimes Aido might miss a trigger or the overlay might blink. This is because we prioritize
+                            <strong>stability and battery life</strong> over aggressive background scanning. We'd rather
+                            the app miss a command than constantly drain your battery checking every pixel.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Page Navigation -->
+                <div class="page-navigation">
+                    <a href="/transparency/input-handling.html" class="nav-btn prev-btn">
+                        <i class="ri-arrow-left-line"></i> Input Handling
+                    </a>
+                    <a href="/transparency/data-safety.html" class="nav-btn next-btn">
+                        Data Processing <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility Service</a></li>
+            <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                        style="margin-right:8px"></i> Input
+                    Handling</a></li>
+            <li><a href="/transparency/code-behavior.html" class="active"><i class="ri-code-s-slash-line"
+                        style="margin-right:8px"></i> Code Behavior</a></li>
+            <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line" style="margin-right:8px"></i>
+                    Data
+                    Processing</a></li>
+            <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User
+                    Controls</a>
+            </li>
+            <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                        style="margin-right:8px"></i> Zero
+                    Tolerance</a></li>
+            <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit
+                    Summary</a></li>
+            <li><a href="/transparency/resources.html"><i class="ri-book-2-line" style="margin-right:8px"></i>
+                    Resources</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>
