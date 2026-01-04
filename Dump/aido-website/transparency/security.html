@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Practices | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/security.html" class="active">Security</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Security Practices</h1>
+            <p>Technical measures we implement to protect your data and privacy.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-lock-password-line" style="color: var(--primary);"></i> Data Encryption</h2>
+
+                    <h3>At Rest (On Device)</h3>
+                    <table class="permission-table">
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Encryption Method</th>
+                            <th>Key Storage</th>
+                        </tr>
+                        <tr>
+                            <td><strong>API Keys</strong></td>
+                            <td>AES-256-GCM via Android EncryptedSharedPreferences</td>
+                            <td>Android Keystore (hardware-backed)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clipboard History</strong></td>
+                            <td>SQLite with SQLCipher encryption</td>
+                            <td>App-generated key stored in EncryptedSharedPreferences</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Settings & Preferences</strong></td>
+                            <td>Standard Android SharedPreferences (OS-level encryption on Android 7+)</td>
+                            <td>Managed by Android OS</td>
+                        </tr>
+                    </table>
+
+                    <h3>In Transit</h3>
+                    <ul style="line-height: 1.8; margin-top: 1rem;">
+                        <li><strong>HTTPS/TLS 1.3:</strong> All API communications use TLS encryption</li>
+                        <li><strong>Certificate Pinning:</strong> Considered for future updates (currently relying on OS
+                            trust store)</li>
+                        <li><strong>No Plain HTTP:</strong> The app does not allow insecure HTTP connections</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-keyhole-line" style="color: var(--primary);"></i> API Key Protection</h2>
+
+                    <div class="info-box success">
+                        <h4>How We Protect Your API Keys</h4>
+                        <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                            <li>Stored in Android's <code>EncryptedSharedPreferences</code> with AES-256 encryption</li>
+                            <li>Encryption keys are stored in Android Keystore (hardware-backed on most devices)</li>
+                            <li>Keys are NEVER logged, sent to our servers, or accessible to other apps</li>
+                            <li>Cleared immediately upon app uninstallation</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-server-line" style="color: var(--primary);"></i> Network Security</h2>
+
+                    <h3>Connections</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>AI Provider APIs:</strong> Direct HTTPS connections to Google, OpenAI, Groq</li>
+                        <li><strong>No Intermediary Servers:</strong> Your prompts go directly from your device to the
+                            AI provider</li>
+                        <li><strong>Network Security Config:</strong> Enforces HTTPS and blocks legacy TLS versions</li>
+                    </ul>
+
+                    <h3>DNS & VPN Compatibility</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>Aido works with private DNS (DNS-over-HTTPS/TLS)</li>
+                        <li>Compatible with VPNs for additional privacy</li>
+                        <li>No hard-coded DNS servers or proxy configurations</li>
+                    </ul>
+
+                    <div class="info-box success" style="margin-top: 2rem; border-left: 4px solid var(--primary);">
+                        <h4><i class="ri-movie-line"></i> Verify It Yourself (Network Evidence)</h4>
+                        <p>We believe in "Show, Don't Just Tell". Watch this network analysis video demonstrating Aido's
+                            silence when typing passwords.</p>
+
+                        <!-- Network Evidence Video -->
+                        <div
+                            style="margin-top: 1rem; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <video controls style="width: 100%; display: block; background: #000;">
+                                <source src="/transparency/src/0103.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-light);">
+                            <em>Recorded using Charles Proxy/MITMProxy. Verifies: 1) API calls only happen on explicit
+                                commands. 2) No data sent on password fields.</em>
+                        </p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-bug-line" style="color: var(--primary);"></i> Vulnerability Management</h2>
+
+                    <h3>Dependency Updates</h3>
+                    <p>We regularly update third-party libraries to patch known vulnerabilities:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>AndroidX Libraries:</strong> Updated monthly</li>
+                        <li><strong>Kotlin & Coroutines:</strong> Updated with major Kotlin releases</li>
+                        <li><strong>Networking Libraries:</strong> OkHttp/Ktor updated for security patches</li>
+                    </ul>
+
+                    <h3>Responsible Disclosure</h3>
+                    <div class="info-box">
+                        <p><strong>Found a security issue?</strong></p>
+                        <p>Email: <a href="mailto:aiqknow@gmail.com"
+                                style="color: var(--primary);">aiqknow@gmail.com</a> with "SECURITY" in the subject</p>
+                        <p style="margin-bottom: 0;">We commit to:</p>
+                        <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                            <li>Acknowledge within 48 hours</li>
+                            <li>Investigate and provide updates within 7 days</li>
+                            <li>Issue a patch within 30 days for critical vulnerabilities</li>
+                            <li>Credit researchers (if desired) in release notes</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-code-s-slash-line" style="color: var(--primary);"></i> Secure Coding Practices</h2>
+
+                    <h3>Input Validation</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>All user inputs are sanitized before processing</li>
+                        <li>Accessibility events are filtered to prevent injection attacks</li>
+                        <li>API responses are validated before display</li>
+                    </ul>
+
+                    <h3>Code Obfuscation</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>ProGuard/R8 minification enabled for release builds</li>
+                        <li>Sensitive string literals are not hardcoded (except for non-sensitive defaults)</li>
+                        <li>Debug logging is disabled in production builds</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-device-line" style="color: var(--primary);"></i> Device Security</h2>
+
+                    <h3>Root/Jailbreak Detection</h3>
+                    <p><strong>Current Policy:</strong> Aido does NOT block rooted devices. However, we display a
+                        warning that:
+                    <ul style="line-height: 1.8;">
+                        <li>Encryption may be compromised on rooted devices</li>
+                        <li>Other apps with root access could potentially access Aido's data</li>
+                        <li>Users proceed at their own risk</li>
+                    </ul>
+
+                    <h3>Android Version Support</h3>
+                    <p><strong>Minimum SDK:</strong> Android 7.0 (API 24)</p>
+                    <ul style="line-height: 1.8;">
+                        <li>Ensures access to modern encryption APIs</li>
+                        <li>Benefits from Android 7+ system-level encryption</li>
+                        <li>Security support from Google-maintained libraries</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-time-line" style="color: var(--primary);"></i> Logging & Monitoring</h2>
+
+                    <h3>What We Log</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Locally (Debug Mode Only):</strong> App state, error messages (no user data)</li>
+                        <li><strong>Production Builds:</strong> No logging enabled</li>
+                    </ul>
+
+                    <h3>What We Do NOT Log</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>User prompts or AI responses</li>
+                        <li>Clipboard content</li>
+                        <li>API keys or authentication tokens</li>
+                        <li>Text from accessibility events</li>
+                    </ul>
+                </section>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <h4><i class="ri-information-line"></i> Security is a Journey</h4>
+                    <p style="margin-bottom: 0;">We continuously improve our security practices. If you notice a
+                        potential issue or have suggestions, please contact us at <a href="mailto:aiqknow@gmail.com"
+                            style="color: var(--primary);">aiqknow@gmail.com</a>.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. <a href="../index.html" style="text-decoration: underline;">Return to Main Site</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/security.html" class="active"><i class="ri-shield-keyhole-line"
+                        style="margin-right:8px"></i>
+                    Security</a></li>
+            <li><a href="/transparency/incidents.html"><i class="ri-error-warning-line" style="margin-right:8px"></i>
+                    Incident
+                    Response</a></li>
+            <li><a href="/transparency/faq.html"><i class="ri-question-line" style="margin-right:8px"></i> FAQ</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

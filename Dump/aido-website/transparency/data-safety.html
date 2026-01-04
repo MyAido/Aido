@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Safety & Processing | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/permissions.html">Permissions</a>
+            <a href="/transparency/accessibility.html">Accessibility</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Data Safety & Processing</h1>
+            <p>Where your data goes, how it is processed, and where it is stored.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content">
+            <aside class="audit-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-header">Core Audit</li>
+                    <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                            Constitution</a></li>
+                    <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line"
+                                style="margin-right:8px"></i>
+                            Permissions</a></li>
+                    <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                            Accessibility Service</a></li>
+                    <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                                style="margin-right:8px"></i>
+                            Input Handling</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Logic & Data</li>
+                    <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line"
+                                style="margin-right:8px"></i> Code
+                            Behavior</a></li>
+                    <li><a href="/transparency/data-safety.html" class="active"><i class="ri-database-2-line"
+                                style="margin-right:8px"></i> Data Processing</a></li>
+                    <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i>
+                            User
+                            Controls</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Safety</li>
+                    <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                                style="margin-right:8px"></i>
+                            Zero Tolerance</a></li>
+                </ul>
+            </aside>
+
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-server-line" style="color: var(--primary);"></i> Server Interaction</h2>
+                    <p>Aido is a <strong>"Bring Your Own Key" (BYOK)</strong> capable app, but it also provides default
+                        access. Here is the strict data flow:</p>
+
+                    <div class="info-box">
+                        <h4><i class="ri-links-line"></i> External Endpoints</h4>
+                        <p>We only transmit text data to:</p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Google Gemini API:</strong> When you use a Gemini model.</li>
+                            <li><strong>OpenAI API:</strong> When you use a GPT model.</li>
+                            <li><strong>Aido Licensing Server:</strong> Small checks to verify your subscription (if
+                                applicable).</li>
+                        </ol>
+                        <p style="margin-top: 10px;"><strong>Licensing checks do not include user-generated text,
+                                clipboard content, or screen data.</strong></p>
+                        <p style="margin-top: 10px;"><strong>We DO NOT send your text prompts to Aido's own servers for
+                                analysis.</strong> They go directly from your phone to the AI provider.</p>
+                    </div>
+
+                    <div class="info-box success" style="margin-top: 1.5rem;">
+                        <h4><i class="ri-shield-check-line"></i> Trigger-Only Transmission</h4>
+                        <p style="margin-bottom: 0;"><strong>Important:</strong> Your text is ONLY sent to AI providers
+                            when you explicitly use a trigger command (like <code>@aido</code>, <code>@fixg</code>, or
+                            <code>@tone</code>). We do NOT continuously monitor or transmit your typing.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-hard-drive-line" style="color: var(--primary);"></i> Local Storage</h2>
+                    <p>Your data stays on your phone.</p>
+                    <table class="permission-table">
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Storage Location</th>
+                            <th>Cloud Sync?</th>
+                        </tr>
+                        <tr>
+                            <td>Clipboard History</td>
+                            <td>Encrypted SQLite Database (App Sandbox)</td>
+                            <td><span style="color: var(--danger); font-weight: bold;">NO</span></td>
+                        </tr>
+                        <tr>
+                            <td>Saved Preprompts</td>
+                            <td>Room Database (Local)</td>
+                            <td><span style="color: var(--danger); font-weight: bold;">NO</span></td>
+                        </tr>
+                        <tr>
+                            <td>Shortcuts</td>
+                            <td>Local Prerences</td>
+                            <td><span style="color: var(--danger); font-weight: bold;">NO</span></td>
+                        </tr>
+                        <tr>
+                            <td>API Keys</td>
+                            <td>Encrypted Shared Preferences</td>
+                            <td><span style="color: var(--danger); font-weight: bold;">NO</span></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-delete-bin-line" style="color: var(--danger);"></i> Data Retention</h2>
+                    <p>Since we do not store your text usage on our servers, we <strong>cannot</strong> delete what we
+                        do not have. Uninstalling the app instantly wipes all local data (Clipboard, History, Keys) from
+                        your device permanently.</p>
+                </section>
+
+                <!-- Page Navigation -->
+                <div class="page-navigation">
+                    <a href="/transparency/code-behavior.html" class="nav-btn prev-btn">
+                        <i class="ri-arrow-left-line"></i> Code Behavior
+                    </a>
+                    <a href="/transparency/controls.html" class="nav-btn next-btn">
+                        User Controls <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility Service</a></li>
+            <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                        style="margin-right:8px"></i> Input
+                    Handling</a></li>
+            <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line" style="margin-right:8px"></i>
+                    Code
+                    Behavior</a></li>
+            <li><a href="/transparency/data-safety.html" class="active"><i class="ri-database-2-line"
+                        style="margin-right:8px"></i>
+                    Data Processing</a></li>
+            <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User
+                    Controls</a>
+            </li>
+            <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                        style="margin-right:8px"></i> Zero
+                    Tolerance</a></li>
+            <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit
+                    Summary</a></li>
+            <li><a href="/transparency/resources.html"><i class="ri-book-2-line" style="margin-right:8px"></i>
+                    Resources</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

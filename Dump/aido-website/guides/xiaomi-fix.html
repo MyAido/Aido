@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xiaomi/Redmi Fix - Aido</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        .step {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--primary);
+        }
+
+        .step h3 {
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .important-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo"><span>⚡</span> Aido</a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../features.html">Features</a>
+                <a href="index.html" class="active">Guides</a>
+                <a href="../contact.html">Support</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        <div class="container" style="max-width: 800px;">
+            <a href="index.html" style="color: var(--text-muted); font-size: 0.9rem;">← Back to Guides</a>
+            <h1 style="margin: 1rem 0 2rem;">Fixing Aido on Xiaomi/Redmi Devices</h1>
+
+            <div class="glass-card">
+                <div class="important-box">
+                    <h4 style="color: var(--warning); margin-bottom: 0.5rem;">⚠️ Why is this happening?</h4>
+                    <p style="margin-bottom: 0;">MIUI (Xiaomi's software) aggressively kills background apps to save
+                        battery. This creates issues for accessibility services like Aido.</p>
+                </div>
+
+                <h2>Solution Checklist</h2>
+                <p>Please follow <strong>every step</strong> below to ensure the app works correctly.</p>
+
+                <div class="step">
+                    <h3>1. Disable Battery Optimization ⚡</h3>
+                    <p>Go to <strong>Settings > Apps > Manage apps > Aido > Battery saver</strong> and select
+                        <strong>"No restrictions"</strong>.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h3>2. Enable Autostart 🚀</h3>
+                    <p>Open the <strong>Security app</strong> > <strong>Permissions > Autostart</strong>. Find Aido and
+                        toggle it <strong>ON</strong>.</p>
+                </div>
+
+                <div class="step">
+                    <h3>3. Allow Background Permissions 🔓</h3>
+                    <p>Go to <strong>Settings > Apps > Manage apps > Aido > Other permissions</strong>. Enable "Display
+                        pop-up windows" and "Start in background".</p>
+                </div>
+
+                <div class="step">
+                    <h3>4. Lock App in Recents 🔒</h3>
+                    <p>Open Recent Apps menu. Long press (or drag down) on the Aido card until you see a lock icon. Tap
+                        it to lock the app in memory.</p>
+                </div>
+
+                <div class="step">
+                    <h3>5. Disable MIUI Optimization (Advanced) ⚙️</h3>
+                    <p>Enable Developer Options (tap MIUI version 7 times in About Phone). Then go to Developer Options
+                        and turn OFF "MIUI Optimization".</p>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <p>Still facing issues? Try restarting your device after applying these settings.</p>
+                    <a href="../contact.html" class="btn btn-secondary">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

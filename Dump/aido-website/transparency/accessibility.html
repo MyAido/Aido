@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Disclosure | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/permissions.html">Permissions</a>
+            <a href="/transparency/accessibility.html" class="active">Accessibility</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Accessibility Service Audit</h1>
+            <p>Mandatory disclosure regarding the use of the Android Accessibility API (`BIND_ACCESSIBILITY_SERVICE`).
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content">
+            <aside class="audit-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-header">Core Audit</li>
+                    <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                            Constitution</a></li>
+                    <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line"
+                                style="margin-right:8px"></i>
+                            Permissions</a></li>
+                    <li><a href="/transparency/accessibility.html" class="active"><i class="ri-eye-line"
+                                style="margin-right:8px"></i> Accessibility Service</a></li>
+                    <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                                style="margin-right:8px"></i>
+                            Input Handling</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Logic & Data</li>
+                    <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line"
+                                style="margin-right:8px"></i> Code
+                            Behavior</a></li>
+                    <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line"
+                                style="margin-right:8px"></i> Data
+                            Processing</a></li>
+                    <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i>
+                            User
+                            Controls</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Safety</li>
+                    <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                                style="margin-right:8px"></i>
+                            Zero Tolerance</a></li>
+                </ul>
+            </aside>
+
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-eye-2-line" style="color: var(--primary);"></i> Why Accessibility?</h2>
+                    <p>Aido is not a traditional app; it is an "overlay" tool designed to help you write better in
+                        <em>other</em> apps (like WhatsApp, Telegram, Gmail). Android does not allow apps to read or
+                        write text in other apps unless they use the <strong>Accessibility API</strong>.
+                    </p>
+                    <p>We use this powerful permission for exactly two technical reasons:</p>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li><strong>To "Read" Triggers:</strong> We monitor for specific keywords (like
+                            <code>@aido</code>
+                            or <code>@fixg</code>) so we know when to activate.
+                        </li>
+                        <li><strong>To "Write" Responses:</strong> Once the AI generates a response, we use this
+                            permission to insert the text into the field for you.</li>
+                    </ol>
+
+                    <div class="info-box success" style="margin-top: 1.5rem;">
+                        <p style="margin: 0; font-weight: 600;"><i class="ri-shield-check-line"></i> The Accessibility
+                            Service is activated only after explicit user action and remains inactive otherwise.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-alarm-warning-line" style="color: var(--warning);"></i> Strict Boundaries</h2>
+                    <p>Because this permission is sensitive, we have hard-coded strict boundaries into the
+                        <code>AidoAccessibilityService.kt</code> file.
+                    </p>
+
+                    <div class="info-box success" style="margin-bottom: 1.5rem;">
+                        <p style="margin: 0; font-weight: 600;"><i class="ri-shield-check-line"></i> The Accessibility
+                            Service does NOT run continuously. It reacts only to user-initiated text input events and
+                            immediately returns to an idle state.</p>
+                    </div>
+
+                    <div class="info-box success" style="margin-bottom: 1.5rem;">
+                        <h4><i class="ri-information-line"></i> Critical: Trigger-Only Processing</h4>
+                        <p style="margin: 0;"><strong>Your text is ONLY processed when you use a trigger command (like
+                                <code>@aido</code> or <code>@fixg</code>).</strong></p>
+                        <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                            <li>We do NOT continuously read your text</li>
+                            <li>We do NOT send anything to AI unless you explicitly trigger it</li>
+                            <li>If you don't use a trigger, nothing is processed or transmitted</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box danger">
+                        <h4><i class="ri-prohibited-line"></i> WE NEVER ACCESS:</h4>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li><strong>Password Fields:</strong> The service is programmed to ignore fields marked as
+                                <code>InputType.TYPE_TEXT_VARIATION_PASSWORD</code>.
+                            </li>
+                            <li><strong>Secure Apps:</strong> We do not collect credit card numbers or sensitive data.
+                                Android automatically prevents screen reading in secure fields (like passwords), and
+                                you can manually block specific apps in Settings.</li>
+                            <li><strong>Biometric Data:</strong> We do not interact with fingerprint or face scanners.
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-code-box-line" style="color: var(--primary);"></i> Technical Logic Disclosure</h2>
+                    <p>For technical transparency, here is how our event processing loop works conceptually:</p>
+                    <div
+                        style="background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem; overflow-x: auto;">
+                        // Pseudo-code representation of AidoAccessibilityService.kt<br><br>
+                        fun onAccessibilityEvent(event: Event) {<br>
+                        &nbsp;&nbsp;// 1. Safety Check: Is app disabled or paused?<br>
+                        &nbsp;&nbsp;if (isPaused || disabledApps.contains(event.packageName)) return;<br><br>
+                        &nbsp;&nbsp;// 2. Event Filter: Only look at text changes<br>
+                        &nbsp;&nbsp;if (event.type != TYPE_VIEW_TEXT_CHANGED) return;<br><br>
+                        &nbsp;&nbsp;// 3. Trigger Detection: Does text end with command?<br>
+                        &nbsp;&nbsp;val text = event.text.toString()<br>
+                        &nbsp;&nbsp;if (text.endsWith("@aido")) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;processAiCommand(text)<br>
+                        &nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        Note the <code>disabledApps</code> check. You can blacklist any app in Aido settings, and our
+                        service will completely ignore all events from that app at the code level.
+                    </p>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-toggle-line" style="color: var(--primary);"></i> User Control</h2>
+                    <p>You have absolute control over this service.</p>
+                    <ul>
+                        <li><i class="ri-checkbox-circle-fill" style="color: var(--success);"></i> <strong>Opt-In
+                                Only:</strong> You must manually enable this in Android Settings.</li>
+                        <li><i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+                            <strong>Revocable:</strong> You can turn it off at any time.
+                        </li>
+                        <li><i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+                            <strong>Selective:</strong> You can use the "Blacklist" feature to block Aido from running
+                            in specific sensitive apps.
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Page Navigation -->
+                <div class="page-navigation">
+                    <a href="/transparency/permissions.html" class="nav-btn prev-btn">
+                        <i class="ri-arrow-left-line"></i> Permissions
+                    </a>
+                    <a href="/transparency/input-handling.html" class="nav-btn next-btn">
+                        Input Handling <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html" class="active"><i class="ri-eye-line"
+                        style="margin-right:8px"></i> Accessibility Service</a></li>
+            <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                        style="margin-right:8px"></i> Input
+                    Handling</a></li>
+            <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line" style="margin-right:8px"></i>
+                    Code
+                    Behavior</a></li>
+            <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line" style="margin-right:8px"></i>
+                    Data
+                    Processing</a></li>
+            <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User
+                    Controls</a>
+            </li>
+            <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                        style="margin-right:8px"></i> Zero
+                    Tolerance</a></li>
+            <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit
+                    Summary</a></li>
+            <li><a href="/transparency/resources.html"><i class="ri-book-2-line" style="margin-right:8px"></i>
+                    Resources</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

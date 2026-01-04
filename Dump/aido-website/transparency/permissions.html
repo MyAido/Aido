@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permissions Map | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/permissions.html" class="active">Permissions</a>
+            <a href="/transparency/accessibility.html">Accessibility</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Permissions Map</h1>
+            <p>A complete, honest list of every permission Aido requests, why it is needed, and what it is NOT used for.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content">
+            <aside class="audit-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-header">Core Audit</li>
+                    <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                            Constitution</a></li>
+                    <li><a href="/transparency/permissions.html" class="active"><i class="ri-lock-unlock-line"
+                                style="margin-right:8px"></i> Permissions</a></li>
+                    <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                            Accessibility Service</a></li>
+                    <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                                style="margin-right:8px"></i>
+                            Input Handling</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Logic & Data</li>
+                    <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line"
+                                style="margin-right:8px"></i> Code
+                            Behavior</a></li>
+                    <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line"
+                                style="margin-right:8px"></i> Data
+                            Processing</a></li>
+                    <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i>
+                            User
+                            Controls</a></li>
+
+                    <li class="sidebar-menu-header" style="margin-top: 20px;">Safety</li>
+                    <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                                style="margin-right:8px"></i>
+                            Zero Tolerance</a></li>
+                </ul>
+            </aside>
+
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2><i class="ri-fingerprint-line" style="color: var(--primary);"></i> Permission Justification</h2>
+                    <p>We believe in the <strong>Principle of Least Privilege</strong>. We only ask for permissions
+                        necessary to perform the core functions of the app (AI text generation and replacement).</p>
+
+                    <div class="info-box">
+                        <h4><i class="ri-information-line"></i> Summary</h4>
+                        <p>Aido uses <strong>7 permissions</strong> in total. 2 are "Special Access" permissions that
+                            require explicit user approval (Accessibility & Keyboard).</p>
+                    </div>
+
+                    <table class="permission-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">Permission Name</th>
+                                <th style="width: 40%;">Why we need it</th>
+                                <th style="width: 40%;">What we PROMISE NOT to do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>BIND_ACCESSIBILITY_SERVICE</strong><br><span
+                                        class="status-badge disclosure">Special Access</span></td>
+                                <td>To read text on your screen <strong>only when triggered</strong> (e.g., when you
+                                    type "@aido") and to insert the AI-generated reply back into the text field.</td>
+                                <td>We DO NOT continuously log your keystrokes. We DO NOT steal passwords or private
+                                    credentials.
+                                    We ONLY read text when you specifically trigger the AI command.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BIND_INPUT_METHOD</strong><br><span class="status-badge disclosure">Special
+                                        Access</span></td>
+                                <td>To function as a custom keyboard (if you choose to use the Aido Keyboard) for easier
+                                    AI writing.</td>
+                                <td>We DO NOT capture credit card numbers or sensitive PII.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>INTERNET</strong></td>
+                                <td>To send your specific prompt (e.g., "Write a poem") to the AI provider
+                                    (Gemini/OpenAI) and receive the text back.</td>
+                                <td>We DO NOT upload your contacts, photos, or files to any background server.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SYSTEM_ALERT_WINDOW</strong><br>(Display over other apps)</td>
+                                <td>To show the "Smart Reply" popup or the AI formatting menu on top of your current app
+                                    (like WhatsApp).</td>
+                                <td>We DO NOT show full-screen ads or block your screen maliciously.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ACCESS_NETWORK_STATE</strong></td>
+                                <td>To check if you are offline so we can warn you before you try to generate text.</td>
+                                <td>We DO NOT track your browsing history or Wi-Fi location.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FOREGROUND_SERVICE</strong></td>
+                                <td>To keep the AI listener active so Android doesn't kill the app while you are typing
+                                    a long message.</td>
+                                <td>We DO NOT run battery-draining mining operations in the background.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-battery-2-charge-line" style="color: var(--primary);"></i> Battery Optimization
+                        Permission</h2>
+                    <p>You may see a permission called <code>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code>.</p>
+                    <div class="info-box success">
+                        <h4>Why is this here?</h4>
+                        <p>Android aggressively kills background accessibility services to save battery. This often
+                            causes Aido to "disappear" while you are using it. We ask for this permission solely to keep
+                            the service stable so you don't have to restart it constantly.</p>
+                    </div>
+                </section>
+
+                <!-- Page Navigation -->
+                <div class="page-navigation">
+                    <a href="/transparency/index.html" class="nav-btn prev-btn">
+                        <i class="ri-arrow-left-line"></i> Constitution
+                    </a>
+                    <a href="/transparency/accessibility.html" class="nav-btn next-btn">
+                        Accessibility <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html" class="active"><i class="ri-lock-unlock-line"
+                        style="margin-right:8px"></i>
+                    Permissions</a></li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility Service</a></li>
+            <li><a href="/transparency/input-handling.html"><i class="ri-keyboard-box-line"
+                        style="margin-right:8px"></i> Input
+                    Handling</a></li>
+            <li><a href="/transparency/code-behavior.html"><i class="ri-code-s-slash-line" style="margin-right:8px"></i>
+                    Code
+                    Behavior</a></li>
+            <li><a href="/transparency/data-safety.html"><i class="ri-database-2-line" style="margin-right:8px"></i>
+                    Data
+                    Processing</a></li>
+            <li><a href="/transparency/controls.html"><i class="ri-equalizer-line" style="margin-right:8px"></i> User
+                    Controls</a>
+            </li>
+            <li><a href="/transparency/zero-tolerance.html"><i class="ri-error-warning-line"
+                        style="margin-right:8px"></i> Zero
+                    Tolerance</a></li>
+            <li><a href="/transparency/summary.html"><i class="ri-check-line" style="margin-right:8px"></i> Audit
+                    Summary</a></li>
+            <li><a href="/transparency/resources.html"><i class="ri-book-2-line" style="margin-right:8px"></i>
+                    Resources</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Actions | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/smart-actions.html" class="active">Smart Actions</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Smart Actions Disclosure</h1>
+            <p>Complete transparency about how Smart Actions work and what they can/cannot do.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <div class="info-box success" style="margin-bottom: 2rem;">
+                    <h4><i class="ri-shield-check-line"></i> Critical Safety Guarantee</h4>
+                    <p style="margin: 0; font-weight: 600;">Smart Actions are <strong>100% trigger-based and
+                            user-initiated</strong>. They NEVER run automatically, in the background, or without
+                        explicit user input.</p>
+                </div>
+
+                <section class="audit-section">
+                    <h2><i class="ri-flashlight-line" style="color: var(--primary);"></i> What Are Smart Actions?</h2>
+                    <p>Smart Actions are optional shortcuts that let you quickly perform common tasks by typing simple
+                        commands at the end of your text.</p>
+
+                    <h3>Examples:</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><code>1234567890 @call</code> - Opens phone dialer with the number</li>
+                        <li><code>@open whatsapp</code> - Launches WhatsApp</li>
+                        <li><code>cats playing piano @yt</code> - Searches YouTube</li>
+                        <li><code>@camera</code> - Opens camera app</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-code-s-slash-line" style="color: var(--primary);"></i> How Smart Actions Work</h2>
+
+                    <p>Smart Actions are processed by <code>SmartActionProcessor.kt</code> with strict safety rules:</p>
+
+                    <div class="info-box">
+                        <h4>Step-by-Step Process:</h4>
+                        <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                            <li><strong>User Types</strong>: You type text ending with a trigger (e.g.,
+                                <code>@call</code>)
+                            </li>
+                            <li><strong>Trigger Detection</strong>: The service checks if the <em>last word</em> matches
+                                an enabled Smart Action</li>
+                            <li><strong>User Confirmation Required</strong>: The action only executes when YOU finish
+                                typing the trigger</li>
+                            <li><strong>Intent Launch</strong>: The app opens the relevant Android app or service</li>
+                            <li><strong>Return to Idle</strong>: The service returns to idle state immediately</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-cross-line" style="color: var(--danger);"></i> What Smart Actions CANNOT Do
+                    </h2>
+
+                    <div class="info-box danger">
+                        <h4><i class="ri-close-circle-line"></i> Absolute Limitations</h4>
+                        <ul style="margin-top: 0.5rem; margin-bottom: 0; line-height: 1.8;">
+                            <li><strong>❌ NO Automatic Operation</strong>: Smart Actions will NEVER trigger without you
+                                typing the command</li>
+                            <li><strong>❌ NO Background Launching</strong>: Cannot open apps while you're not actively
+                                using your phone</li>
+                            <li><strong>❌ NO Scheduled Actions</strong>: Cannot run at specific times or dates</li>
+                            <li><strong>❌ NO App-Initiated Launching</strong>: Other apps cannot trigger Smart Actions
+                            </li>
+                            <li><strong>❌ NO Silent Operation</strong>: Every action shows a Toast notification
+                                ("Opening app...")</li>
+                            <li><strong>❌ NO Override Secure/Messaging Apps</strong>: If an app is blacklisted, Smart
+                                Actions won't work there</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-user-line" style="color: var(--primary);"></i> User Control</h2>
+
+                    <h3>You Have Complete Control:</h3>
+                    <table class="permission-table">
+                        <tr>
+                            <th>Control</th>
+                            <th>How to Use</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Disable All Smart Actions</strong></td>
+                            <td>Settings → Smart Actions → Toggle OFF</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disable Specific Action</strong></td>
+                            <td>Edit the Smart Action and toggle it off</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delete Smart Action</strong></td>
+                            <td>Swipe left on the action card → Delete</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blacklist Apps</strong></td>
+                            <td>Settings → Disabled Apps → Add apps where Smart Actions won't work</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-apps-line" style="color: var(--primary);"></i> Available Smart Action Types</h2>
+
+                    <p>All Smart Actions use standard Android Intents - the same mechanism other apps use:</p>
+
+                    <table class="permission-table">
+                        <tr>
+                            <th>Action Type</th>
+                            <th>What It Does</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Phone Call</strong></td>
+                            <td>Opens dialer (doesn't auto-call)</td>
+                            <td><code>@call 123456</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Open App</strong></td>
+                            <td>Launches an installed app</td>
+                            <td><code>@open telegram</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>WhatsApp Message</strong></td>
+                            <td>Opens WhatsApp chat</td>
+                            <td><code>@wa 9876543210</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>YouTube Search</strong></td>
+                            <td>Searches YouTube</td>
+                            <td><code>piano music @yt</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Search</strong></td>
+                            <td>Searches Google</td>
+                            <td><code>weather @google</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom URL</strong></td>
+                            <td>Opens any website</td>
+                            <td><code>@wiki quantum physics</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Send Email</strong></td>
+                            <td>Opens email composer</td>
+                            <td><code>@email test@example.com</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Send SMS</strong></td>
+                            <td>Opens SMS app</td>
+                            <td><code>@sms 9876543210</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maps</strong></td>
+                            <td>Opens location in maps</td>
+                            <td><code>@maps Taj Mahal</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Settings</strong></td>
+                            <td>Opens system settings</td>
+                            <td><code>@settings wifi</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Calendar Event</strong></td>
+                            <td>Creates calendar entry</td>
+                            <td><code>@calendar Meeting</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Play Music</strong></td>
+                            <td>Searches music app</td>
+                            <td><code>@music Imagine Dragons</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Take Photo</strong></td>
+                            <td>Opens camera</td>
+                            <td><code>@camera</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gallery</strong></td>
+                            <td>Opens photo gallery</td>
+                            <td><code>@gallery</code></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-keyhole-line" style="color: var(--primary);"></i> Sensitive App Protection
+                    </h2>
+
+                    <div class="info-box success">
+                        <h4><i class="ri-shield-check-line"></i> Built-in Safeguards</h4>
+                        <p>Smart Actions respect your app blacklist:</p>
+                        <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                            <li>If you've disabled Aido for banking apps, Smart Actions won't work there either</li>
+                            <li>Blacklisted apps are completely excluded from all Aido functionality</li>
+                            <li>No exceptions - your privacy settings override everything</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-code-box-line" style="color: var(--primary);"></i> Technical Implementation</h2>
+
+                    <p>For developers and security researchers, here's how Smart Actions are implemented:</p>
+
+                    <h3>Code Location:</h3>
+                    <p><code>com.rr.aido.service.SmartActionProcessor.kt</code></p>
+
+                    <h3>Key Safety Features:</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Trigger Detection</strong>: Only checks if text <em>ends with</em> a trigger
+                            (<code>text.endsWith(trigger)</code>)</li>
+                        <li><strong>User-Enabled Check</strong>: Verifies Smart Actions are globally enabled before
+                            processing</li>
+                        <li><strong>Action-Enabled Check</strong>: Checks if the specific action is enabled</li>
+                        <li><strong>Standard Android Intents</strong>: Uses <code>Intent.ACTION_DIAL</code>,
+                            <code>Intent.ACTION_VIEW</code>, etc.
+                        </li>
+                        <li><strong>No Direct Execution</strong>: All actions launch other apps via intents, never
+                            execute code directly</li>
+                        <li><strong>Toast Notifications</strong>: Every action shows a visible notification</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-question-line" style="color: var(--primary);"></i> Common Questions</h2>
+
+                    <h3>Q: Can Smart Actions run when my phone is locked?</h3>
+                    <p><strong>A:</strong> No. You need to be actively typing in an app for Smart Actions to trigger.
+                    </p>
+
+                    <h3>Q: Can other apps trigger my Smart Actions?</h3>
+                    <p><strong>A:</strong> No. Only text input you type directly can trigger Smart Actions.</p>
+
+                    <h3>Q: What if I accidentally type a trigger?</h3>
+                    <p><strong>A:</strong> The action will happen, but it only opens apps (doesn't perform destructive
+                        actions). Example: <code>@call</code> opens the dialer but doesn't auto-dial.</p>
+
+                    <!-- <h3>Q: Can Smart Actions access my banking apps?</h3>
+                    <p><strong>A:</strong> Only if you haven't blacklisted them. We strongly recommend adding banking
+                        apps to your blacklist.</p> -->
+                </section>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <h4><i class="ri-information-line"></i> Opt-In Feature</h4>
+                    <p style="margin-bottom: 0;">Smart Actions are <strong>disabled by default</strong>. You must
+                        explicitly enable them in Settings. This ensures you're fully aware of the feature before using
+                        it.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. <a href="../index.html" style="text-decoration: underline;">Return to Main Site</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/accessibility.html"><i class="ri-eye-line" style="margin-right:8px"></i>
+                    Accessibility</a></li>
+            <li><a href="/transparency/smart-actions.html" class="active"><i class="ri-flashlight-line"
+                        style="margin-right:8px"></i>
+                    Smart Actions</a></li>
+            <li><a href="/transparency/faq.html"><i class="ri-question-line" style="margin-right:8px"></i> FAQ</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

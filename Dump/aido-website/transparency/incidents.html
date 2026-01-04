@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Response Plan | Aido</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/incidents.html" class="active">Incident Response</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Incident Response Plan</h1>
+            <p>How we handle security vulnerabilities and data breaches.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <div class="info-box success" style="margin-bottom: 2rem;">
+                    <p style="margin: 0;"><strong>Good News:</strong> Since Aido doesn't store user data on servers, a
+                        traditional "data breach" is highly unlikely. However, we have a plan for app vulnerabilities
+                        and security issues.</p>
+                </div>
+
+                <section class="audit-section">
+                    <h2><i class="ri-bug-line" style="color: var(--danger);"></i> Types of Incidents We Monitor</h2>
+
+                    <table class="permission-table">
+                        <tr>
+                            <th>Incident Type</th>
+                            <th>Likelihood</th>
+                            <th>Impact</th>
+                        </tr>
+                        <tr>
+                            <td><strong>App Vulnerability</strong><br>(Code exploit, injection attack)</td>
+                            <td><span style="color: var(--warning);">Possible</span></td>
+                            <td>Could affect individual users</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dependency Vulnerability</strong><br>(Third-party library flaw)</td>
+                            <td><span style="color: var(--warning);">Possible</span></td>
+                            <td>Depends on the library</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API Key Exposure</strong><br>(If user's key is compromised)</td>
+                            <td><span style="color: var(--warning);">Possible</span></td>
+                            <td>User's AI provider account</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Server Data Breach</strong><br>(Traditional breach)</td>
+                            <td><span style="color: var(--success);">Very Low</span></td>
+                            <td>None (we don't store data)</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-time-line" style="color: var(--primary);"></i> Response Timeline</h2>
+
+                    <h3>Phase 1: Report Received (0-48 hours)</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Acknowledge:</strong> Send confirmation email to reporter within 48 hours</li>
+                        <li><strong>Triage:</strong> Assess severity (Critical, High, Medium, Low)</li>
+                        <li><strong>Classify:</strong> Determine if it's a security issue, bug, or feature request</li>
+                    </ul>
+
+                    <h3>Phase 2: Investigation (2-7 days)</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Reproduce:</strong> Verify the issue in a test environment</li>
+                        <li><strong>Analyze:</strong> Determine root cause and potential impact</li>
+                        <li><strong>Scope:</strong> Identify affected versions and users</li>
+                        <li><strong>Update Reporter:</strong> Provide status update</li>
+                    </ul>
+
+                    <h3>Phase 3: Remediation (7-30 days)</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Develop Fix:</strong> Create and test a patch</li>
+                        <li><strong>Critical Issues:</strong> Expedite to 7-14 days</li>
+                        <li><strong>Non-Critical:</strong> Include in next planned release</li>
+                        <li><strong>Testing:</strong> Verify fix doesn't introduce new issues</li>
+                    </ul>
+
+                    <h3>Phase 4: Release & Notification (30-45 days)</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Release Update:</strong> Push to Google Play Store</li>
+                        <li><strong>Notify Users:</strong> Via Play Store release notes and in-app announcement (for
+                            critical issues)</li>
+                        <li><strong>Update Transparency Center:</strong> Document the issue in changelog</li>
+                        <li><strong>Credit Reporter:</strong> Acknowledge security researchers (if they wish)</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-notification-line" style="color: var(--primary);"></i> User Notification Policy
+                    </h2>
+
+                    <h3>Critical Issues (Immediate Notification)</h3>
+                    <p>We will send immediate notifications via:</p>
+                    <ul style="line-height: 1.8;">
+                        <li>Google Play Store emergency update</li>
+                        <li>In-app alert on next launch</li>
+                        <li>Transparency Center homepage announcement</li>
+                    </ul>
+                    <p><strong>Examples:</strong> Data encryption vulnerability, remote code execution, API key leakage
+                    </p>
+
+                    <h3>High Issues (Release Notes)</h3>
+                    <p>Documented in Play Store release notes and changelog</p>
+                    <p><strong>Examples:</strong> Accessibility Service bypass, permission escalation</p>
+
+                    <h3>Medium/Low Issues (Changelog Only)</h3>
+                    <p>Documented in Transparency Center changelog</p>
+                    <p><strong>Examples:</strong> Minor UI bugs, non-security related crashes</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-flash-line" style="color: var(--danger);"></i> Emergency Response</h2>
+
+                    <h3>If a Critical Vulnerability is Discovered</h3>
+                    <ol style="line-height: 1.8; margin-left: 20px;">
+                        <li><strong>Immediate Action:</strong> Begin developing a fix within 24 hours</li>
+                        <li><strong>Temporary Mitigation:</strong> If possible, push a hotfix that disables the
+                            vulnerable feature</li>
+                        <li><strong>Public Disclosure:</strong> Announce the issue on the Transparency Center homepage
+                        </li>
+                        <li><strong>User Guidance:</strong> Provide instructions for affected users (e.g., "Disable
+                            Accessibility Service until Update 1.2.1")</li>
+                        <li><strong>Expedited Release:</strong> Submit emergency update to Google Play</li>
+                    </ol>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-mail-send-line" style="color: var(--primary);"></i> Reporting a Security Issue</h2>
+
+                    <div class="info-box">
+                        <h4>How to Report</h4>
+                        <p><strong>Email:</strong> <a href="mailto:aiqknow@gmail.com"
+                                style="color: var(--primary);">aiqknow@gmail.com</a></p>
+                        <p><strong>Subject Line:</strong> "SECURITY: [Brief Description]"</p>
+                        <p><strong>Include:</strong></p>
+                        <ul style="margin-top: 0.5rem;">
+                            <li>Detailed description of the vulnerability</li>
+                            <li>Steps to reproduce</li>
+                            <li>Affected versions (if known)</li>
+                            <li>Impact assessment</li>
+                            <li>Your name/handle (if you want credit)</li>
+                        </ul>
+                        <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Please do NOT:</strong> Publicly disclose
+                            the issue before we've had a chance to fix it (responsible disclosure)</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-trophy-line" style="color: var(--warning);"></i> Bug Bounty & Hall of Fame</h2>
+                    <p>We actively invite security researchers to test Aido. While we are a small team and cannot
+                        currently offer monetary bounties, we provide:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Public Recognition:</strong> Permanent listing in our Hall of Fame below</li>
+                        <li><strong>Direct Access:</strong> Fast-track communication with lead developers</li>
+                        <li><strong>Recommendation:</strong> Verified letter of thanks for your portfolio</li>
+                    </ul>
+
+                    <h3 style="margin-top: 1.5rem;">🏆 Security Hall of Fame</h3>
+                    <p>We gratefully acknowledge the following researchers for their responsible disclosure:</p>
+
+                    <div class="info-box"
+                        style="background: rgba(255, 255, 255, 0.5); border: 1px dashed var(--border);">
+                        <p style="text-align: center; color: var(--text-light); margin: 0;">
+                            <em>No contributions yet. Be the first!</em>
+                        </p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-file-list-3-line" style="color: var(--primary);"></i> Post-Incident Review</h2>
+                    <p>After every security incident, we conduct a review to:</p>
+                    <ul style="line-height: 1.8;">
+                        <li>Document what happened and how it was resolved</li>
+                        <li>Identify preventative measures for similar future issues</li>
+                        <li>Update our security practices and code review processes</li>
+                        <li>Share learnings (if appropriate) in our Transparency Center</li>
+                    </ul>
+                </section>
+
+                <div class="info-box success" style="margin-top: 2rem;">
+                    <h4><i class="ri-shield-check-line"></i> Zero Incidents So Far</h4>
+                    <p style="margin-bottom: 0;">As of January 2026, Aido has not experienced any security incidents or
+                        data breaches. We are committed to maintaining this record through vigilant security practices
+                        and transparent communication.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. <a href="../index.html" style="text-decoration: underline;">Return to Main Site</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/security.html"><i class="ri-shield-keyhole-line" style="margin-right:8px"></i>
+                    Security</a>
+            </li>
+            <li><a href="/transparency/incidents.html" class="active"><i class="ri-error-warning-line"
+                        style="margin-right:8px"></i>
+                    Incidents</a></li>
+            <li><a href="/transparency/contact.html"><i class="ri-mail-line" style="margin-right:8px"></i> Contact</a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

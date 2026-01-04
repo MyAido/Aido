@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Subject Rights | Aido</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/rights.html" class="active">Your Rights</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Data Subject Rights</h1>
+            <p>Your rights under GDPR, CCPA, and other privacy regulations.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <div class="info-box success" style="margin-bottom: 2rem;">
+                    <p style="margin: 0; font-weight: 600;">Since Aido stores all data locally on your device and does
+                        not collect data on our servers, you have complete control over your information without needing
+                        to contact us.</p>
+                </div>
+
+                <section class="audit-section">
+                    <h2><i class="ri-eye-line" style="color: var(--primary);"></i> Right to Access</h2>
+                    <p><strong>What it means:</strong> You have the right to know what data is collected about you.</p>
+
+                    <h3>How to Exercise This Right</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>View Clipboard History:</strong> Open Aido → Settings → Clipboard History</li>
+                        <li><strong>View Saved Prompts:</strong> Open Aido → Saved Prompts tab</li>
+                        <li><strong>View API Keys:</strong> Settings → API Configuration (masked for security)</li>
+                        <li><strong>View App Blacklist:</strong> Settings → Disabled Apps</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Server Data:</strong> We do not store your data on servers, so
+                        there is no remote data to access.</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-delete-bin-line" style="color: var(--danger);"></i> Right to Deletion</h2>
+                    <p><strong>What it means:</strong> You can request deletion of your personal data.</p>
+
+                    <h3>How to Delete Your Data</h3>
+                    <table class="permission-table">
+                        <tr>
+                            <th>Data Type</th>
+                            <th>How to Delete</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Clipboard History</strong></td>
+                            <td>Settings → Clear Clipboard History</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Saved Prompts</strong></td>
+                            <td>Long-press individual prompts → Delete, or Settings → Clear All</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API Keys</strong></td>
+                            <td>Settings → API Configuration → Remove Keys</td>
+                        </tr>
+                        <tr>
+                            <td><strong>All App Data</strong></td>
+                            <td>Android Settings → Apps → Aido → Clear Data, or uninstall the app</td>
+                        </tr>
+                    </table>
+
+                    <div class="info-box danger" style="margin-top: 1rem;">
+                        <p style="margin: 0;"><strong>⚠️ Important:</strong> Deleting data is permanent and cannot be
+                            reversed. We do not have server backups of your data.</p>
+                    </div>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-download-cloud-line" style="color: var(--primary);"></i> Right to Data Portability
+                    </h2>
+                    <p><strong>What it means:</strong> You can export your data in a common format.</p>
+
+                    <h3>Current Export Options</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Saved Prompts:</strong> Can be manually copied/pasted from the app</li>
+                        <li><strong>Settings:</strong> Currently no automated export (future feature)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><em>Note: We are working on adding a "Export All Data" feature in a
+                            future update.</em></p>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-edit-line" style="color: var(--primary);"></i> Right to Rectification</h2>
+                    <p><strong>What it means:</strong> You can correct inaccurate data.</p>
+
+                    <h3>How to Correct Data</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>Edit saved prompts directly in the app</li>
+                        <li>Update API keys in Settings</li>
+                        <li>Modify app blacklist as needed</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-close-circle-line" style="color: var(--primary);"></i> Right to Object</h2>
+                    <p><strong>What it means:</strong> You can object to certain data processing activities.</p>
+
+                    <h3>How to Object</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Object to Accessibility Service:</strong> Disable in Android Settings →
+                            Accessibility</li>
+                        <li><strong>Object to Keyboard:</strong> Switch to a different keyboard in Android Settings</li>
+                        <li><strong>Object to Specific Apps:</strong> Add apps to the blacklist in Aido Settings</li>
+                        <li><strong>Object to All Processing:</strong> Uninstall the app</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-pause-circle-line" style="color: var(--primary);"></i> Right to Restrict Processing
+                    </h2>
+                    <p><strong>What it means:</strong> You can limit how your data is used.</p>
+
+                    <h3>How to Restrict</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>Disable the Accessibility Service (limits text reading)</li>
+                        <li>Disable specific features in app settings</li>
+                        <li>Use app blacklist to restrict processing in certain apps</li>
+                        <li>Turn off clipboard history to prevent local storage</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-global-line" style="color: var(--primary);"></i> International Users</h2>
+
+                    <h3>GDPR (European Union)</h3>
+                    <p>Aido is GDPR-compliant. All rights above apply to EU users. Since we don't transfer data to third
+                        parties (except AI providers you choose), there are no cross-border data transfer concerns with
+                        Aido's own operations.</p>
+
+                    <h3>CCPA (California)</h3>
+                    <p>California residents have the right to:</p>
+                    <ul style="line-height: 1.8;">
+                        <li>Know what personal information is collected (see Right to Access)</li>
+                        <li>Delete personal information (see Right to Deletion)</li>
+                        <li>Opt-out of sale of personal information (<strong>We do NOT sell data</strong>)</li>
+                        <li>Non-discrimination for exercising privacy rights</li>
+                    </ul>
+
+                    <h3>Other Regions</h3>
+                    <p>We respect privacy laws in all jurisdictions. Contact us if you have specific regional privacy
+                        questions.</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2><i class="ri-mail-send-line" style="color: var(--primary);"></i> How to Contact Us</h2>
+                    <p>For data subject requests or privacy questions:</p>
+                    <p><strong>Email:</strong> <a href="mailto:aiqknow@gmail.com"
+                            style="color: var(--primary);">aiqknow@gmail.com</a></p>
+                    <p>We will respond within:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>GDPR requests:</strong> 30 days (can be extended to 60 days for complex requests)
+                        </li>
+                        <li><strong>CCPA requests:</strong> 45 days (can be extended to 90 days)</li>
+                        <li><strong>General inquiries:</strong> 48 hours</li>
+                    </ul>
+                </section>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <h4><i class="ri-shield-user-line"></i> Your Data, Your Control</h4>
+                    <p style="margin-bottom: 0;">Aido's local-first architecture means you have immediate control over
+                        your data without waiting for us to process requests. Simply use the app's built-in settings or
+                        Android's system settings to manage your information.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. <a href="../index.html" style="text-decoration: underline;">Return to Main Site</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i> Constitution</a></li>
+            <li><a href="/transparency/privacy-policy.html"><i class="ri-file-text-line" style="margin-right:8px"></i> Privacy
+                    Policy</a></li>
+            <li><a href="/transparency/rights.html" class="active"><i class="ri-user-shield-line" style="margin-right:8px"></i> Your
+                    Rights</a></li>
+            <li><a href="/transparency/contact.html"><i class="ri-mail-line" style="margin-right:8px"></i> Contact</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aido Font Library - 100+ Free Fonts</title>
+    <meta name="description"
+        content="Browse and download over 100 custom fonts for Aido. Copy directly or download .aidofont files to import into the app.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://myaido.web.app/font-library.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Aido Font Library - Free Custom Fonts">
+    <meta property="og:description" content="Download 100+ custom fonts for Aido app. Script, Bold, Gothic, and more.">
+    <meta property="og:url" content="https://myaido.web.app/font-library.html">
+    <meta property="og:image" content="https://myaido.web.app/res/viddo.gif">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .font-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .font-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .font-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .font-preview {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+        }
+
+        .font-name {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .font-trigger {
+            display: inline-block;
+            background: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-family: monospace;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            padding-left: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .download-btn {
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .download-btn:hover {
+            background: var(--primary);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo"><i class="ri-flashlight-fill" style="color: var(--primary);"></i> Aido</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="font-library.html" class="active">Font Library</a>
+                <a href="guides/index.html">Guides</a>
+                <a href="download.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">Get
+                    App</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+        </div>
+    </header>
+
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="text-gradient" style="font-size: 3rem; margin-bottom: 1rem;">Font Library</h1>
+                <p style="font-size: 1.2rem; color: #a1a1aa; max-width: 600px; margin: 0 auto;">
+                    Discover 100+ unique font styles to use with Aido. Download any font file (.aidofont) and import it
+                    directly into the app.
+                </p>
+            </div>
+
+            <div class="search-bar">
+                <i class="ri-search-line search-icon"></i>
+                <input type="text" id="searchInput" class="search-input"
+                    placeholder="Search fonts (e.g., 'Script', 'Bold', 'Gothic')...">
+            </div>
+
+            <div id="loading" style="text-align: center; padding: 2rem;">
+                <div class="spinner"></div>
+                <p style="margin-top: 1rem; color: var(--secondary);">Loading fonts...</p>
+            </div>
+
+            <div id="fontGrid" class="font-grid">
+                <!-- Fonts will be populated here by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="ri-check-line"></i> <span id="toastMsg">File downloaded!</span>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 1rem; display: inline-block;">
+                        <span>⚡</span> Aido
+                    </a>
+                    <p>The smartest AI accessibility assistant for Android.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="font-library.html">Font Library</a></li>
+                        <li><a href="download.html">Download</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Aido App.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/font-library.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+✅ Commands you should use from now on (memorize)
+Deploy both sites
+firebase deploy --only hosting
+
+Deploy only production
+firebase deploy --only hosting:aido-it
+
+Deploy only staging
+firebase deploy --only hosting:myaido
+
+Create a preview URL (temporary, hashed)
+firebase hosting:channel:deploy preview
+
+
+npx http-server
+
+
+
+firebase deploy --only hosting

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Aido</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/privacy-policy.html" class="active">Privacy Policy</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Last Updated: January 2, 2026</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <section class="audit-section">
+                    <h2>1. Introduction</h2>
+                    <p>Aido ("we", "our", or "the App") is an AI writing assistant application developed by Rubex. This
+                        Privacy Policy explains how we collect, use, and protect your information when you use the Aido
+                        mobile application.</p>
+                    <p><strong>Contact:</strong> aiqknow@gmail.com</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2>2. Information We Collect</h2>
+
+                    <h3>2.1 Information You Provide Directly</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Text Prompts:</strong> When you use Aido to generate AI text, the prompt you type is
+                            sent to third-party AI providers (Google Gemini, OpenAI, or Groq) for processing</li>
+                        <li><strong>API Keys:</strong> If you choose to use your own AI provider API keys ("Bring Your
+                            Own Key"), they are stored encrypted on your device only</li>
+                        <li><strong>Settings & Preferences:</strong> Your app configuration (disabled apps, custom
+                            prompts, shortcuts) is stored locally</li>
+                    </ul>
+
+                    <h3>2.2 Information We Do NOT Collect</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>We do NOT collect your name, email, phone number, or any personally identifiable information
+                        </li>
+                        <li>We do NOT log your text prompts on our servers</li>
+                        <li>We do NOT collect device identifiers for tracking purposes</li>
+                        <li>We do NOT use analytics or advertising SDKs</li>
+                        <li>We do NOT access your contacts, photos, location, or files without explicit action</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2>3. How We Use Your Information</h2>
+                    <p>The data you provide is used solely for:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>AI Text Generation:</strong> Your prompts are sent to AI providers to generate
+                            responses</li>
+                        <li><strong>App Functionality:</strong> Settings and preferences enable features like app
+                            blacklisting and custom shortcuts</li>
+                        <li><strong>Local Storage:</strong> Clipboard history and saved prompts are stored on your
+                            device for convenience</li>
+                    </ul>
+                    <p><strong>We do NOT:</strong></p>
+                    <ul style="line-height: 1.8;">
+                        <li>Sell or share your data with third parties for marketing</li>
+                        <li>Use your prompts for training our own AI models</li>
+                        <li>Create user profiles or track your behavior across apps</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2>4. Third-Party Services</h2>
+                    <p>Aido integrates with the following third-party services:</p>
+
+                    <h3>4.1 AI Providers</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Google Gemini API:</strong> Subject to <a href="https://policies.google.com/privacy"
+                                target="_blank" style="color: var(--primary);">Google's Privacy Policy</a></li>
+                        <li><strong>OpenAI API:</strong> Subject to <a href="https://openai.com/policies/privacy-policy"
+                                target="_blank" style="color: var(--primary);">OpenAI's Privacy Policy</a></li>
+                        <li><strong>Groq API:</strong> Subject to Groq's Privacy Policy</li>
+                    </ul>
+                    <p><strong>Data Sent:</strong> Only your text prompts. No device information, metadata, or
+                        identifiers.</p>
+
+                    <h3>4.2 No Analytics or Advertising</h3>
+                    <p>Aido does NOT include:</p>
+                    <ul style="line-height: 1.8;">
+                        <li>Google Analytics or Firebase Analytics</li>
+                        <li>Facebook SDK or Meta Pixel</li>
+                        <li>AdMob or any advertising networks</li>
+                        <li>Crashlytics or third-party crash reporting</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2>5. Data Storage & Security</h2>
+
+                    <h3>5.1 Local Storage</h3>
+                    <p>All user data is stored locally on your device using:</p>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Encrypted SharedPreferences:</strong> For API keys (AES-256 encryption)</li>
+                        <li><strong>Room Database:</strong> For saved prompts and settings</li>
+                        <li><strong>SQLite Database:</strong> For clipboard history (encrypted)</li>
+                    </ul>
+
+                    <h3>5.2 Data Protection</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>All API communication uses HTTPS/TLS encryption</li>
+                        <li>Sensitive data is encrypted at rest on your device</li>
+                        <li>No data is transmitted to Aido's own servers</li>
+                    </ul>
+                </section>
+
+                <section class="audit-section">
+                    <h2>6. Your Rights (GDPR/CCPA)</h2>
+                    <p>You have the following rights regarding your data:</p>
+
+                    <table class="permission-table">
+                        <tr>
+                            <th>Right</th>
+                            <th>How to Exercise</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Right to Access</strong></td>
+                            <td>All data is stored on your device. You can view it in the app settings or by exporting
+                                your data.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Right to Deletion</strong></td>
+                            <td>Uninstall the app. All local data is immediately erased. No server-side data exists to
+                                delete.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Right to Portability</strong></td>
+                            <td>Export your saved prompts and settings via app settings (if feature available).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Right to Object</strong></td>
+                            <td>Disable specific features or revoke permissions in Android settings.</td>
+                        </tr>
+                    </table>
+
+                    <p style="margin-top: 1rem;">For questions, contact: <a href="mailto:aiqknow@gmail.com"
+                            style="color: var(--primary);">aiqknow@gmail.com</a></p>
+                </section>
+
+                <section class="audit-section">
+                    <h2>7. Children's Privacy (COPPA)</h2>
+                    <p>Aido is not directed at children under 13. We do not knowingly collect information from children.
+                        If you believe a child has used Aido, please contact us immediately.</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2>8. Data Retention</h2>
+                    <p><strong>Local Data:</strong> Retained until you clear app data or uninstall the app.</p>
+                    <p><strong>Server Data:</strong> We do not store your prompts or usage data on our servers. AI
+                        provider data retention policies apply to text sent to their APIs.</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2>9. Changes to This Policy</h2>
+                    <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an
+                        updated "Last Updated" date. Material changes will be communicated via Play Store release notes.
+                    </p>
+                </section>
+
+                <section class="audit-section">
+                    <h2>10. International Users</h2>
+                    <p>Aido is available globally. If you use AI providers based outside your country, your data may be
+                        processed in their jurisdictions (e.g., US servers for OpenAI). Review each AI provider's
+                        privacy policy for details.</p>
+                </section>
+
+                <section class="audit-section">
+                    <h2>11. Contact Us</h2>
+                    <p>For privacy questions, concerns, or data requests:</p>
+                    <p><strong>Email:</strong> <a href="mailto:aiqknow@gmail.com"
+                            style="color: var(--primary);">aiqknow@gmail.com</a><br>
+                        <strong>Data Protection Officer:</strong> Available via email above
+                    </p>
+                </section>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <p style="margin: 0;"><strong>Additional Resources:</strong></p>
+                    <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                        <li><a href="/transparency/index.html" style="color: var(--primary);">Transparency Constitution</a> - Our core
+                            philosophy</li>
+                        <li><a href="/transparency/faq.html" style="color: var(--primary);">FAQ</a> - Common privacy questions</li>
+                        <li><a href="/transparency/rights.html" style="color: var(--primary);">Data Subject Rights</a> - Detailed
+                            GDPR/CCPA information</li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. <a href="../index.html" style="text-decoration: underline;">Return to Main Site</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i> Constitution</a></li>
+            <li><a href="/transparency/privacy-policy.html" class="active"><i class="ri-file-text-line" style="margin-right:8px"></i>
+                    Privacy Policy</a></li>
+            <li><a href="/transparency/faq.html"><i class="ri-question-line" style="margin-right:8px"></i> FAQ</a></li>
+            <li><a href="/transparency/rights.html"><i class="ri-user-shield-line" style="margin-right:8px"></i> Your Rights</a></li>
+            <li><a href="/transparency/contact.html"><i class="ri-mail-line" style="margin-right:8px"></i> Contact</a></li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>

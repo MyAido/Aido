@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog | Aido Transparency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/transparency/css/audit.css">
+    <style>
+        .version-entry {
+            background: white;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .version-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .version-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .change-category {
+            margin-top: 1rem;
+        }
+
+        .change-category h4 {
+            font-size: 0.95rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .change-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .change-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .change-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="audit-nav">
+        <a href="../index.html" class="nav-brand">
+            <i class="ri-shield-check-fill" style="color: var(--primary);"></i>
+            Aido <span>Transparency Center</span>
+        </a>
+        <div class="nav-links">
+            <a href="/transparency/index.html">Constitution</a>
+            <a href="/transparency/changelog.html" class="active">Changelog</a>
+            <a href="/transparency/contact.html">Contact</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-toggle"><i class="ri-menu-3-line"></i></button>
+    </nav>
+
+    <div class="audit-header">
+        <div class="container">
+            <h1>Transparency Changelog</h1>
+            <p>A complete history of permission changes, privacy updates, and transparency improvements.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="audit-content" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+            <main class="audit-body">
+                <div class="info-box success" style="margin-bottom: 2rem;">
+                    <h4><i class="ri-information-line"></i> Why This Matters</h4>
+                    <p style="margin-bottom: 0;">This changelog tracks every change to Aido's permissions, data
+                        handling, and transparency practices. If we ever add new permissions or change how data is
+                        processed, it will be documented here with a clear explanation.</p>
+                </div>
+
+                <div class="version-entry">
+                    <div class="version-header">
+                        <span class="version-number">Version 1.0.0</span>
+                        <span class="version-date">January 2026</span>
+                    </div>
+                    <p><strong>Initial Release - Transparency Center Launch</strong></p>
+
+                    <div class="change-category">
+                        <h4>Permissions Declared (7 total)</h4>
+                        <ul class="change-list">
+                            <li>BIND_ACCESSIBILITY_SERVICE - For text reading and replacement</li>
+                            <li>BIND_INPUT_METHOD - For custom keyboard functionality</li>
+                            <li>INTERNET - For AI API calls</li>
+                            <li>SYSTEM_ALERT_WINDOW - For overlay popups</li>
+                            <li>ACCESS_NETWORK_STATE - For offline detection</li>
+                            <li>FOREGROUND_SERVICE - To keep service active during use</li>
+                            <li>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS - For service stability (optional)</li>
+                        </ul>
+                    </div>
+
+                    <div class="change-category">
+                        <h4>Privacy Features</h4>
+                        <ul class="change-list">
+                            <li>Local-first architecture: No cloud storage of user prompts</li>
+                            <li>App blacklist feature for sensitive/private apps</li>
+                            <li>Encrypted SharedPreferences for API keys (AES-256)</li>
+                            <li>Zero analytics or tracking SDKs</li>
+                        </ul>
+                    </div>
+
+                    <div class="change-category">
+                        <h4>Transparency Documentation</h4>
+                        <ul class="change-list">
+                            <li>Published complete Transparency Center with 11+ pages</li>
+                            <li>Disclosed all third-party AI providers (Gemini, OpenAI, Groq)</li>
+                            <li>Documented code behavior and logic flow</li>
+                            <li>Established Zero Tolerance Policy</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="version-entry" style="border-left-color: var(--text-light); opacity: 0.6;">
+                    <div class="version-header">
+                        <span class="version-number">Version 1.1.0</span>
+                        <span class="version-date">Future Update</span>
+                    </div>
+                    <p><strong>Planned Changes</strong></p>
+
+                    <div class="change-category">
+                        <h4>Expected Changes</h4>
+                        <ul class="change-list">
+                            <li>No new permissions planned</li>
+                            <li>Potential improvements to offline model support</li>
+                            <li>Enhanced encryption for local storage</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);"><em>Note: Any actual
+                            changes will be documented here before release.</em></p>
+                </div>
+
+                <section class="audit-section">
+                    <h2><i class="ri-shield-check-line" style="color: var(--primary);"></i> Our Commitment</h2>
+                    <div class="info-box">
+                        <p><strong>We promise:</strong></p>
+                        <ul style="margin-top: 0.5rem; margin-bottom: 0;">
+                            <li>Every new permission will be explained in detail</li>
+                            <li>Major privacy changes will be highlighted in release notes</li>
+                            <li>This changelog will be updated within 24 hours of any Play Store release</li>
+                            <li>Removal of permissions will also be documented (transparency works both ways)</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer class="audit-footer">
+        <div class="container">
+            <p>&copy; 2026 Aido App. Transparency Center. <a href="../index.html"
+                    style="text-decoration: underline;">Return to Main Site</a></p>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <h3>Audit Menu</h3>
+            <button id="close-menu-btn" class="mobile-menu-toggle"><i class="ri-close-line"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/transparency/index.html"><i class="ri-file-shield-line" style="margin-right:8px"></i>
+                    Constitution</a></li>
+            <li><a href="/transparency/permissions.html"><i class="ri-lock-unlock-line" style="margin-right:8px"></i>
+                    Permissions</a>
+            </li>
+            <li><a href="/transparency/changelog.html" class="active"><i class="ri-history-line"
+                        style="margin-right:8px"></i>
+                    Changelog</a></li>
+            <li><a href="/transparency/faq.html"><i class="ri-question-line" style="margin-right:8px"></i> FAQ</a></li>
+            <li><a href="/transparency/contact.html"><i class="ri-mail-line" style="margin-right:8px"></i> Contact</a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="/transparency/js/audit.js"></script>
+</body>
+
+</html>
