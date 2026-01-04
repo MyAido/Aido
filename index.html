@@ -12,6 +12,7 @@
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://myaido.web.app/">
+    <meta name="google-site-verification" content="klXH_wE5bz-6Dy21Ei_mR9mUVWSZnKpZsi1KHeQDT88" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -47,21 +48,62 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
+      "@type": "MobileApplication",
       "name": "Aido",
       "operatingSystem": "ANDROID",
       "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Productivity",
+      "downloadUrl": "https://play.google.com/store/apps/details?id=com.rr.aido",
+      "fileSize": "15MB",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
       "description": "Aido is an AI-powered accessibility assistant for Android that provides smart replies, text expansion, and productivity tools directly in any app.",
+      "featureList": "AI Writer, Smart Replies, Text Shortcuts, Screen Reading, Custom Animations",
+      "screenshot": "https://myaido.web.app/res/ai-writer.png",
+      "softwareVersion": "2.1.0",
       "image": "https://myaido.web.app/res/viddo.gif",
       "author": {
-        "@type": "Person",
-        "name": "Rubex"
+        "@type": "Organization",
+        "name": "Aido Team",
+        "url": "https://myaido.web.app"
       }
+    }
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is Aido?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Aido is an AI-powered accessibility assistant for Android that allows you to use AI tools like rephrasing, translation, and smart replies directly inside any app, without switching screens."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is Aido safe to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Aido is built with privacy as a priority. It uses Android's Accessibility Services strictly for user-initiated actions and does not store or transmit your personal data to external servers without your permission."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I use Aido on Android?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "After installing, enable Aido in your device's Accessibility Settings. Then, you can use triggers like '@ai' or tap the floating button in any text field to access AI features."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is Aido free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Aido offers a free version with essential features. Advanced models and unlimited usage may require a premium plan or your own API key."
+        }
+      }]
     }
     </script>
 </head>
@@ -228,6 +270,62 @@
                         <img src="res/viddo.gif" alt="Aido App Integration Demo" loading="lazy"
                             style="width: 100%; height: 100%; object-fit: contain; display: block;">
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section style="padding: 100px 0;">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 3rem;">Frequently Asked <span
+                        class="text-gradient">Questions</span></h2>
+                <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+
+                    <div class="glass-card" style="cursor: pointer;"
+                        onclick="this.querySelector('p').style.display = this.querySelector('p').style.display === 'none' ? 'block' : 'none'">
+                        <h3
+                            style="margin: 0; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                            What is Aido? <i class="ri-arrow-down-s-line"></i>
+                        </h3>
+                        <p style="margin-top: 1rem; color: #cbd5e1; display: none;">Aido is an AI-powered accessibility
+                            assistant for Android that allows you to use AI tools like rephrasing, translation, and
+                            smart replies directly inside any app, without switching screens.</p>
+                    </div>
+
+                    <div class="glass-card" style="cursor: pointer;"
+                        onclick="this.querySelector('p').style.display = this.querySelector('p').style.display === 'none' ? 'block' : 'none'">
+                        <h3
+                            style="margin: 0; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                            Is Aido safe to use? <i class="ri-arrow-down-s-line"></i>
+                        </h3>
+                        <p style="margin-top: 1rem; color: #cbd5e1; display: none;">Yes, Aido is built with privacy as a
+                            priority. It uses Android's Accessibility Services strictly for user-initiated actions and
+                            does not store or transmit your personal data to external servers without your permission.
+                        </p>
+                    </div>
+
+                    <div class="glass-card" style="cursor: pointer;"
+                        onclick="this.querySelector('p').style.display = this.querySelector('p').style.display === 'none' ? 'block' : 'none'">
+                        <h3
+                            style="margin: 0; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                            How do I use Aido on Android? <i class="ri-arrow-down-s-line"></i>
+                        </h3>
+                        <p style="margin-top: 1rem; color: #cbd5e1; display: none;">After installing, enable Aido in
+                            your device's Accessibility Settings. Then, you can use triggers like '@ai' or tap the
+                            floating button in any text field to access AI features.</p>
+                    </div>
+
+                    <div class="glass-card" style="cursor: pointer;"
+                        onclick="this.querySelector('p').style.display = this.querySelector('p').style.display === 'none' ? 'block' : 'none'">
+                        <h3
+                            style="margin: 0; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                            Is Aido free? <i class="ri-arrow-down-s-line"></i>
+                        </h3>
+                        <p style="margin-top: 1rem; color: #cbd5e1; display: none;">Aido offers a free version with
+                            essential features. Advanced models and unlimited usage may require a premium plan or your
+                            own API key.</p>
+                    </div>
+
                 </div>
             </div>
         </section>

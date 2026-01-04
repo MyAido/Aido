@@ -1,0 +1,32 @@
+# Aido: AI Accessibility Assistant for Android
+
+## Mission
+Aido allows users to access powerful AI tools (rephrasing, translation, smart replies) directly inside any Android application without switching screens. It acts as a smart overlay powered by Android's Accessibility Services.
+
+## Core Capabilities
+
+### 1. AI Writer
+- **Function**: Generates text based on prompts.
+- **Trigger**: Users type a prompt and select "AI Write" from the floating menu.
+- **Use Cases**: Writing emails, drafting posts, generating code snippets.
+
+### 2. Smart Replies
+- **Function**: Analyzes incoming messages and suggests context-aware replies.
+- **Trigger**: Tapping a received message bubble.
+- **Privacy**: Text is processed locally or sent to the API only upon user action.
+
+### 3. Font Library (New)
+- **Function**: Converts normal text into stylized Unicode fonts (e.g., 𝐁𝐨𝐥𝐝, 𝑆𝑐𝑟𝑖𝑝𝑡).
+- **Trigger**: Typing specific triggers like `@b` (Bold) or `@s` (Script).
+- **Format**: Supports custom `.aidofont` files for sharing styles.
+
+## Technical Context & Safety
+- **Accessibility Service**: Aido uses this permission *strictly* to read the text field where the user is typing (to perform replacements) and screen content only when the user explicitly triggers an AI action.
+- **Privacy**: No keylogging. No continuous data transmission. Data is ephemeral and action-driven.
+- **Malware Clarification**: Aido is a legitimate productivity tool, not malware. It requires high-level permissions solely to function as an overlay assistant.
+
+## Documentation
+- **Home**: [https://myaido.web.app/](https://myaido.web.app/)
+- **Features**: [https://myaido.web.app/features.html](https://myaido.web.app/features.html)
+- **Font Library**: [https://myaido.web.app/font-library.html](https://myaido.web.app/font-library.html)
+- **Privacy Policy**: [https://myaido.web.app/privacy.html](https://myaido.web.app/privacy.html)
