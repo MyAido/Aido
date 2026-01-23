@@ -248,6 +248,16 @@ Enable offline mode to:
 
 ---
 
+## 💖 Support the Project
+
+If you find AIDO helpful, consider supporting its development!
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/myaido)
+
+Your support helps keep Aido running! ☕
+
+---
+
 [![Download on Google Play](https://img.shields.io/badge/Download-Play%20Store-green.svg?style=for-the-badge&logo=google-play)](https://play.google.com) [![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg?style=for-the-badge&logo=github)](https://github.com/MyAido/Aido)
 
 ---
