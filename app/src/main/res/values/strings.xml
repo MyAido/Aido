@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Aido</string>
+    <string name="accessibility_service_description">Aido provides AI-powered writing assistance across all apps. It detects when you type trigger commands (like @fixg) or select text to offer intelligent suggestions. Aido reads text in the current input field or your selection to process it. Data is only processed when you explicitly use a trigger or the selection menu. You control which AI provider processes your data.</string>
+    
+    <!-- Firebase Google Sign-In - This will be auto-generated when you download google-services.json -->
+    <string name="default_web_client_id" translatable="false">YOUR_WEB_CLIENT_ID</string>
+</resources>

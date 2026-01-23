@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Top Bar with Back Button and Category Tabs -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/btn_back_to_keyboard"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Back to keyboard"
+            android:padding="12dp"
+            android:tint="#5F6368" />
+
+        <!-- Category Tabs -->
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp">
+
+                <Button
+                    android:id="@+id/btn_category_smileys"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="😊"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_gestures"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="👋"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_hearts"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="❤️"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_animals"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="🐶"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_food"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="🍕"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_sports"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="⚽"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_travel"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="✈️"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_objects"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="💡"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <Button
+                    android:id="@+id/btn_category_symbols"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:text="🔣"
+                    android:textSize="24sp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <!-- Emoji Grid - Increased height for better visibility -->
+    <GridView
+        android:id="@+id/emoji_grid"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:numColumns="8"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:padding="4dp"
+        android:paddingBottom="48dp"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:background="#F5F5F5" />
+
+</LinearLayout>

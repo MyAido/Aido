@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "816845839566",
+    "firebase_url": "https://aido-it-default-rtdb.firebaseio.com",
+    "project_id": "aido-it",
+    "storage_bucket": "aido-it.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816845839566:android:868f07fcb4bd8fc779849f",
+        "android_client_info": {
+          "package_name": "com.rr.aido"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWu0o1_kCHGDYAlwsBB0vHsIgoA863dvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

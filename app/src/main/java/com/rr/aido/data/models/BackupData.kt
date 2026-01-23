@@ -1,0 +1,11 @@
+package com.rr.aido.data.models
+
+/**
+ * Data class for full app backup
+ */
+data class BackupData(
+    val settings: Settings,
+    val preprompts: List<Preprompt>,
+    val textShortcuts: List<TextShortcut>? = emptyList(),
+    val disabledApps: Set<String>? = emptySet()
+)

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Gboard Light Theme -->
+    <color name="keyboard_bg_light">#ECEFF1</color>
+    <color name="key_bg_light">#FFFFFF</color>
+    <color name="key_shadow_light">#CFD8DC</color>
+    <color name="key_text_light">#1F2937</color>
+    <color name="key_icon_light">#455A64</color>
+    <color name="popup_bg_light">#FFFFFF</color>
+
+    <!-- Gboard Dark Theme -->
+    <color name="keyboard_bg_dark">#263238</color>
+    <color name="key_bg_dark">#37474F</color>
+    <color name="key_shadow_dark">#102027</color>
+    <color name="key_text_dark">#ECEFF1</color>
+    <color name="key_icon_dark">#B0BEC5</color>
+    <color name="popup_bg_dark">#37474F</color>
+    
+</resources>

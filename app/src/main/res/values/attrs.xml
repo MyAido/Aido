@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="keyboardBackground" format="color|reference" />
+    <attr name="keyboardKeyBackground" format="color|reference" />
+    <attr name="keyboardKeyShadow" format="color|reference" />
+    <attr name="keyboardKeyText" format="color|reference" />
+    <attr name="keyboardKeyIcon" format="color|reference" />
+    <attr name="keyboardPopupBackground" format="color|reference" />
+</resources>

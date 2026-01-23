@@ -1,0 +1,51 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+
+
+# === ANDROID BUILD ===
+.gradle/
+build/
+**/build/
+.cxx/
+externalNativeBuild/
+
+# Kotlin generated metadata
+.kotlin/
+
+# === IDE ===
+.idea/
+*.iml
+
+# === LOCAL CONFIG ===
+local.properties
+*.keystore
+*.jks
+key/
+
+# === RELEASE OUTPUTS ===
+app/release/
+*.apk
+*.aab
+*.dm
+output-metadata.json
+
+# Baseline profiles (generated)
+app/baselineProfiles/
+
+# === MISC ===
+.DS_Store
+*.log

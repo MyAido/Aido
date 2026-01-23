@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/keyboardBackground">
+
+    <!-- Top Bar: Menu + Mic + Suggestions + Undo/Redo -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="?attr/keyboardBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <!-- Menu Button (Hamburger) -->
+        <ImageButton
+            android:id="@+id/btn_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/key_background"
+            android:src="@android:drawable/ic_menu_sort_by_size"
+            android:contentDescription="Menu"
+            android:padding="10dp"
+            android:tint="?attr/keyboardKeyIcon"
+            android:layout_marginEnd="4dp"/>
+
+        <!-- Suggestion Strip -->
+        <HorizontalScrollView
+            android:id="@+id/suggestion_strip"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            android:fadingEdge="horizontal"
+            android:requiresFadingEdge="horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp">
+
+            <LinearLayout
+                android:id="@+id/suggestion_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:gravity="center_vertical"
+                android:divider="@drawable/suggestion_divider"
+                android:showDividers="middle" />
+
+        </HorizontalScrollView>
+
+        <!-- Undo Button -->
+        <ImageButton
+            android:id="@+id/btn_undo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Undo"
+            android:padding="10dp"
+            android:tint="?attr/keyboardKeyIcon"
+            android:layout_marginStart="2dp"/>
+
+        <!-- Redo Button -->
+        <ImageButton
+            android:id="@+id/btn_redo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_rotate"
+            android:contentDescription="Redo"
+            android:padding="10dp"
+            android:tint="?attr/keyboardKeyIcon"
+            android:rotation="180"
+            android:layout_marginStart="2dp"/>
+
+        <!-- Microphone Button -->
+        <ImageButton
+            android:id="@+id/btn_microphone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_btn_speak_now"
+            android:contentDescription="Voice Input"
+            android:padding="10dp"
+            android:tint="?attr/keyboardKeyIcon"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"/>
+
+    </LinearLayout>
+
+    <!-- Keyboard View -->
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:keyBackground="@drawable/key_background"
+        android:keyTextColor="?attr/keyboardKeyText"
+        android:keyTextSize="22sp"
+        android:keyPreviewLayout="@layout/key_preview"
+        android:background="?attr/keyboardBackground"
+        android:paddingTop="4dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:shadowColor="#00000000"
+        android:shadowRadius="0" />
+
+</LinearLayout>

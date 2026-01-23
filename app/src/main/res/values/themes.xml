@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Aido" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Aido.Keyboard.Light" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="keyboardBackground">@color/keyboard_bg_light</item>
+        <item name="keyboardKeyBackground">@color/key_bg_light</item>
+        <item name="keyboardKeyShadow">@color/key_shadow_light</item>
+        <item name="keyboardKeyText">@color/key_text_light</item>
+        <item name="keyboardKeyIcon">@color/key_icon_light</item>
+        <item name="keyboardPopupBackground">@color/popup_bg_light</item>
+    </style>
+
+    <style name="Theme.Aido.Keyboard.Dark" parent="android:Theme.Material.NoActionBar">
+        <item name="keyboardBackground">@color/keyboard_bg_dark</item>
+        <item name="keyboardKeyBackground">@color/key_bg_dark</item>
+        <item name="keyboardKeyShadow">@color/key_shadow_dark</item>
+        <item name="keyboardKeyText">@color/key_text_dark</item>
+        <item name="keyboardKeyIcon">@color/key_icon_dark</item>
+        <item name="keyboardPopupBackground">@color/popup_bg_dark</item>
+    </style>
+</resources>

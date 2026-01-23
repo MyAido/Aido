@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:paddingTop="12dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <!-- Header with Back button and Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
+        
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:contentDescription="Close menu"
+            android:padding="8dp" />
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Keyboard Menu"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#202124"
+            android:gravity="center" />
+        
+        <!-- Spacer for symmetry -->
+        <View
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Grid of menu options (2 columns) -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="2"
+        android:alignmentMode="alignBounds"
+        android:columnOrderPreserved="true"
+        android:rowCount="2">
+
+        <!-- Clipboard -->
+        <LinearLayout
+            android:id="@+id/menu_clipboard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="4dp">
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="📋"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:background="@drawable/key_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clipboard"
+                android:textSize="12sp"
+                android:textColor="#202124"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <!-- Triggers -->
+        <LinearLayout
+            android:id="@+id/menu_triggers"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="4dp">
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="@"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:background="@drawable/key_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Triggers"
+                android:textSize="12sp"
+                android:textColor="#202124"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <!-- Emoji -->
+        <LinearLayout
+            android:id="@+id/menu_emoji"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="4dp">
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="😊"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:background="@drawable/key_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emoji"
+                android:textSize="12sp"
+                android:textColor="#202124"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <!-- Settings -->
+        <LinearLayout
+            android:id="@+id/menu_settings"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="4dp">
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="⚙️"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:background="@drawable/key_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textSize="12sp"
+                android:textColor="#202124"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+    </GridLayout>
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Marketplace preprompts collection
+    match /marketplace_preprompts/{prepromptId} {
+      // Anyone can read preprompts
+      allow read: if true;
+      
+      // Only authenticated users can create preprompts
+      allow create: if request.auth != null
+                    && request.resource.data.authorId == request.auth.uid
+                    && request.resource.data.trigger is string
+                    && request.resource.data.instruction is string;
+      
+      // Users can update their own preprompts OR anyone can update likes/downloads field
+      allow update: if request.auth != null && resource.data.authorId == request.auth.uid
+                    || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'downloads']));
+      
+      // Users can only delete their own preprompts
+      allow delete: if request.auth != null
+                    && resource.data.authorId == request.auth.uid;
+    }
+    
+    // User profiles collection
+    match /users/{userId} {
+      // Anyone can read public profiles
+      allow read: if true;
+      
+      // Users can only write their own profile
+      allow write: if request.auth != null
+                   && request.auth.uid == userId;
+    }
+    
+    // Favorites collection (private to user)
+    match /users/{userId}/favorites/{prepromptId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+    
+    // Ratings collection
+    match /ratings/{ratingId} {
+      // Anyone can read ratings
+      allow read: if true;
+      
+      // Only authenticated users can create/update their ratings
+      allow create, update: if request.auth != null
+                            && request.resource.data.userId == request.auth.uid;
+      
+      // Users can only delete their own ratings
+      allow delete: if request.auth != null
+                    && resource.data.userId == request.auth.uid;
+    }
+  }
+}
