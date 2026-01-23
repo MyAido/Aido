@@ -232,7 +232,7 @@ Enable offline mode to:
 ---
 
 ### Community
-*
+
 - 💡 **Telegram**: [Aido Group](https://t.me/MyAido)
 
 ---
