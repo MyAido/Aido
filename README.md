@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# 🧠 AIDO - AI, Do It Once
+# 🧠 Aido - AI, Do It Once
 
 ### *Type Once get it right with Aido*
 
@@ -13,9 +13,9 @@
 
 ---
 
-## 🎯 What is AIDO?
+## 🎯 What is Aido?
 
-**AIDO** (AI, Do It Once) is a revolutionary AI-powered Android app & keyboard that transforms the way you type. It's not just a keyboard it's your intelligent writing assistant that works seamlessly across **every app** on your device. Simply type your text, add a trigger like `@fixg` or `@summ`, and watch AI instantly enhance, rewrite, or transform your content.
+**Aido** (AI, Do It Once) is a revolutionary AI-powered Android app & keyboard that transforms the way you type. It's not just a keyboard it's your intelligent writing assistant that works seamlessly across **every app** on your device. Simply type your text, add a trigger like `@fixg` or `@summ`, and watch AI instantly enhance, rewrite, or transform your content.
 
 **Example:**
 ```
@@ -72,23 +72,23 @@ AIDO requires a Google Gemini API key for AI features.
 6. Tap **"Test and Save API Key"**
 7. Wait for the success confirmation ✅
 
-### 2. Enable AIDO Keyboard
+### 2. Enable Aido Keyboard
 
 #### Activate Accessibility Service
-1. Open AIDO app
+1. Open Aido app
 2. Tap **"Grant Accessibility Permission"** button on Home screen
 3. Find **"Aido"** in the accessibility services list
 4. Toggle it **ON**
 5. Confirm the permission dialog
 
-#### Set AIDO as Default Keyboard
+#### Set Aido as Default Keyboard
 1. Go to Android **Settings** > **System** > **Languages & input** > **Virtual keyboard**
 2. Tap **"Manage keyboards"**
 3. Enable **"Aido Keyboard"**
 4. In any text field, long-press the spacebar or tap the keyboard icon
 5. Select **"Aido Keyboard"**
 
-### 3. Start Using AIDO
+### 3. Start Using Aido
 
 That's it! Now type in any app and use triggers to activate AI features.
 
@@ -242,7 +242,7 @@ Enable offline mode to:
 
 ### Made with ❤️ by Senzme
 
-**🧠 AIDO - AI, Do It Once**
+**🧠 Aido - AI, Do It Once**
 
 *Type smarter, anywhere. Your AI-powered keyboard companion.*
 
