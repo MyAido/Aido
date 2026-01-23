@@ -66,9 +66,9 @@ fun KeyboardClipboard(
                     tint = textColor
                 )
             }
-            
+
             Spacer(modifier = Modifier.width(8.dp))
-            
+
             Text(
                 text = "Clipboard",
                 color = textColor,
@@ -76,7 +76,7 @@ fun KeyboardClipboard(
                 fontSize = 18.sp,
                 modifier = Modifier.weight(1f)
             )
-            
+
             // Clear All Button
             if (clipboardHistory.isNotEmpty()) {
                 Text(
@@ -151,9 +151,9 @@ fun ClipboardItemRow(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        
+
         Spacer(modifier = Modifier.width(8.dp))
-        
+
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = "Delete",

@@ -39,20 +39,20 @@ fun AIChatScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
     val settings by viewModel.settings.collectAsState()
-    
+
     var inputText by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    
+
     // Auto-scroll to bottom when new message arrives
     LaunchedEffect(messages.size) {
         if (messages.isNotEmpty()) {
             listState.animateScrollToItem(messages.size - 1)
         }
     }
-    
+
     // Show error message
     LaunchedEffect(errorMessage) {
         errorMessage?.let {
@@ -60,7 +60,7 @@ fun AIChatScreen(
             viewModel.clearError()
         }
     }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -134,7 +134,7 @@ fun AIChatScreen(
                         items(messages, key = { it.id }) { message ->
                             MessageBubble(message = message)
                         }
-                        
+
                         // Loading indicator
                         if (isLoading) {
                             item {
@@ -160,7 +160,7 @@ fun AIChatScreen(
                     }
                 }
             }
-            
+
             // Input Area
             Surface(
                 shadowElevation = 8.dp,

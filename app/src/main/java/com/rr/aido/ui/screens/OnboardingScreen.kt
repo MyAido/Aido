@@ -44,7 +44,7 @@ fun OnboardingScreen(
     onSaveSettings: (AiProvider, String, String, String, String, String, TriggerMethod) -> Unit
 ) {
     var currentStep by remember { mutableIntStateOf(0) }
-    
+
     // Settings State
     var selectedProvider by remember { mutableStateOf(AiProvider.GEMINI) }
     var apiKey by remember { mutableStateOf("") }
@@ -116,9 +116,9 @@ fun OnboardingScreen(
                             .size(if (index == currentStep) 12.dp else 8.dp)
                             .clip(CircleShape)
                             .background(
-                                if (index <= currentStep) 
-                                    MaterialTheme.colorScheme.primary 
-                                else 
+                                if (index <= currentStep)
+                                    MaterialTheme.colorScheme.primary
+                                else
                                     MaterialTheme.colorScheme.surfaceVariant
                             )
                     )
@@ -151,7 +151,7 @@ fun OnboardingScreen(
                             customModelName = customModelName,
                             onCustomModelChange = { customModelName = it }
                         )
-                            
+
                         3 -> TutorialStep()
                         4 -> {
                             val context = LocalContext.current
@@ -204,14 +204,14 @@ private fun WelcomeStep() {
                 .padding(24.dp),
             tint = MaterialTheme.colorScheme.onPrimary
         )
-        
+
         Text(
             text = "Welcome to Aido",
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
-        
+
         Text(
             text = "Your AI-powered writing assistant that works in any app. Type smarter, faster, and better.",
             style = MaterialTheme.typography.bodyLarge,
@@ -236,14 +236,14 @@ private fun ProviderStep(
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
-        
+
         Text(
             text = "Select which AI provider you want to use to power Aido.",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        
+
         Spacer(modifier = Modifier.height(16.dp))
 
         ProviderCard(
@@ -279,9 +279,9 @@ private fun ProviderCard(
                 shape = RoundedCornerShape(16.dp)
             ),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) 
+            containerColor = if (isSelected)
                 MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-            else 
+            else
                 MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
         ),
         shape = RoundedCornerShape(16.dp)
@@ -326,7 +326,7 @@ private fun SetupStep(
     onCustomModelChange: (String) -> Unit
 ) {
     val context = LocalContext.current
-    
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -356,7 +356,7 @@ private fun SetupStep(
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = { Icon(Icons.Outlined.Security, contentDescription = null) }
             )
-            
+
             Button(
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://aistudio.google.com/app/apikey"))
@@ -379,7 +379,7 @@ private fun SetupStep(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             OutlinedTextField(
                 value = customApiUrl,
                 onValueChange = onCustomUrlChange,
@@ -388,7 +388,7 @@ private fun SetupStep(
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("https://api.openai.com/v1/") }
             )
-            
+
             OutlinedTextField(
                 value = customApiKey,
                 onValueChange = onCustomApiKeyChange,
@@ -397,7 +397,7 @@ private fun SetupStep(
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = { Icon(Icons.Outlined.Security, contentDescription = null) }
             )
-            
+
             OutlinedTextField(
                 value = customModelName,
                 onValueChange = onCustomModelChange,
@@ -422,14 +422,14 @@ private fun TutorialStep() {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
-        
+
         Text(
             text = "Using Aido is simple. Just type and let AI handle the rest.",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        
+
         // Step 1: Type
         TutorialCard(
             step = "1",
@@ -439,7 +439,7 @@ private fun TutorialStep() {
             Text(
                 text = "Sorry I cant come|",
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface 
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -453,17 +453,17 @@ private fun TutorialStep() {
                 Text(
                     text = "Sorry I cant come ",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface 
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "@fixg",
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary 
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         }
-        
+
         // Step 3: Magic
         TutorialCard(
             step = "3",
@@ -473,7 +473,7 @@ private fun TutorialStep() {
              Text(
                 text = "I apologize, but I won't be able to make it.",
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface 
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -515,9 +515,9 @@ private fun TutorialCard(
                     fontWeight = FontWeight.Bold
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             // Simulation Box
             Box(
                 modifier = Modifier
@@ -528,9 +528,9 @@ private fun TutorialCard(
             ) {
                 content()
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodySmall,
@@ -559,20 +559,20 @@ private fun PermissionsStep(
                 .padding(16.dp),
             tint = MaterialTheme.colorScheme.onTertiaryContainer
         )
-        
+
         Text(
             text = "Enable Aido",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
-        
+
         Text(
             text = "To work in any app, Aido needs Accessibility Service content.",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        
+
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
@@ -585,8 +585,8 @@ private fun PermissionsStep(
                 verticalAlignment = Alignment.Top
             ) {
                 Icon(
-                    Icons.Outlined.Security, 
-                    contentDescription = null, 
+                    Icons.Outlined.Security,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -597,9 +597,9 @@ private fun PermissionsStep(
                 )
             }
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         // Primary Action
         Button(
             onClick = onEnableClick,
@@ -620,7 +620,7 @@ private fun PermissionsStep(
                 fontWeight = FontWeight.Bold
             )
         }
-        
+
         // Secondary Action
         TextButton(
             onClick = onLaterClick,
@@ -658,7 +658,7 @@ private fun OnboardingBottomBar(
         } else {
             Spacer(modifier = Modifier.width(1.dp))
         }
-        
+
         Button(
             onClick = onNext,
             enabled = canProceed,

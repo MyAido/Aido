@@ -24,7 +24,7 @@ fun PlaygroundScreen(
     val uiState by viewModel.uiState.collectAsState()
     var inputText by remember { mutableStateOf("") }
     val focusManager = androidx.compose.ui.platform.LocalFocusManager.current
-    
+
     // Auto-update input text if demoInput changes (e.g. from clearing)
     LaunchedEffect(uiState.demoInput) {
         if (uiState.demoInput != inputText && uiState.demoInput.isEmpty()) {
@@ -43,7 +43,7 @@ fun PlaygroundScreen(
                 },
                 actions = {
                    if (inputText.isNotEmpty() || uiState.demoOutput.isNotEmpty()) {
-                       IconButton(onClick = { 
+                       IconButton(onClick = {
                            inputText = ""
                            viewModel.clearDemo()
                        }) {
@@ -108,9 +108,9 @@ fun PlaygroundScreen(
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             val triggers = listOf("@fixg", "@tone", "@reply", "@emoji", "@summary")
-            
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -157,7 +157,7 @@ fun PlaygroundScreen(
                     Text("Run Aido")
                 }
             }
-            
+
             // Output Section
             if (uiState.errorMessage != null) {
                 Card(
@@ -176,19 +176,19 @@ fun PlaygroundScreen(
                     }
                 }
             }
-            
+
             if (uiState.demoOutput.isNotEmpty()) {
                 Text(
                     "Result",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
-                
+
                 if (uiState.parsedTrigger != null) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            Icons.Default.Bolt, 
-                            contentDescription = null, 
+                            Icons.Default.Bolt,
+                            contentDescription = null,
                             modifier = Modifier.size(16.dp),
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -213,12 +213,12 @@ fun PlaygroundScreen(
                             text = uiState.demoOutput,
                             style = MaterialTheme.typography.bodyLarge
                         )
-                        
+
                         Divider(
-                            modifier = Modifier.padding(vertical = 12.dp), 
+                            modifier = Modifier.padding(vertical = 12.dp),
                             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                         )
-                        
+
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End

@@ -13,16 +13,13 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-/**
- * ViewModel for managing marketplace operations
- */
 class MarketplaceViewModel(
     private val marketplaceRepository: MarketplaceRepository = MarketplaceRepositoryImpl(),
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
-    
+
     private val _uiState = MutableStateFlow(MarketplaceUiState())
     val uiState: StateFlow<MarketplaceUiState> = _uiState.asStateFlow()
 
@@ -47,7 +44,7 @@ class MarketplaceViewModel(
     // Get current user ID from Firebase Auth
     private val currentUserId: String
         get() = auth.currentUser?.uid ?: "anonymous"
-    
+
     // Get current user name
     val currentUserName: String
         get() = _currentUser.value?.displayName ?: "Anonymous"
@@ -62,7 +59,7 @@ class MarketplaceViewModel(
         trackInstalledPreprompts()
         observeAuthState()
     }
-    
+
     private suspend fun ensureAuthenticated() {
         try {
             if (auth.currentUser == null) {
@@ -76,7 +73,7 @@ class MarketplaceViewModel(
             throw e
         }
     }
-    
+
     private fun observeAuthState() {
         auth.addAuthStateListener { firebaseAuth ->
             viewModelScope.launch {
@@ -93,7 +90,7 @@ class MarketplaceViewModel(
             }
         }
     }
-    
+
     private fun syncAnonymousFavoritesToFirebase() {
         viewModelScope.launch {
             val anonymousFavorites = dataStoreManager.getAnonymousFavorites()
@@ -112,7 +109,7 @@ class MarketplaceViewModel(
             }
         }
     }
-    
+
     private fun updateUserProfile() {
         val user = auth.currentUser
         if (user != null) {
@@ -128,12 +125,12 @@ class MarketplaceViewModel(
             _currentUser.value = null
         }
     }
-    
+
     fun signInWithEmail(email: String, password: String, displayName: String) {
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(isLoading = true) }
-                
+
                 // Check if email exists, if not create account
                 try {
                     auth.signInWithEmailAndPassword(email, password).await()
@@ -147,26 +144,26 @@ class MarketplaceViewModel(
                             .build()
                     )?.await()
                 }
-                
+
                 updateUserProfile()
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         successMessage = "✅ Signed in as ${currentUserName}"
-                    ) 
+                    )
                 }
             } catch (e: Exception) {
                 Log.e("MarketplaceViewModel", "Email sign-in failed", e)
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         error = "Sign in failed: ${e.message}"
-                    ) 
+                    )
                 }
             }
         }
     }
-    
+
     fun signInWithGoogle(idToken: String) {
         viewModelScope.launch {
             try {
@@ -174,24 +171,24 @@ class MarketplaceViewModel(
                 val credential = com.google.firebase.auth.GoogleAuthProvider.getCredential(idToken, null)
                 auth.signInWithCredential(credential).await()
                 updateUserProfile()
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         successMessage = "✅ Signed in as ${currentUserName}"
-                    ) 
+                    )
                 }
             } catch (e: Exception) {
                 Log.e("MarketplaceViewModel", "Google sign-in failed", e)
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         error = "Sign in failed: ${e.message}"
-                    ) 
+                    )
                 }
             }
         }
     }
-    
+
     fun signOut() {
         viewModelScope.launch {
             try {
@@ -199,8 +196,8 @@ class MarketplaceViewModel(
                 // Sign in anonymously again
                 auth.signInAnonymously().await()
                 updateUserProfile()
-                _uiState.update { 
-                    it.copy(successMessage = "Signed out. Continuing as Anonymous") 
+                _uiState.update {
+                    it.copy(successMessage = "Signed out. Continuing as Anonymous")
                 }
             } catch (e: Exception) {
                 Log.e("MarketplaceViewModel", "Sign out failed", e)
@@ -229,13 +226,13 @@ class MarketplaceViewModel(
     fun loadFeaturedPreprompts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            
+
             android.util.Log.d("MarketplaceVM", "Loading featured preprompts...")
-            
+
             when (val result = marketplaceRepository.getFeaturedPreprompts()) {
                 is Result.Success -> {
                     android.util.Log.d("MarketplaceVM", "Loaded ${result.data.size} preprompts")
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             featuredPreprompts = result.data,
                             isLoading = false
@@ -245,7 +242,7 @@ class MarketplaceViewModel(
                 is Result.Error -> {
                     val errorMsg = "Failed to load: ${result.message}"
                     android.util.Log.e("MarketplaceVM", errorMsg, result.exception)
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             error = errorMsg,
                             isLoading = false
@@ -263,10 +260,10 @@ class MarketplaceViewModel(
         _searchQuery.value = query
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            
+
             when (val result = marketplaceRepository.searchPreprompts(query, _filter.value)) {
                 is Result.Success -> {
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             searchResults = result.data,
                             isLoading = false
@@ -274,7 +271,7 @@ class MarketplaceViewModel(
                     }
                 }
                 is Result.Error -> {
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             error = result.message,
                             isLoading = false
@@ -304,12 +301,12 @@ class MarketplaceViewModel(
                 _uiState.update { it.copy(userSharedPreprompts = emptyList()) }
                 return@launch
             }
-            
+
             val userId = currentUserId
             val userName = currentUserName
             android.util.Log.d("MarketplaceVM", "Loading user preprompts for: $userId (name: $userName)")
             android.util.Log.d("MarketplaceVM", "Current auth user: ${auth.currentUser?.uid}, isAnonymous: ${auth.currentUser?.isAnonymous}")
-            
+
             when (val result = marketplaceRepository.getUserSharedPreprompts(userId)) {
                 is Result.Success -> {
                     android.util.Log.d("MarketplaceVM", "Loaded ${result.data.size} user preprompts")
@@ -331,7 +328,7 @@ class MarketplaceViewModel(
             when (val result = marketplaceRepository.getFavoritePreprompts(currentUserId)) {
                 is Result.Success -> {
                     val favoriteIds = result.data.map { it.id }.toSet()
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             favoritePreprompts = result.data,
                             favoritePrepromptIds = favoriteIds
@@ -345,11 +342,11 @@ class MarketplaceViewModel(
             }
         }
     }
-    
+
     private fun loadAnonymousFavorites() {
         viewModelScope.launch {
             val anonymousFavorites = dataStoreManager.getAnonymousFavorites()
-            _uiState.update { 
+            _uiState.update {
                 it.copy(favoritePrepromptIds = it.favoritePrepromptIds + anonymousFavorites)
             }
         }
@@ -367,7 +364,7 @@ class MarketplaceViewModel(
 
                 // Get current preprompts and add the new one
                 val currentPreprompts = dataStoreManager.prepromptsFlow.first()
-                
+
                 // Check if already exists
                 if (currentPreprompts.any { it.trigger == preprompt.trigger }) {
                     _uiState.update { it.copy(error = "Command ${preprompt.trigger} already installed") }
@@ -381,13 +378,13 @@ class MarketplaceViewModel(
                 // Increment download count
                 marketplaceRepository.incrementDownloadCount(sharedPreprompt.id)
 
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         error = null,
                         successMessage = "Installed ${preprompt.trigger}"
                     )
                 }
-                
+
                 Log.d("MarketplaceViewModel", "Installed preprompt: ${preprompt.trigger}")
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = "Installation failed: ${e.message}") }
@@ -399,24 +396,24 @@ class MarketplaceViewModel(
     fun toggleFavorite(prepromptId: String) {
         viewModelScope.launch {
             val isAnonymous = auth.currentUser?.isAnonymous == true || auth.currentUser == null
-            
+
             if (isAnonymous) {
                 // For anonymous users, only update likes count on Firebase, store favorites locally
                 val isFavorite = _uiState.value.favoritePrepromptIds.contains(prepromptId)
-                
+
                 if (isFavorite) {
                     // Remove from local favorites and decrement likes
                     val newFavorites = _uiState.value.favoritePrepromptIds - prepromptId
-                    _uiState.update { 
-                        it.copy(favoritePrepromptIds = newFavorites) 
+                    _uiState.update {
+                        it.copy(favoritePrepromptIds = newFavorites)
                     }
                     dataStoreManager.saveAnonymousFavorites(newFavorites)
                     marketplaceRepository.decrementLikes(prepromptId)
                 } else {
                     // Add to local favorites and increment likes
                     val newFavorites = _uiState.value.favoritePrepromptIds + prepromptId
-                    _uiState.update { 
-                        it.copy(favoritePrepromptIds = newFavorites) 
+                    _uiState.update {
+                        it.copy(favoritePrepromptIds = newFavorites)
                     }
                     dataStoreManager.saveAnonymousFavorites(newFavorites)
                     marketplaceRepository.incrementLikes(prepromptId)
@@ -450,12 +447,12 @@ class MarketplaceViewModel(
     fun uploadPreprompt(preprompt: Preprompt, title: String, description: String, category: PrepromptCategory) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            
+
             // Ensure user is authenticated before upload
             try {
                 ensureAuthenticated()
             } catch (e: Exception) {
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         error = "Authentication failed: ${e.message}",
                         isLoading = false
@@ -463,9 +460,9 @@ class MarketplaceViewModel(
                 }
                 return@launch
             }
-            
+
             android.util.Log.d("MarketplaceVM", "Uploading preprompt: ${preprompt.trigger}")
-            
+
             val sharedPreprompt = SharedPreprompt(
                 id = "", // Firestore will auto-generate
                 trigger = preprompt.trigger,
@@ -491,7 +488,7 @@ class MarketplaceViewModel(
             when (val result = marketplaceRepository.uploadPreprompt(sharedPreprompt)) {
                 is Result.Success -> {
                     android.util.Log.d("MarketplaceVM", "Upload successful! ID: ${result.data}")
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             successMessage = "✅ Successfully shared ${preprompt.trigger}!",
                             isLoading = false
@@ -503,7 +500,7 @@ class MarketplaceViewModel(
                 }
                 is Result.Error -> {
                     android.util.Log.e("MarketplaceVM", "Upload failed: ${result.message}")
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             error = "Upload failed: ${result.message}",
                             isLoading = false
@@ -516,15 +513,15 @@ class MarketplaceViewModel(
             }
         }
     }
-    
+
     fun updatePreprompt(prepromptId: String, title: String, description: String, category: PrepromptCategory) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            
+
             // Get existing preprompt to update
             val existingPreprompts = _uiState.value.userSharedPreprompts + _uiState.value.featuredPreprompts
             val existing = existingPreprompts.find { it.id == prepromptId }
-            
+
             if (existing != null) {
                 val updated = existing.copy(
                     title = title,
@@ -532,10 +529,10 @@ class MarketplaceViewModel(
                     category = category,
                     updatedAt = System.currentTimeMillis()
                 )
-                
+
                 when (val result = marketplaceRepository.updatePreprompt(updated)) {
                     is Result.Success -> {
-                        _uiState.update { 
+                        _uiState.update {
                             it.copy(
                                 successMessage = "✅ Updated successfully!",
                                 isLoading = false
@@ -545,7 +542,7 @@ class MarketplaceViewModel(
                         loadFeaturedPreprompts()
                     }
                     is Result.Error -> {
-                        _uiState.update { 
+                        _uiState.update {
                             it.copy(
                                 error = "Update failed: ${result.message}",
                                 isLoading = false
@@ -555,7 +552,7 @@ class MarketplaceViewModel(
                     is Result.Loading -> {}
                 }
             } else {
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         error = "Preprompt not found",
                         isLoading = false
@@ -568,10 +565,10 @@ class MarketplaceViewModel(
     fun deletePreprompt(prepromptId: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            
+
             when (val result = marketplaceRepository.deletePreprompt(prepromptId)) {
                 is Result.Success -> {
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             successMessage = "Deleted successfully",
                             isLoading = false
@@ -581,7 +578,7 @@ class MarketplaceViewModel(
                     loadFeaturedPreprompts()
                 }
                 is Result.Error -> {
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             error = "Delete failed: ${result.message}",
                             isLoading = false
@@ -596,12 +593,12 @@ class MarketplaceViewModel(
     fun syncPreprompts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            
+
             val localPreprompts = dataStoreManager.prepromptsFlow.first()
-            
+
             when (val result = marketplaceRepository.syncUserPreprompts(currentUserId, localPreprompts)) {
                 is Result.Success -> {
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             isLoading = false,
                             successMessage = "Sync completed"
@@ -609,7 +606,7 @@ class MarketplaceViewModel(
                     }
                 }
                 is Result.Error -> {
-                    _uiState.update { 
+                    _uiState.update {
                         it.copy(
                             isLoading = false,
                             error = result.message
@@ -654,9 +651,6 @@ class MarketplaceViewModel(
     }
 }
 
-/**
- * UI state for marketplace screen
- */
 data class MarketplaceUiState(
     val featuredPreprompts: List<SharedPreprompt> = emptyList(),
     val searchResults: List<SharedPreprompt> = emptyList(),
@@ -670,9 +664,6 @@ data class MarketplaceUiState(
     val successMessage: String? = null
 )
 
-/**
- * Marketplace tabs
- */
 enum class MarketplaceTab {
     BROWSE,
     MY_SHARED,

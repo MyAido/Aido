@@ -1,8 +1,5 @@
 package com.rr.aido.data.models
 
-/**
- * Trigger methods for Aido
- */
 enum class TriggerMethod(val id: String, val displayName: String, val description: String) {
     ACCESSIBILITY(
         id = "accessibility",
@@ -22,10 +19,6 @@ enum class TriggerMethod(val id: String, val displayName: String, val descriptio
     }
 }
 
-/**
- * App settings data class
- * API key, selected model aur other settings store karta hai
- */
 data class Settings(
     val provider: AiProvider = AiProvider.GEMINI,
     val apiKey: String = "",
@@ -70,9 +63,6 @@ data class Settings(
     val responseLanguage: String = "English" // Language for AI responses
 )
 
-/**
- * Keyboard Theme Mode
- */
 enum class ThemeMode(val id: String, val displayName: String) {
     SYSTEM("system", "System Default"),
     LIGHT("light", "Light"),
@@ -85,9 +75,6 @@ enum class ThemeMode(val id: String, val displayName: String) {
     }
 }
 
-/**
- * Supported AI providers
- */
 enum class AiProvider(val id: String, val displayName: String, val description: String) {
     GEMINI(
         id = "gemini",
@@ -107,9 +94,6 @@ enum class AiProvider(val id: String, val displayName: String, val description: 
     }
 }
 
-/**
- * Available Gemini models
- */
 object GeminiModels {
     val models = listOf(
         "gemini-2.5-flash-lite",
@@ -120,9 +104,6 @@ object GeminiModels {
     )
 }
 
-/**
- * Processing animation types
- */
 enum class ProcessingAnimationType(val id: String, val displayName: String, val description: String) {
     PULSE_WAVE(
         id = "pulse_wave",
@@ -177,9 +158,6 @@ enum class ProcessingAnimationType(val id: String, val displayName: String, val 
     }
 }
 
-/**
- * Search Engine Options
- */
 enum class SearchEngine(val id: String, val displayName: String, val urlTemplate: String) {
     GOOGLE("google", "Google", "https://www.google.com/search?q=%s"),
     BING("bing", "Bing", "https://www.bing.com/search?q=%s"),
@@ -193,9 +171,6 @@ enum class SearchEngine(val id: String, val displayName: String, val urlTemplate
     }
 }
 
-/**
- * Text Selection Menu Style
- */
 enum class SelectionMenuStyle(val id: String, val displayName: String) {
     GRID("grid", "Grid Layout"),
     LIST("list", "List Layout");
@@ -206,5 +181,4 @@ enum class SelectionMenuStyle(val id: String, val displayName: String) {
         }
     }
 }
-
 

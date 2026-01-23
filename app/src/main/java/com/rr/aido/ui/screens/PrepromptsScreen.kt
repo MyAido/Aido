@@ -35,9 +35,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * Preprompts Screen - Preprompts management
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrepromptsScreen(
@@ -49,7 +46,7 @@ fun PrepromptsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    
+
     // Show error message
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let {
@@ -57,7 +54,7 @@ fun PrepromptsScreen(
             viewModel.clearError()
         }
     }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -121,8 +118,8 @@ fun PrepromptsScreen(
                     isReorderMode = uiState.isReorderMode,
                     onEdit = { viewModel.showEditDialog(preprompt) },
                     onDelete = { viewModel.deletePreprompt(preprompt) },
-                    onDragStart = { /* Handle drag start if needed */ },
-                    onDragEnd = { /* Handle drag end if needed */ },
+                    onDragStart = {  },
+                    onDragEnd = {  },
                     onMove = { from, to -> viewModel.reorderPreprompts(from, to) },
                     index = index,
                     totalCount = preprompts.size
@@ -133,7 +130,7 @@ fun PrepromptsScreen(
             }
         }
     }
-    
+
     // Add/Edit Dialog
     if (uiState.showAddDialog) {
         // Pause accessibility service while editing preprompts
@@ -145,7 +142,7 @@ fun PrepromptsScreen(
                 android.util.Log.d("PrepromptsScreen", "Accessibility service resumed")
             }
         }
-        
+
         AddPrepromptDialog(
             trigger = uiState.dialogTrigger,
             instruction = uiState.dialogInstruction,
@@ -183,14 +180,14 @@ fun PrepromptCard(
     //
     // Wait, the user specifically asked for "Hold and drop".
     // Let's try to implement a basic drag gesture that updates the list.
-    
+
     val isDragging = remember { mutableStateOf(false) }
     val offsetY = remember { mutableStateOf(0f) }
-    
+
     val currentIndex by rememberUpdatedState(index)
     val currentOnMove by rememberUpdatedState(onMove)
     val currentTotalCount by rememberUpdatedState(totalCount)
-    
+
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -219,26 +216,26 @@ fun PrepromptCard(
                         .padding(end = 16.dp)
                         .pointerInput(Unit) {
                             detectDragGestures(
-                                onDragStart = { 
-                                    isDragging.value = true 
+                                onDragStart = {
+                                    isDragging.value = true
                                     onDragStart()
                                 },
-                                onDragEnd = { 
+                                onDragEnd = {
                                     isDragging.value = false
                                     offsetY.value = 0f
                                     onDragEnd()
                                 },
-                                onDragCancel = { 
+                                onDragCancel = {
                                     isDragging.value = false
                                     offsetY.value = 0f
                                     onDragEnd()
                                 },
                                 onDrag = { change: PointerInputChange, dragAmount: Offset ->
                                     change.consume()
-                                    
+
                                     val dragThreshold = 150f // Increased threshold for stability
                                     offsetY.value += dragAmount.y
-                                    
+
                                     if (offsetY.value > dragThreshold) {
                                         if (currentIndex < currentTotalCount - 1) {
                                             currentOnMove(currentIndex, currentIndex + 1)
@@ -255,7 +252,7 @@ fun PrepromptCard(
                         }
                 )
             }
-            
+
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -270,7 +267,7 @@ fun PrepromptCard(
                     fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.primary
                 )
-                
+
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     IconButton(onClick = onEdit) {
                         Icon(
@@ -288,17 +285,17 @@ fun PrepromptCard(
                     }
                 }
             }
-            
+
             // Hide edit/delete buttons in reorder mode to avoid clutter/conflicts
             if (!isReorderMode) {
                 Spacer(modifier = Modifier.height(8.dp))
-                
+
                 Text(
                     text = preprompt.instruction,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                
+
                 if (preprompt.example.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -308,7 +305,7 @@ fun PrepromptCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                
+
                 if (preprompt.isDefault) {
                     Spacer(modifier = Modifier.height(12.dp))
                     AssistChip(
@@ -390,7 +387,7 @@ fun AddPrepromptDialog(
 ) {
     // Trigger validation - check if it starts with a valid symbol
     val validSymbols = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?"
-    
+
     // More flexible validation
     val isTriggerValid = when {
         trigger.isEmpty() -> false
@@ -403,7 +400,7 @@ fun AddPrepromptDialog(
             afterSymbol.matches(Regex("\\w+"))
         }
     }
-    
+
     val triggerError = when {
         trigger.isEmpty() -> null // Don't show error for empty
         trigger.length == 1 && validSymbols.contains(trigger.first()) -> null // Just typed symbol
@@ -412,7 +409,7 @@ fun AddPrepromptDialog(
         !trigger.substring(1).matches(Regex("\\w+")) -> "After symbol, only letters/numbers allowed"
         else -> null
     }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -446,9 +443,9 @@ fun AddPrepromptDialog(
                         }
                     }
                 )
-                
+
                 Spacer(modifier = Modifier.height(12.dp))
-                
+
                 OutlinedTextField(
                     value = instruction,
                     onValueChange = onInstructionChange,
@@ -457,9 +454,9 @@ fun AddPrepromptDialog(
                     minLines = 3,
                     maxLines = 5
                 )
-                
+
                 Spacer(modifier = Modifier.height(12.dp))
-                
+
                 OutlinedTextField(
                     value = example,
                     onValueChange = onExampleChange,
@@ -467,9 +464,9 @@ fun AddPrepromptDialog(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
-                
+
                 Spacer(modifier = Modifier.height(8.dp))
-                
+
                 Text(
                     text = "Example: When you type 'Hello world${trigger}', it becomes '$instruction Hello world'",
                     fontSize = 12.sp,

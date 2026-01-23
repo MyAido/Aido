@@ -10,60 +10,46 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.rr.aido.data.models.UserProfile
 import kotlinx.coroutines.tasks.await
 
-/**
- * Firebase-based authentication manager for marketplace
- * Handles user sign in, sign up, and profile management
- */
 class AuthManager(context: Context) {
-    
+
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    /**
-     * Check if user is authenticated
-     */
+
     fun isAuthenticated(): Boolean {
         return auth.currentUser != null
     }
 
-    /**
-     * Get current user ID
-     */
+
     fun getUserId(): String? {
         return auth.currentUser?.uid
     }
 
-    /**
-     * Get current username
-     */
+
     fun getUsername(): String? {
         return auth.currentUser?.displayName ?: prefs.getString(KEY_USERNAME, null)
     }
 
-    /**
-     * Get current user email
-     */
+
     fun getUserEmail(): String? {
         return auth.currentUser?.email
     }
 
-    /**
-     * Sign in with email/password using Firebase Auth
-     */
+
     suspend fun signIn(email: String, password: String): Result<AuthUser> {
         return try {
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
             val firebaseUser = authResult.user
                 ?: return Result.failure(Exception("Authentication failed"))
-            
+
             val user = AuthUser(
                 userId = firebaseUser.uid,
                 username = firebaseUser.displayName ?: email.substringBefore("@"),
                 email = firebaseUser.email ?: email,
                 isGuest = false
             )
-            
+
             saveUserLocally(user)
             Log.d(TAG, "User signed in: ${user.username}")
             Result.success(user)
@@ -73,22 +59,20 @@ class AuthManager(context: Context) {
         }
     }
 
-    /**
-     * Sign up with email/password using Firebase Auth
-     */
+
     suspend fun signUp(username: String, email: String, password: String): Result<AuthUser> {
         return try {
             // Create Firebase user
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = authResult.user
                 ?: return Result.failure(Exception("User creation failed"))
-            
+
             // Update display name
             val profileUpdates = UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build()
             firebaseUser.updateProfile(profileUpdates).await()
-            
+
             // Create Firestore user profile
             val userProfile = UserProfile(
                 userId = firebaseUser.uid,
@@ -100,14 +84,14 @@ class AuthManager(context: Context) {
                 .document(firebaseUser.uid)
                 .set(userProfile)
                 .await()
-            
+
             val user = AuthUser(
                 userId = firebaseUser.uid,
                 username = username,
                 email = email,
                 isGuest = false
             )
-            
+
             saveUserLocally(user)
             Log.d(TAG, "User registered: $username")
             Result.success(user)
@@ -117,22 +101,20 @@ class AuthManager(context: Context) {
         }
     }
 
-    /**
-     * Sign in anonymously as guest
-     */
+
     suspend fun signInAsGuest(): Result<AuthUser> {
         return try {
             val authResult = auth.signInAnonymously().await()
             val firebaseUser = authResult.user
                 ?: return Result.failure(Exception("Anonymous sign in failed"))
-            
+
             val user = AuthUser(
                 userId = firebaseUser.uid,
                 username = "Guest",
                 email = "",
                 isGuest = true
             )
-            
+
             saveUserLocally(user)
             Log.d(TAG, "Guest user created")
             Result.success(user)
@@ -142,21 +124,17 @@ class AuthManager(context: Context) {
         }
     }
 
-    /**
-     * Sign out current user
-     */
+
     fun signOut() {
         auth.signOut()
         prefs.edit().clear().apply()
         Log.d(TAG, "User signed out")
     }
 
-    /**
-     * Get current authenticated user
-     */
+
     fun getCurrentUser(): AuthUser? {
         val firebaseUser = auth.currentUser ?: return null
-        
+
         return AuthUser(
             userId = firebaseUser.uid,
             username = firebaseUser.displayName ?: prefs.getString(KEY_USERNAME, null) ?: "User",
@@ -165,21 +143,17 @@ class AuthManager(context: Context) {
         )
     }
 
-    /**
-     * Get Firebase user directly
-     */
+
     fun getFirebaseUser(): FirebaseUser? {
         return auth.currentUser
     }
 
-    /**
-     * Update user profile
-     */
+
     suspend fun updateProfile(username: String? = null, email: String? = null): Result<Boolean> {
         return try {
             val firebaseUser = auth.currentUser
                 ?: return Result.failure(Exception("User not authenticated"))
-            
+
             // Update Firebase Auth profile
             if (username != null) {
                 val profileUpdates = UserProfileChangeRequest.Builder()
@@ -188,24 +162,24 @@ class AuthManager(context: Context) {
                 firebaseUser.updateProfile(profileUpdates).await()
                 prefs.edit().putString(KEY_USERNAME, username).apply()
             }
-            
+
             // Update email if provided
             if (email != null && email != firebaseUser.email) {
                 firebaseUser.updateEmail(email).await()
             }
-            
+
             // Update Firestore profile
             val updates = mutableMapOf<String, Any>()
             username?.let { updates["username"] = it }
             email?.let { updates["email"] = it }
-            
+
             if (updates.isNotEmpty()) {
                 firestore.collection("users")
                     .document(firebaseUser.uid)
                     .update(updates)
                     .await()
             }
-            
+
             Log.d(TAG, "Profile updated")
             Result.success(true)
         } catch (e: Exception) {
@@ -214,9 +188,7 @@ class AuthManager(context: Context) {
         }
     }
 
-    /**
-     * Reset password via email
-     */
+
     suspend fun resetPassword(email: String): Result<Boolean> {
         return try {
             auth.sendPasswordResetEmail(email).await()
@@ -247,9 +219,6 @@ class AuthManager(context: Context) {
     }
 }
 
-/**
- * User authentication data class
- */
 data class AuthUser(
     val userId: String,
     val username: String,

@@ -77,7 +77,7 @@ fun MarketplaceScreen(
                             Icon(Icons.Default.AccountCircle, "Anonymous")
                         }
                     }
-                    
+
                     IconButton(onClick = { viewModel.syncPreprompts() }) {
                         Icon(Icons.Default.Refresh, "Sync")
                     }
@@ -120,7 +120,7 @@ fun MarketplaceScreen(
         AccountDialog(
             currentUser = currentUser,
             onDismiss = { showAccountMenu = false },
-            onSignIn = { 
+            onSignIn = {
                 showAccountMenu = false
                 showSignInDialog = true
             },
@@ -130,7 +130,7 @@ fun MarketplaceScreen(
             }
         )
     }
-    
+
     // Sign-In Dialog
     if (showSignInDialog) {
         SignInDialog(
@@ -185,14 +185,14 @@ fun BrowseTab(uiState: MarketplaceUiState, viewModel: MarketplaceViewModel) {
                 horizontalArrangement = Arrangement.End
             ) {
                 var showFilterDialog by remember { mutableStateOf(false) }
-                
+
                 IconButton(onClick = { showFilterDialog = true }) {
                     Icon(Icons.Default.MoreVert, "Filter")
                 }
                 IconButton(onClick = { showSearchBar = true }) {
                     Icon(Icons.Default.Search, "Search")
                 }
-                
+
                 if (showFilterDialog) {
                     FilterDialog(
                         currentFilter = uiState.filter ?: MarketplaceFilter(),
@@ -384,7 +384,7 @@ fun FavoritesTab(uiState: MarketplaceUiState, viewModel: MarketplaceViewModel) {
     // Combine Firebase favorites and anonymous favorites
     val allPreprompts = (uiState.featuredPreprompts + uiState.searchResults + uiState.favoritePreprompts).distinctBy { it.id }
     val favoritedItems = allPreprompts.filter { uiState.favoritePrepromptIds.contains(it.id) }
-    
+
     if (favoritedItems.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -454,7 +454,7 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-                
+
                 if (isOwner) {
                     IconButton(
                         onClick = { showEditDialog = true },
@@ -471,7 +471,7 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
             }
 
             Spacer(Modifier.height(12.dp))
-            
+
             // Title
             Text(
                 preprompt.title.ifBlank { preprompt.trigger },
@@ -481,9 +481,9 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
-            
+
             Spacer(Modifier.height(8.dp))
-            
+
             // Trigger
             Text(
                 preprompt.trigger,
@@ -493,7 +493,7 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
             )
 
             Spacer(Modifier.height(8.dp))
-            
+
             // Description
             Text(
                 preprompt.description.ifBlank { preprompt.instruction.take(100) + if (preprompt.instruction.length > 100) "..." else "" },
@@ -505,14 +505,14 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
             )
 
             Spacer(Modifier.height(12.dp))
-            
+
             androidx.compose.material3.HorizontalDivider(
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
-            
+
             Spacer(Modifier.height(12.dp))
-            
+
             // Author and Stats
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -524,7 +524,7 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                
+
                 Text(
                     "${preprompt.downloads} installs",
                     style = MaterialTheme.typography.bodySmall,
@@ -558,19 +558,19 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
                             Text("Install")
                         }
                     }
-                    
+
                     Spacer(Modifier.width(8.dp))
-                    
+
                     var showDetailsDialog by remember { mutableStateOf(false) }
                     OutlinedButton(onClick = { showDetailsDialog = true }) {
                         Text("Details")
                     }
-                    
+
                     if (showDetailsDialog) {
                         PrepromptDetailsDialog(
                             preprompt = preprompt,
                             onDismiss = { showDetailsDialog = false },
-                            onInstall = { 
+                            onInstall = {
                                 viewModel.installPreprompt(preprompt)
                                 showDetailsDialog = false
                             }
@@ -603,7 +603,7 @@ fun PrepromptCard(preprompt: SharedPreprompt, viewModel: MarketplaceViewModel) {
             }
         }
     }
-    
+
     // Edit Dialog
     if (showEditDialog && isOwner) {
         EditPrepromptDialog(
@@ -796,7 +796,7 @@ fun UploadOptionDialog(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(Modifier.height(16.dp))
-                
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onUploadExisting
@@ -827,9 +827,9 @@ fun UploadOptionDialog(
                         }
                     }
                 }
-                
+
                 Spacer(Modifier.height(12.dp))
-                
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onCreateNew
@@ -907,7 +907,7 @@ fun SelectPrepromptDialog(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(Modifier.height(12.dp))
-                    
+
                     localPreprompts.forEach { preprompt ->
                         Card(
                             modifier = Modifier
@@ -1233,9 +1233,9 @@ fun AccountDialog(
                         }
                     }
                 }
-                
+
                 Spacer(Modifier.height(24.dp))
-                
+
                 if (currentUser?.isAnonymous != false) {
                     Text("Sign in to:", style = MaterialTheme.typography.labelMedium)
                     Spacer(Modifier.height(8.dp))
@@ -1274,7 +1274,7 @@ fun PrepromptDetailsDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { 
+        title = {
             Text(
                 preprompt.title.ifBlank { preprompt.trigger },
                 style = MaterialTheme.typography.titleLarge
@@ -1298,9 +1298,9 @@ fun PrepromptDetailsDialog(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-                
+
                 Spacer(Modifier.height(12.dp))
-                
+
                 // Trigger
                 Text("Trigger:", style = MaterialTheme.typography.labelMedium)
                 Spacer(Modifier.height(4.dp))
@@ -1310,9 +1310,9 @@ fun PrepromptDetailsDialog(
                     color = MaterialTheme.colorScheme.primary,
                     fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
                 )
-                
+
                 Spacer(Modifier.height(12.dp))
-                
+
                 // Instruction
                 Text("Instruction:", style = MaterialTheme.typography.labelMedium)
                 Spacer(Modifier.height(4.dp))
@@ -1320,7 +1320,7 @@ fun PrepromptDetailsDialog(
                     preprompt.instruction,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                
+
                 if (preprompt.example.isNotBlank()) {
                     Spacer(Modifier.height(12.dp))
                     Text("Example:", style = MaterialTheme.typography.labelMedium)
@@ -1337,13 +1337,13 @@ fun PrepromptDetailsDialog(
                         )
                     }
                 }
-                
+
                 Spacer(Modifier.height(12.dp))
-                
+
                 androidx.compose.material3.HorizontalDivider()
-                
+
                 Spacer(Modifier.height(12.dp))
-                
+
                 // Stats
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -1384,7 +1384,7 @@ fun FilterDialog(
 ) {
     var selectedCategory by remember { mutableStateOf(currentFilter.category) }
     var minDownloads by remember { mutableStateOf(currentFilter.minDownloads.toString()) }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Filter Preprompts") },
@@ -1396,7 +1396,7 @@ fun FilterDialog(
             ) {
                 Text("Category", style = MaterialTheme.typography.labelMedium)
                 Spacer(Modifier.height(8.dp))
-                
+
                 // Category chips
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
@@ -1416,14 +1416,14 @@ fun FilterDialog(
                         )
                     }
                 }
-                
+
                 Spacer(Modifier.height(16.dp))
-                
+
                 Text("Minimum Downloads", style = MaterialTheme.typography.labelMedium)
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
                     value = minDownloads,
-                    onValueChange = { 
+                    onValueChange = {
                         if (it.isEmpty() || it.toIntOrNull() != null) {
                             minDownloads = it
                         }

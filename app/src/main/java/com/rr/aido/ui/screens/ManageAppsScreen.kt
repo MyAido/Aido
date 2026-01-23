@@ -25,7 +25,7 @@ fun ManageAppsScreen(
     onNavigateBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,7 +60,7 @@ fun ManageAppsScreen(
                 singleLine = true,
                 shape = MaterialTheme.shapes.medium
             )
-            
+
             if (uiState.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
@@ -72,22 +72,22 @@ fun ManageAppsScreen(
                 ) {
                     items(uiState.apps, key = { it.packageName }) { app ->
                         val isDisabled = uiState.disabledApps.contains(app.packageName)
-                        
+
                         ListItem(
-                            headlineContent = { 
+                            headlineContent = {
                                 Text(
                                     text = app.name,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
-                                ) 
+                                )
                             },
-                            supportingContent = { 
+                            supportingContent = {
                                 Text(
                                     text = app.packageName,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     style = MaterialTheme.typography.bodySmall
-                                ) 
+                                )
                             },
                             leadingContent = {
                                 AndroidView(
@@ -115,7 +115,7 @@ fun ManageAppsScreen(
                         )
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                     }
-                    
+
                     if (uiState.apps.isEmpty()) {
                         item {
                             Box(

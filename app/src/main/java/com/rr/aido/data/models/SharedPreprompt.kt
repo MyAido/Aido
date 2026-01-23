@@ -3,68 +3,62 @@ package com.rr.aido.data.models
 import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
-/**
- * Represents a preprompt shared on the marketplace
- * Note: All parameters have default values for Firestore deserialization
- */
 data class SharedPreprompt(
     @SerializedName("id")
     val id: String = "",
-    
+
     @SerializedName("trigger")
     val trigger: String = "",
-    
+
     @SerializedName("instruction")
     val instruction: String = "",
-    
+
     @SerializedName("example")
     val example: String = "",
-    
+
     @SerializedName("category")
     val category: PrepromptCategory = PrepromptCategory.GENERAL,
-    
+
     @SerializedName("authorId")
     val authorId: String = "",
-    
+
     @SerializedName("authorName")
     val authorName: String = "",
-    
+
     @SerializedName("title")
     val title: String = "",
-    
+
     @SerializedName("description")
     val description: String = "",
-    
+
     @SerializedName("tags")
     val tags: List<String> = emptyList(),
-    
+
     @SerializedName("downloads")
     val downloads: Int = 0,
-    
+
     @SerializedName("likes")
     val likes: Int = 0,
-    
+
     @SerializedName("rating")
     val rating: Float = 0f,
-    
+
     @SerializedName("ratingCount")
     val ratingCount: Int = 0,
-    
+
     @SerializedName("createdAt")
     val createdAt: Long = System.currentTimeMillis(),
-    
+
     @SerializedName("updatedAt")
     val updatedAt: Long = System.currentTimeMillis(),
-    
+
     @SerializedName("isFeatured")
     val isFeatured: Boolean = false,
-    
+
     @SerializedName("isVerified")
     val isVerified: Boolean = false
 ) {
-    /**
-     * Convert to local Preprompt for installation
-     */
+
     fun toLocalPreprompt(): Preprompt {
         return Preprompt(
             trigger = trigger,
@@ -72,11 +66,9 @@ data class SharedPreprompt(
             example = example
         )
     }
-    
+
     companion object {
-        /**
-         * Create from local Preprompt for sharing
-         */
+
         fun fromLocalPreprompt(
             preprompt: Preprompt,
             authorId: String,
@@ -101,40 +93,37 @@ data class SharedPreprompt(
     }
 }
 
-/**
- * Categories for organizing preprompts
- */
 enum class PrepromptCategory {
     @SerializedName("general")
     GENERAL,
-    
+
     @SerializedName("writing")
     WRITING,
-    
+
     @SerializedName("communication")
     COMMUNICATION,
-    
+
     @SerializedName("productivity")
     PRODUCTIVITY,
-    
+
     @SerializedName("creative")
     CREATIVE,
-    
+
     @SerializedName("technical")
     TECHNICAL,
-    
+
     @SerializedName("education")
     EDUCATION,
-    
+
     @SerializedName("business")
     BUSINESS,
-    
+
     @SerializedName("social")
     SOCIAL,
-    
+
     @SerializedName("fun")
     FUN;
-    
+
     fun getDisplayName(): String {
         return when (this) {
             GENERAL -> "General"
@@ -151,67 +140,58 @@ enum class PrepromptCategory {
     }
 }
 
-/**
- * User profile for marketplace
- */
 data class UserProfile(
     @SerializedName("userId")
     val userId: String = "",
-    
+
     @SerializedName("username")
     val username: String = "Anonymous",
-    
+
     @SerializedName("email")
     val email: String? = null,
-    
+
     @SerializedName("avatarUrl")
     val avatarUrl: String? = null,
-    
+
     @SerializedName("bio")
     val bio: String = "",
-    
+
     @SerializedName("sharedPrepromptsCount")
     val sharedPrepromptsCount: Int = 0,
-    
+
     @SerializedName("totalDownloads")
     val totalDownloads: Int = 0,
-    
+
     // Additional fields for Firebase Auth
     val uid: String = userId,
     val displayName: String = username,
     val photoUrl: String? = avatarUrl,
     val isAnonymous: Boolean = false,
-    
+
     @SerializedName("joinedAt")
     val joinedAt: Long = System.currentTimeMillis(),
-    
+
     @SerializedName("isVerified")
     val isVerified: Boolean = false
 )
 
-/**
- * User rating for a preprompt
- */
 data class PrepromptRating(
     @SerializedName("userId")
     val userId: String,
-    
+
     @SerializedName("prepromptId")
     val prepromptId: String,
-    
+
     @SerializedName("rating")
     val rating: Float,
-    
+
     @SerializedName("review")
     val review: String = "",
-    
+
     @SerializedName("createdAt")
     val createdAt: Long = System.currentTimeMillis()
 )
 
-/**
- * Sync status for cloud operations
- */
 data class SyncStatus(
     val isSyncing: Boolean = false,
     val lastSyncTime: Long = 0,
@@ -220,9 +200,6 @@ data class SyncStatus(
     val error: String? = null
 )
 
-/**
- * Marketplace filter options
- */
 data class MarketplaceFilter(
     val category: PrepromptCategory? = null,
     val sortBy: SortOption = SortOption.POPULAR,

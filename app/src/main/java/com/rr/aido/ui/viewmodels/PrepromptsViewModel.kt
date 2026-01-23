@@ -13,30 +13,24 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-/**
- * PrepromptsViewModel - Preprompts management ke liye
- * Add, edit, delete preprompts
- */
 class PrepromptsViewModel(application: Application) : AndroidViewModel(application) {
-    
+
     private val dataStoreManager = DataStoreManager(application)
     private val gson = Gson()
-    
+
     // UI State
     private val _uiState = MutableStateFlow(PrepromptsUiState())
     val uiState: StateFlow<PrepromptsUiState> = _uiState.asStateFlow()
-    
+
     // Preprompts flow
     val preprompts = dataStoreManager.prepromptsFlow
-    
-    /**
-     * Show add dialog
-     */
+
+
     fun showAddDialog() {
         // Set flag to disable trigger detection in trigger input field
         val prefs = getApplication<Application>().getSharedPreferences("aido_prefs", Application.MODE_PRIVATE)
         prefs.edit().putBoolean("is_trigger_dialog_open", true).apply()
-        
+
         _uiState.value = _uiState.value.copy(
             showAddDialog = true,
             editingPreprompt = null,
@@ -46,10 +40,8 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
             errorMessage = null
         )
     }
-    
-    /**
-     * Show edit dialog
-     */
+
+
     fun showEditDialog(preprompt: Preprompt) {
         _uiState.value = _uiState.value.copy(
             showAddDialog = true,
@@ -60,15 +52,13 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
             errorMessage = null
         )
     }
-    
-    /**
-     * Hide dialog
-     */
+
+
     fun hideDialog() {
         // Clear flag to re-enable trigger detection
         val prefs = getApplication<Application>().getSharedPreferences("aido_prefs", Application.MODE_PRIVATE)
         prefs.edit().putBoolean("is_trigger_dialog_open", false).apply()
-        
+
         _uiState.value = _uiState.value.copy(
             showAddDialog = false,
             editingPreprompt = null,
@@ -78,31 +68,27 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
             errorMessage = null
         )
     }
-    
-    /**
-     * Update dialog fields
-     */
+
+
     fun updateDialogTrigger(trigger: String) {
         _uiState.value = _uiState.value.copy(dialogTrigger = trigger)
     }
-    
+
     fun updateDialogInstruction(instruction: String) {
         _uiState.value = _uiState.value.copy(dialogInstruction = instruction)
     }
-    
+
     fun updateDialogExample(example: String) {
         _uiState.value = _uiState.value.copy(dialogExample = example)
     }
-    
-    /**
-     * Save preprompt (add or edit)
-     */
+
+
     fun savePreprompt() {
         viewModelScope.launch {
             val trigger = _uiState.value.dialogTrigger.trim()
             val instruction = _uiState.value.dialogInstruction.trim()
             val example = _uiState.value.dialogExample.trim()
-            
+
             // Validation
             if (trigger.isEmpty()) {
                 _uiState.value = _uiState.value.copy(
@@ -110,7 +96,7 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
                 )
                 return@launch
             }
-            
+
             // Check if trigger starts with a valid symbol
             val validSymbols = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?"
             if (trigger.length < 2 || !validSymbols.contains(trigger.first())) {
@@ -119,7 +105,7 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
                 )
                 return@launch
             }
-            
+
             // Check if after symbol there are only word characters
             val afterSymbol = trigger.substring(1)
             if (!afterSymbol.matches(Regex("\\w+"))) {
@@ -128,17 +114,17 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
                 )
                 return@launch
             }
-            
+
             if (instruction.isEmpty()) {
                 _uiState.value = _uiState.value.copy(
                     errorMessage = "Instruction cannot be empty"
                 )
                 return@launch
             }
-            
+
             val currentPreprompts = preprompts.first()
             val editingPreprompt = _uiState.value.editingPreprompt
-            
+
             // Check for duplicate trigger (only when adding new or changing trigger)
             if (editingPreprompt == null || editingPreprompt.trigger != trigger) {
                 val exists = currentPreprompts.any { it.trigger == trigger }
@@ -149,14 +135,14 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
                     return@launch
                 }
             }
-            
+
             val newPreprompt = Preprompt(
                 trigger = trigger,
                 instruction = instruction,
                 example = example,
                 isDefault = editingPreprompt?.isDefault ?: false
             )
-            
+
             if (editingPreprompt != null) {
                 // Update existing
                 dataStoreManager.updatePreprompt(
@@ -171,14 +157,12 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
                     currentList = currentPreprompts
                 )
             }
-            
+
             hideDialog()
         }
     }
-    
-    /**
-     * Delete preprompt
-     */
+
+
     fun deletePreprompt(preprompt: Preprompt) {
         viewModelScope.launch {
             val currentPreprompts = preprompts.first()
@@ -189,9 +173,7 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    /**
-     * Reorder preprompts
-     */
+
     fun reorderPreprompts(fromIndex: Int, toIndex: Int) {
         viewModelScope.launch {
             val currentPreprompts = preprompts.first()
@@ -202,34 +184,26 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
             )
         }
     }
-    
-    /**
-     * Reset to default preprompts
-     */
+
+
     fun resetToDefaults() {
         viewModelScope.launch {
             dataStoreManager.resetToDefaultPreprompts()
         }
     }
-    
-    /**
-     * Clear error message
-     */
+
+
     fun clearError() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
 
-    /**
-     * Generate JSON string of current preprompts for export.
-     */
+
     suspend fun generatePrepromptsJson(): String {
         val currentPreprompts = preprompts.first()
         return gson.toJson(currentPreprompts)
     }
 
-    /**
-     * Import preprompts from JSON. Returns error message if validation fails, otherwise null.
-     */
+
     suspend fun importPrepromptsFromJson(json: String): String? {
         return try {
             val type = object : TypeToken<List<Preprompt>>() {}.type
@@ -278,9 +252,6 @@ class PrepromptsViewModel(application: Application) : AndroidViewModel(applicati
     }
 }
 
-/**
- * UI State for Preprompts screen
- */
 data class PrepromptsUiState(
     val showAddDialog: Boolean = false,
     val editingPreprompt: Preprompt? = null,

@@ -7,51 +7,48 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-/**
- * Manages clipboard operations for the keyboard
- */
 class KeyboardClipboardManager(private val context: Context) {
-    
+
     private val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     private val clipboardHistory = mutableListOf<ClipboardItem>()
     private val _historyFlow = kotlinx.coroutines.flow.MutableStateFlow<List<ClipboardItem>>(emptyList())
     val historyFlow: kotlinx.coroutines.flow.StateFlow<List<ClipboardItem>> = _historyFlow
-    
+
     // Persistent storage
     private val prefs = context.getSharedPreferences("clipboard_history", Context.MODE_PRIVATE)
     private val gson = Gson()
-    
+
     private val maxHistorySize = 100 // Increased from 20 to 100
     private var lastClipText: String? = null
     private var lastClipTime: Long = 0
     private val debounceDelayMs = 500L // Ignore duplicates within 500ms
-    
+
     data class ClipboardItem(
         val text: String,
         val timestamp: Long = System.currentTimeMillis()
     )
-    
+
     companion object {
         private const val TAG = "ClipboardManager"
     }
-    
+
     private val clipboardListener = ClipboardManager.OnPrimaryClipChangedListener {
         Log.d(TAG, "Clipboard changed detected")
         saveCurrentClipToHistory()
     }
-    
+
     init {
         // Load saved clipboard history from persistent storage
         loadHistoryFromPreferences()
         Log.d(TAG, "Loaded ${clipboardHistory.size} items from persistent storage")
-        
+
         // Add current clipboard item if exists and not already in history
         getCurrentClip()?.let { text ->
             if (text.isNotBlank()) {
                 addToHistory(text)
             }
         }
-        
+
         // Listen for clipboard changes
         try {
             clipboardManager.addPrimaryClipChangedListener(clipboardListener)
@@ -60,10 +57,8 @@ class KeyboardClipboardManager(private val context: Context) {
             Log.e(TAG, "Error setting up clipboard listener", e)
         }
     }
-    
-    /**
-     * Get current clipboard text
-     */
+
+
     fun getCurrentClip(): String? {
         return try {
             val clip = clipboardManager.primaryClip
@@ -78,10 +73,8 @@ class KeyboardClipboardManager(private val context: Context) {
             null
         }
     }
-    
-    /**
-     * Copy text to clipboard
-     */
+
+
     fun copyToClipboard(text: String) {
         try {
             val clip = ClipData.newPlainText("Aido Keyboard", text)
@@ -90,66 +83,60 @@ class KeyboardClipboardManager(private val context: Context) {
             Log.e(TAG, "Error copying to clipboard", e)
         }
     }
-    
-    /**
-     * Save current clipboard to history
-     */
+
+
     private fun saveCurrentClipToHistory() {
         val text = getCurrentClip()
         val currentTime = System.currentTimeMillis()
-        
+
         Log.d(TAG, "saveCurrentClipToHistory called, text: ${text?.take(30)}")
-        
+
         if (!text.isNullOrBlank() && text.length <= 500) {
             // Debounce: ignore if same text within 500ms
             if (text == lastClipText && (currentTime - lastClipTime) < debounceDelayMs) {
                 Log.d(TAG, "Debounced: same clip within ${currentTime - lastClipTime}ms")
                 return
             }
-            
+
             lastClipText = text
             lastClipTime = currentTime
             addToHistory(text)
         }
     }
-    
-    /**
-     * Manually add text to history
-     */
+
+
     fun addToHistory(text: String) {
         if (text.isBlank()) return
-        
+
         // Check if already exists at position 0 (most recent)
         if (clipboardHistory.isNotEmpty() && clipboardHistory[0].text == text) {
             Log.d(TAG, "Already at top of history, skipping")
             return
         }
-        
+
         // Remove old occurrence if exists elsewhere in history
         val removed = clipboardHistory.removeAll { it.text == text }
         if (removed) {
             Log.d(TAG, "Removed old occurrence from history")
         }
-        
+
         // Add to top
         clipboardHistory.add(0, ClipboardItem(text))
         lastClipText = text
-        
+
         // Keep only max items
         if (clipboardHistory.size > maxHistorySize) {
             clipboardHistory.removeAt(clipboardHistory.size - 1)
         }
-        
+
         Log.d(TAG, "Added to clipboard history (${clipboardHistory.size} total items): ${text.take(50)}")
         _historyFlow.value = clipboardHistory.toList()
-        
+
         // Save to persistent storage
         saveHistoryToPreferences()
     }
-    
-    /**
-     * Refresh clipboard history with current clipboard
-     */
+
+
     fun refreshFromSystemClipboard() {
         val currentText = getCurrentClip()
         Log.d(TAG, "Manual refresh, current clipboard: ${currentText?.take(30)}")
@@ -157,17 +144,13 @@ class KeyboardClipboardManager(private val context: Context) {
             addToHistory(currentText)
         }
     }
-    
-    /**
-     * Get clipboard history
-     */
+
+
     fun getHistory(): List<ClipboardItem> {
         return clipboardHistory.toList()
     }
-    
-    /**
-     * Clear clipboard history
-     */
+
+
     fun clearHistory() {
         clipboardHistory.clear()
         lastClipText = null
@@ -175,10 +158,8 @@ class KeyboardClipboardManager(private val context: Context) {
         saveHistoryToPreferences() // Persist the clear operation
         Log.d(TAG, "Clipboard history cleared")
     }
-    
-    /**
-     * Delete specific item from history
-     */
+
+
     fun deleteFromHistory(index: Int) {
         if (index in clipboardHistory.indices) {
             clipboardHistory.removeAt(index)
@@ -187,10 +168,8 @@ class KeyboardClipboardManager(private val context: Context) {
             Log.d(TAG, "Deleted item at index $index")
         }
     }
-    
-    /**
-     * Save clipboard history to persistent storage
-     */
+
+
     private fun saveHistoryToPreferences() {
         try {
             val json = gson.toJson(clipboardHistory)
@@ -200,10 +179,8 @@ class KeyboardClipboardManager(private val context: Context) {
             Log.e(TAG, "Error saving clipboard history", e)
         }
     }
-    
-    /**
-     * Load clipboard history from persistent storage
-     */
+
+
     private fun loadHistoryFromPreferences() {
         try {
             val json = prefs.getString("history", null)
@@ -223,10 +200,8 @@ class KeyboardClipboardManager(private val context: Context) {
             clipboardHistory.clear()
         }
     }
-    
-    /**
-     * Cleanup listener
-     */
+
+
     fun cleanup() {
         try {
             clipboardManager.removePrimaryClipChangedListener(clipboardListener)

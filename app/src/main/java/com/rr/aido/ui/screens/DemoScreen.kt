@@ -14,9 +14,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rr.aido.ui.viewmodels.MainViewModel
 
-/**
- * Demo Screen - Test Aido functionality
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DemoScreen(
@@ -25,9 +22,9 @@ fun DemoScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val settings by viewModel.settings.collectAsState(initial = com.rr.aido.data.models.Settings())
-    
+
     var inputText by remember { mutableStateOf("") }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -52,17 +49,17 @@ fun DemoScreen(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 text = "Type your text and add a trigger at the end (e.g., @fixg, @aido)",
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             // Input Section
             Card(
                 modifier = Modifier.fillMaxWidth()
@@ -75,9 +72,9 @@ fun DemoScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
-                    
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    
+
                     OutlinedTextField(
                         value = inputText,
                         onValueChange = { inputText = it },
@@ -86,9 +83,9 @@ fun DemoScreen(
                         minLines = 3,
                         maxLines = 5
                     )
-                    
+
                     Spacer(modifier = Modifier.height(12.dp))
-                    
+
                     Button(
                         onClick = {
                             viewModel.processDemoInput(inputText)
@@ -109,10 +106,10 @@ fun DemoScreen(
                     }
                 }
             }
-            
+
             // Examples
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -134,17 +131,17 @@ fun DemoScreen(
                     ExampleText("Long text here@summ")
                 }
             }
-            
+
             // Output Section
             if (uiState.demoOutput.isNotEmpty() || uiState.errorMessage != null) {
                 Spacer(modifier = Modifier.height(24.dp))
-                
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = if (uiState.errorMessage != null) 
-                            MaterialTheme.colorScheme.errorContainer 
-                        else 
+                        containerColor = if (uiState.errorMessage != null)
+                            MaterialTheme.colorScheme.errorContainer
+                        else
                             MaterialTheme.colorScheme.primaryContainer
                     )
                 ) {
@@ -160,7 +157,7 @@ fun DemoScreen(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
                             )
-                            
+
                             if (uiState.parsedTrigger != null) {
                                 Text(
                                     text = "Trigger: ${uiState.parsedTrigger}",
@@ -170,16 +167,16 @@ fun DemoScreen(
                                 )
                             }
                         }
-                        
+
                         Spacer(modifier = Modifier.height(12.dp))
-                        
+
                         Text(
                             text = uiState.errorMessage ?: uiState.demoOutput,
                             fontSize = 14.sp
                         )
-                        
+
                         Spacer(modifier = Modifier.height(12.dp))
-                        
+
                         TextButton(
                             onClick = {
                                 viewModel.clearDemo()
@@ -191,11 +188,11 @@ fun DemoScreen(
                     }
                 }
             }
-            
+
             // API Key Warning
             if (settings.apiKey.isEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
-                
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(

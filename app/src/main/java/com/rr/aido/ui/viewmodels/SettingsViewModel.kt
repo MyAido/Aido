@@ -14,26 +14,22 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-/**
- * SettingsViewModel - Settings screen ke liye
- * API key, model selection handle karta hai
- */
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    
+
     val dataStoreManager = DataStoreManager(application)
     private val geminiRepository = GeminiRepositoryImpl()
-    
+
     // UI State
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
-    
+
     // Settings flow
     val settings = dataStoreManager.settingsFlow
-    
+
     init {
         loadSettings()
     }
-    
+
     private fun loadSettings() {
         viewModelScope.launch {
             settings.collect { currentSettings ->
@@ -71,10 +67,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-    
-    /**
-     * Update API key
-     */
+
+
     fun updateApiKey(apiKey: String) {
         _uiState.value = _uiState.value.copy(
             apiKey = apiKey,
@@ -82,10 +76,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             errorMessage = null
         )
     }
-    
-    /**
-     * Update selected model
-     */
+
+
     fun updateSelectedModel(model: String) {
         _uiState.value = _uiState.value.copy(selectedModel = model, testResult = null)
         viewModelScope.launch {
@@ -93,9 +85,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Select provider
-     */
+
     fun updateProvider(provider: AiProvider) {
         _uiState.value = _uiState.value.copy(
             provider = provider,
@@ -107,10 +97,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             dataStoreManager.saveProvider(provider)
         }
     }
-    
-    /**
-     * Test and save API key
-     */
+
+
     fun testAndSaveApiKey() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
@@ -118,24 +106,22 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 testResult = null,
                 errorMessage = null
             )
-            
+
             try {
                 val currentProvider = _uiState.value.provider
-
-
 
                 val apiKeyToTest = if (currentProvider == AiProvider.CUSTOM) {
                     _uiState.value.customApiKey
                 } else {
                     _uiState.value.apiKey
                 }
-                
+
                 val result = geminiRepository.testApiKey(
                     provider = currentProvider,
                     apiKey = apiKeyToTest,
                     model = _uiState.value.selectedModel
                 )
-                
+
                 when (result) {
                     is Result.Success -> {
                         if (result.data) {
@@ -143,7 +129,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                             dataStoreManager.saveProvider(currentProvider)
                             dataStoreManager.saveApiKey(_uiState.value.apiKey)
                             dataStoreManager.saveSelectedModel(_uiState.value.selectedModel)
-                            
+
                             _uiState.value = _uiState.value.copy(
                                 isTesting = false,
                                 testResult = "API Key is valid and saved successfully! ✅"
@@ -163,7 +149,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     }
                     else -> {}
                 }
-                
+
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isTesting = false,
@@ -172,20 +158,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-    
-    /**
-     * Toggle service on/off
-     */
+
+
     fun toggleService(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.toggleService(enabled)
             _uiState.value = _uiState.value.copy(isServiceEnabled = enabled)
         }
     }
-    
-    /**
-     * Toggle offline mode
-     */
+
+
     fun toggleOfflineMode(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveOfflineMode(enabled)
@@ -193,9 +175,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Toggle Smart Reply
-     */
+
     fun toggleSmartReply(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveSmartReplyEnabled(enabled)
@@ -203,9 +183,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Toggle Tone Rewrite
-     */
+
     fun toggleToneRewrite(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveToneRewriteEnabled(enabled)
@@ -213,9 +191,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Toggle @all Trigger
-     */
+
     fun toggleAllTrigger(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveAllTriggerEnabled(enabled)
@@ -223,9 +199,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Toggle @search Trigger
-     */
+
     fun toggleSearchTrigger(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveSearchTriggerEnabled(enabled)
@@ -233,9 +207,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update @search Trigger
-     */
+
     fun updateSearchTrigger(trigger: String) {
         viewModelScope.launch {
             dataStoreManager.saveSearchTrigger(trigger)
@@ -257,9 +229,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update Smart Reply Prompt
-     */
+
     fun updateSmartReplyPrompt(prompt: String) {
         viewModelScope.launch {
             dataStoreManager.saveSmartReplyPrompt(prompt)
@@ -267,9 +237,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update Tone Rewrite Prompt
-     */
+
     fun updateToneRewritePrompt(prompt: String) {
         viewModelScope.launch {
             dataStoreManager.saveToneRewritePrompt(prompt)
@@ -277,9 +245,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update Smart Reply Trigger
-     */
+
     fun updateSmartReplyTrigger(trigger: String) {
         viewModelScope.launch {
             dataStoreManager.saveSmartReplyTrigger(trigger)
@@ -287,9 +253,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update Tone Rewrite Trigger
-     */
+
     fun updateToneRewriteTrigger(trigger: String) {
         viewModelScope.launch {
             dataStoreManager.saveToneRewriteTrigger(trigger)
@@ -297,9 +261,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Export Backup
-     */
+
     fun exportBackup(onComplete: (String) -> Unit) {
         viewModelScope.launch {
             try {
@@ -309,7 +271,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 // Let's fetch fresh to be safe
                 val freshSettings = settings.first()
                 val preprompts = dataStoreManager.prepromptsFlow.first()
-                
+
                 val json = dataStoreManager.exportBackup(freshSettings, preprompts)
                 onComplete(json)
             } catch (e: Exception) {
@@ -318,9 +280,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Import Backup
-     */
+
     fun importBackup(json: String, onComplete: (String?) -> Unit) {
         viewModelScope.launch {
             try {
@@ -331,47 +291,37 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-    
-    /**
-     * Update trigger method
-     */
+
+
     fun updateTriggerMethod(method: com.rr.aido.data.models.TriggerMethod) {
         viewModelScope.launch {
             dataStoreManager.saveTriggerMethod(method)
         }
     }
 
-    /**
-     * Update theme mode
-     */
+
     fun updateThemeMode(mode: com.rr.aido.data.models.ThemeMode) {
         viewModelScope.launch {
             dataStoreManager.saveThemeMode(mode)
             _uiState.value = _uiState.value.copy(themeMode = mode)
         }
     }
-    
-    /**
-     * Update haptic feedback preference
-     */
+
+
     fun updateHapticFeedback(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveHapticFeedback(enabled)
         }
     }
-    
-    /**
-     * Update app shortcuts display preference
-     */
+
+
     fun updateShowAppShortcuts(show: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveShowAppShortcuts(show)
         }
     }
 
-    /**
-     * Toggle Processing Animation
-     */
+
     fun toggleProcessingAnimation(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveProcessingAnimationEnabled(enabled)
@@ -379,9 +329,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update Processing Animation Type
-     */
+
     fun updateProcessingAnimationType(type: com.rr.aido.data.models.ProcessingAnimationType) {
         viewModelScope.launch {
             dataStoreManager.saveProcessingAnimationType(type)
@@ -389,9 +337,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Toggle Undo/Redo
-     */
+
     fun toggleUndoRedo(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveUndoRedoEnabled(enabled)
@@ -399,9 +345,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Toggle Text Selection Menu
-     */
+
     fun toggleTextSelectionMenu(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveTextSelectionMenuEnabled(enabled)
@@ -409,9 +353,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update Text Selection Menu Style
-     */
+
     fun updateTextSelectionMenuStyle(style: com.rr.aido.data.models.SelectionMenuStyle) {
         viewModelScope.launch {
             dataStoreManager.saveTextSelectionMenuStyle(style)
@@ -419,49 +361,39 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update @all Menu Order
-     */
+
     fun updateAllMenuOrder(order: List<String>) {
         viewModelScope.launch {
             dataStoreManager.saveAllMenuOrder(order)
             _uiState.value = _uiState.value.copy(allMenuOrder = order)
         }
     }
-    
-    /**
-     * Toggle App Toggle Feature
-     */
+
+
     fun toggleAppToggleEnabled(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveAppToggleEnabled(enabled)
             _uiState.value = _uiState.value.copy(isAppToggleEnabled = enabled)
         }
     }
-    
-    /**
-     * Toggle Streaming Mode
-     */
+
+
     fun toggleStreamingMode(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveStreamingModeEnabled(enabled)
             _uiState.value = _uiState.value.copy(isStreamingModeEnabled = enabled)
         }
     }
-    
-    /**
-     * Update Streaming Delay
-     */
+
+
     fun updateStreamingDelay(delayMs: Int) {
         viewModelScope.launch {
             dataStoreManager.saveStreamingDelayMs(delayMs)
             _uiState.value = _uiState.value.copy(streamingDelayMs = delayMs)
         }
     }
-    
-    /**
-     * Update custom API URL
-     */
+
+
     fun updateCustomApiUrl(url: String) {
         _uiState.value = _uiState.value.copy(customApiUrl = url)
         viewModelScope.launch {
@@ -469,9 +401,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update custom API key
-     */
+
     fun updateCustomApiKey(key: String) {
         _uiState.value = _uiState.value.copy(customApiKey = key)
         viewModelScope.launch {
@@ -479,19 +409,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Update custom model name
-     */
+
     fun updateCustomModelName(model: String) {
         _uiState.value = _uiState.value.copy(customModelName = model)
         viewModelScope.launch {
             dataStoreManager.saveCustomModelName(model)
         }
     }
-    
-    /**
-     * Clear test result
-     */
+
+
     fun clearTestResult() {
         _uiState.value = _uiState.value.copy(
             testResult = null,
@@ -499,9 +425,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         )
     }
 
-    /**
-     * Toggle section expansion
-     */
+
     fun toggleSection(sectionTitle: String, isExpanded: Boolean) {
         val currentExpanded = _uiState.value.expandedSections.toMutableMap()
         currentExpanded[sectionTitle] = isExpanded
@@ -509,9 +433,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 }
 
-/**
- * UI State for Settings screen
- */
 data class SettingsUiState(
     val provider: AiProvider = AiProvider.GEMINI,
     val apiKey: String = "",

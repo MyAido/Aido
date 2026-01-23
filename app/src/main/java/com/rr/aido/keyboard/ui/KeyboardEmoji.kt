@@ -32,13 +32,13 @@ fun KeyboardEmoji(
     val backgroundColor = if (isDark) Color(0xFF1F1F1F) else Color(0xFFF2F2F2)
     val textColor = if (isDark) Color.White else Color.Black
     val tabSelectedColor = if (isDark) Color(0xFF3C3C3E) else Color.LightGray
-    
+
     var selectedCategoryIndex by remember { mutableStateOf(0) }
     val categories = listOf(
-        "Smileys", "Gestures", "Hearts", "Animals", "Food", 
+        "Smileys", "Gestures", "Hearts", "Animals", "Food",
         "Sports", "Travel", "Objects", "Symbols"
     )
-    
+
     val currentEmojis = remember(selectedCategoryIndex) {
         when(categories[selectedCategoryIndex]) {
             "Smileys" -> EmojiData.SMILEYS_PEOPLE
@@ -77,7 +77,7 @@ fun KeyboardEmoji(
                      tint = textColor
                 )
             }
-            
+
             ScrollableTabRow(
                 selectedTabIndex = selectedCategoryIndex,
                 edgePadding = 0.dp,
@@ -90,7 +90,7 @@ fun KeyboardEmoji(
                     Tab(
                         selected = selectedCategoryIndex == index,
                         onClick = { selectedCategoryIndex = index },
-                        text = { 
+                        text = {
                             Text(
                                 text = title,
                                 color = if(selectedCategoryIndex == index) textColor else textColor.copy(alpha = 0.6f),

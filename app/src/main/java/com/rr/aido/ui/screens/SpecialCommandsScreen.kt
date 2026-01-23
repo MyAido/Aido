@@ -35,10 +35,10 @@ fun SpecialCommandsScreen(
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    
+
     var showSmartReplyEditDialog by remember { mutableStateOf(false) }
     var showToneRewriteEditDialog by remember { mutableStateOf(false) }
-    
+
     if (showSmartReplyEditDialog) {
         DisposableEffect(Unit) {
             com.rr.aido.service.AidoAccessibilityService.isPaused = true
@@ -52,13 +52,13 @@ fun SpecialCommandsScreen(
             currentPrompt = uiState.smartReplyPrompt,
             defaultPrompt = PromptParser.DEFAULT_SMART_REPLY_INSTRUCTIONS,
             onDismiss = { showSmartReplyEditDialog = false },
-            onSave = { trigger, prompt -> 
+            onSave = { trigger, prompt ->
                 viewModel.updateSmartReplyTrigger(trigger)
                 viewModel.updateSmartReplyPrompt(prompt)
             }
         )
     }
-    
+
     if (showToneRewriteEditDialog) {
         DisposableEffect(Unit) {
             com.rr.aido.service.AidoAccessibilityService.isPaused = true
@@ -72,7 +72,7 @@ fun SpecialCommandsScreen(
             currentPrompt = uiState.toneRewritePrompt,
             defaultPrompt = PromptParser.DEFAULT_TONE_REWRITE_INSTRUCTIONS,
             onDismiss = { showToneRewriteEditDialog = false },
-            onSave = { trigger, prompt -> 
+            onSave = { trigger, prompt ->
                 viewModel.updateToneRewriteTrigger(trigger)
                 viewModel.updateToneRewritePrompt(prompt)
             }
@@ -118,10 +118,10 @@ fun SpecialCommandsScreen(
                             }
                         }
                     )
-                    
+
                     if (uiState.isSmartReplyEnabled) {
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         Button(
                             onClick = { showSmartReplyEditDialog = true },
                             modifier = Modifier.fillMaxWidth()
@@ -133,7 +133,7 @@ fun SpecialCommandsScreen(
                     }
                 }
             }
-            
+
             // Tone Rewrite Section
             item {
                 SettingsSection(title = "Tone Rewrite (${uiState.toneRewriteTrigger})") {
@@ -154,10 +154,10 @@ fun SpecialCommandsScreen(
                             }
                         }
                     )
-                    
+
                     if (uiState.isToneRewriteEnabled) {
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         Button(
                             onClick = { showToneRewriteEditDialog = true },
                             modifier = Modifier.fillMaxWidth()
@@ -169,11 +169,11 @@ fun SpecialCommandsScreen(
                     }
                 }
             }
-            
+
             // @all Trigger Section
             item {
                 var showEditAllMenuDialog by remember { mutableStateOf(false) }
-                
+
                 SettingsSection(title = "All Commands (@all)") {
                     SettingsToggle(
                         title = "Enable @all Trigger",
@@ -192,10 +192,10 @@ fun SpecialCommandsScreen(
                             }
                         }
                     )
-                    
+
                     if (uiState.isAllTriggerEnabled) {
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         Button(
                             onClick = { showEditAllMenuDialog = true },
                             modifier = Modifier.fillMaxWidth()
@@ -204,7 +204,7 @@ fun SpecialCommandsScreen(
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Edit")
                         }
-                        
+
                         if (showEditAllMenuDialog) {
                             EditAllMenuDialog(
                                 currentOrder = uiState.allMenuOrder,
@@ -225,8 +225,7 @@ fun SpecialCommandsScreen(
                     }
                 }
             }
-            
-            
+
             // @search Trigger Section
             item {
                 SettingsSection(title = "Web Search (${uiState.searchTrigger})") {
@@ -247,12 +246,12 @@ fun SpecialCommandsScreen(
                             }
                         }
                     )
-                    
+
                     if (uiState.isSearchTriggerEnabled) {
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         var showEditSearchTriggerDialog by remember { mutableStateOf(false) }
-                        
+
                         Button(
                             onClick = { showEditSearchTriggerDialog = true },
                             modifier = Modifier.fillMaxWidth()
@@ -261,7 +260,7 @@ fun SpecialCommandsScreen(
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Edit")
                         }
-                        
+
                         if (showEditSearchTriggerDialog) {
                             SearchSettingsDialog(
                                 currentTrigger = uiState.searchTrigger,
@@ -279,7 +278,7 @@ fun SpecialCommandsScreen(
                     }
                 }
             }
-            
+
             // Text Selection Menu Section
             item {
                 SettingsSection(title = "Text Selection Menu") {
@@ -300,10 +299,10 @@ fun SpecialCommandsScreen(
                             }
                         }
                     )
-                    
+
                     if (uiState.isTextSelectionMenuEnabled) {
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         // Menu Style Selector
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(
@@ -311,7 +310,7 @@ fun SpecialCommandsScreen(
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary
                             )
-                            
+
                             com.rr.aido.data.models.SelectionMenuStyle.values().forEach { style ->
                                 Row(
                                     modifier = Modifier
@@ -335,7 +334,7 @@ fun SpecialCommandsScreen(
                     }
                 }
             }
-            
+
             // App Toggle (@on/@off) Section
             item {
                 SettingsSection(title = "App On/Off Toggle") {
@@ -349,7 +348,7 @@ fun SpecialCommandsScreen(
                     )
                 }
             }
-            
+
             // Streaming Animation Section
             item {
                 SettingsSection(title = "AI Response Animation") {
@@ -378,7 +377,7 @@ fun EditCommandDialog(
 ) {
     var trigger by remember { mutableStateOf(currentTrigger) }
     var prompt by remember { mutableStateOf(currentPrompt.ifEmpty { defaultPrompt }) }
-    
+
     // Trigger validation
     val validSymbols = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?"
     val isTriggerValid = when {
@@ -391,7 +390,7 @@ fun EditCommandDialog(
             afterSymbol.matches(Regex("\\w+"))
         }
     }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
@@ -405,9 +404,9 @@ fun EditCommandDialog(
                     singleLine = true,
                     isError = !isTriggerValid
                 )
-                
+
                 Spacer(modifier = Modifier.height(16.dp))
-                
+
                 OutlinedTextField(
                     value = prompt,
                     onValueChange = { prompt = it },
@@ -445,7 +444,7 @@ fun SearchSettingsDialog(
     var trigger by remember { mutableStateOf(currentTrigger) }
     var selectedEngine by remember { mutableStateOf(currentEngine) }
     var customUrl by remember { mutableStateOf(currentCustomUrl) }
-    
+
     // Trigger validation
     val validSymbols = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?"
     val isTriggerValid = when {
@@ -458,7 +457,7 @@ fun SearchSettingsDialog(
             afterSymbol.matches(Regex("\\w+"))
         }
     }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Search Settings") },
@@ -479,9 +478,9 @@ fun SearchSettingsDialog(
                     isError = !isTriggerValid,
                     supportingText = { Text("Must start with symbol (e.g. @search)") }
                 )
-                
+
                 HorizontalDivider()
-                
+
                 // Search Engine Selection
                 Column(
                     verticalArrangement = Arrangement.spacedBy(0.dp)
@@ -492,7 +491,7 @@ fun SearchSettingsDialog(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
-                    
+
                     com.rr.aido.data.models.SearchEngine.values().forEach { engine ->
                         Row(
                             modifier = Modifier
@@ -513,7 +512,7 @@ fun SearchSettingsDialog(
                         }
                     }
                 }
-                
+
                 // Custom URL Input (only if Custom is selected)
                 if (selectedEngine == com.rr.aido.data.models.SearchEngine.CUSTOM) {
                     OutlinedTextField(
@@ -559,10 +558,10 @@ fun EditAllMenuDialog(
 ) {
     // Collect preprompts
     val preprompts by viewModel.dataStoreManager.prepromptsFlow.collectAsState(initial = emptyList())
-    
+
     // Build complete list of available commands
     val availableCommands = remember(
-        isSmartReplyEnabled, isToneRewriteEnabled, isSearchTriggerEnabled, 
+        isSmartReplyEnabled, isToneRewriteEnabled, isSearchTriggerEnabled,
         smartReplyTrigger, toneRewriteTrigger, searchTrigger, preprompts
     ) {
         mutableListOf<Pair<String, String>>().apply {
@@ -574,7 +573,7 @@ fun EditAllMenuDialog(
             preprompts.forEach { add(it.trigger to it.trigger) }
         }
     }
-    
+
     // Initialize local order - use current order if available, otherwise build default
     val localOrder = remember(currentOrder, availableCommands) {
         if (currentOrder.isNotEmpty()) {
@@ -582,7 +581,7 @@ fun EditAllMenuDialog(
             val orderedTriggers = currentOrder.filter { trigger ->
                 availableCommands.any { it.first == trigger }
             }.toMutableList()
-            
+
             // Add any new commands that aren't in the current order
             availableCommands.forEach { (trigger, _) ->
                 if (trigger !in orderedTriggers) {
@@ -595,7 +594,7 @@ fun EditAllMenuDialog(
             mutableStateListOf(*availableCommands.map { it.first }.toTypedArray())
         }
     }
-    
+
     // Track which commands are visible (checkbox state)
     val visibilityMap = remember(currentOrder, availableCommands) {
         mutableStateMapOf<String, Boolean>().apply {
@@ -610,11 +609,11 @@ fun EditAllMenuDialog(
             }
         }
     }
-    
+
     val displayNameMap = remember(availableCommands) {
         availableCommands.toMap()
     }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Edit @all Menu") },
@@ -630,7 +629,7 @@ fun EditAllMenuDialog(
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary
                 )
-                
+
                 // Scrollable list of commands
                 LazyColumn(
                     modifier = Modifier
@@ -642,7 +641,7 @@ fun EditAllMenuDialog(
                         val trigger = localOrder[index]
                         val displayName = displayNameMap[trigger] ?: trigger
                         val isVisible = visibilityMap[trigger] ?: true
-                        
+
                         ElevatedCard(
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -678,7 +677,7 @@ fun EditAllMenuDialog(
                                         }
                                     }
                                 }
-                                
+
                                 // Arrow buttons
                                 Row {
                                     IconButton(
@@ -693,7 +692,7 @@ fun EditAllMenuDialog(
                                     ) {
                                         Text("↑", fontSize = 20.sp)
                                     }
-                                    
+
                                     IconButton(
                                         onClick = {
                                             if (index < localOrder.size - 1) {
@@ -711,16 +710,16 @@ fun EditAllMenuDialog(
                         }
                     }
                 }
-                
+
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                
+
                 // Preview
                 Text(
                     text = "Preview:",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary
                 )
-                
+
                 val visibleCommands = localOrder.filter { visibilityMap[it] == true }
                 Text(
                     text = if (visibleCommands.isNotEmpty()) {

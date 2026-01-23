@@ -17,9 +17,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rr.aido.ui.viewmodels.SettingsViewModel
 
-/**
- * Keyboard Settings Screen - Keyboard ki saari settings yahan
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KeyboardSettingsScreen(
@@ -28,7 +25,7 @@ fun KeyboardSettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val settings by viewModel.settings.collectAsState(initial = com.rr.aido.data.models.Settings())
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -54,9 +51,9 @@ fun KeyboardSettingsScreen(
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -69,25 +66,25 @@ fun KeyboardSettingsScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium
                     )
-                    
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    
+
                     Text(
                         text = "Current: ${uiState.themeMode.displayName}",
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    
+
                     Spacer(modifier = Modifier.height(4.dp))
-                    
+
                     Text(
                         text = "Auto follows system theme; choose Light or Dark to override.",
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -144,18 +141,18 @@ fun KeyboardSettingsScreen(
                     }
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             // Feedback Section
             Text(
                 text = "📳 Feedback",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             // Haptic Feedback Toggle
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -189,18 +186,18 @@ fun KeyboardSettingsScreen(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             // Display Section
             Text(
                 text = "👁️ Display",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             // App Shortcuts Toggle
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -234,7 +231,7 @@ fun KeyboardSettingsScreen(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(32.dp))
         }
     }

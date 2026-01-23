@@ -27,7 +27,7 @@ fun TextShortcutsScreen(
     val shortcuts by viewModel.shortcuts.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
     var editingShortcut by remember { mutableStateOf<TextShortcut?>(null) }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -46,9 +46,9 @@ fun TextShortcutsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { 
+                onClick = {
                     editingShortcut = null
-                    showDialog = true 
+                    showDialog = true
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
@@ -88,24 +88,24 @@ fun TextShortcutsScreen(
                 ) {
                     items(shortcuts, key = { it.id }) { shortcut ->
                         ListItem(
-                            headlineContent = { 
+                            headlineContent = {
                                 Text(
                                     text = shortcut.trigger,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.primary
-                                ) 
+                                )
                             },
-                            supportingContent = { 
+                            supportingContent = {
                                 Text(
                                     text = shortcut.replacement,
                                     maxLines = 2
-                                ) 
+                                )
                             },
                             trailingContent = {
                                 Row {
-                                    IconButton(onClick = { 
+                                    IconButton(onClick = {
                                         editingShortcut = shortcut
-                                        showDialog = true 
+                                        showDialog = true
                                     }) {
                                         Icon(
                                             Icons.Default.Edit,
@@ -115,7 +115,7 @@ fun TextShortcutsScreen(
                                     }
                                     IconButton(onClick = { viewModel.removeShortcut(shortcut.id) }) {
                                         Icon(
-                                            Icons.Default.Delete, 
+                                            Icons.Default.Delete,
                                             contentDescription = "Delete",
                                             tint = MaterialTheme.colorScheme.error
                                         )
@@ -128,7 +128,7 @@ fun TextShortcutsScreen(
                 }
             }
         }
-        
+
         if (showDialog) {
             ShortcutDialog(
                 initialTrigger = editingShortcut?.trigger ?: "",
@@ -159,7 +159,7 @@ fun ShortcutDialog(
     var trigger by remember { mutableStateOf(initialTrigger) }
     var replacement by remember { mutableStateOf(initialReplacement) }
     var triggerError by remember { mutableStateOf(false) }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(if (isEditing) "Edit Shortcut" else "New Shortcut") },
@@ -167,7 +167,7 @@ fun ShortcutDialog(
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 OutlinedTextField(
                     value = trigger,
-                    onValueChange = { 
+                    onValueChange = {
                         trigger = it
                         triggerError = false
                     },
@@ -176,7 +176,7 @@ fun ShortcutDialog(
                     isError = triggerError,
                     supportingText = if (triggerError) { { Text("Required") } } else null
                 )
-                
+
                 OutlinedTextField(
                     value = replacement,
                     onValueChange = { replacement = it },

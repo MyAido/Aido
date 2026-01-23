@@ -1,13 +1,5 @@
 package com.rr.aido.data.models
 
-/**
- * Preprompt data class
- * Har trigger ke liye instruction aur example store karta hai
- * 
- * Trigger me koi bhi symbol use kar sakte ho:
- * @ ~ ! # $ % ^ & * ( ) - _ = + [ ] { } \ | ; : ' " , < . > / ?
- * Examples: @aido, ~test, !fix, #summary
- */
 data class Preprompt(
     val trigger: String,           // e.g., "@aido", "~test", "!fix"
     val instruction: String,        // Instruction jo prompt ke pehle add hoga
@@ -15,9 +7,6 @@ data class Preprompt(
     val isDefault: Boolean = false  // Default preprompts ko delete nahi kar sakte
 )
 
-/**
- * Default preprompts jo app install hone par load honge
- */
 object DefaultPreprompts {
     val list = listOf(
         Preprompt(

@@ -26,14 +26,10 @@ import java.io.IOException
 // DataStore extension
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "aido_preferences")
 
-/**
- * Manages local data persistence using DataStore.
- * Handles storage of sensitive data like API keys, preferences, and cached models.
- */
 class DataStoreManager(private val context: Context) {
-    
+
     private val gson = Gson()
-    
+
     companion object {
         private val PROVIDER = stringPreferencesKey("provider")
         private val API_KEY = stringPreferencesKey("api_key")
@@ -73,7 +69,7 @@ class DataStoreManager(private val context: Context) {
         private val DISABLED_APPS = stringSetPreferencesKey("disabled_apps")
         private val TEXT_SHORTCUTS_JSON = stringPreferencesKey("text_shortcuts_json")
         private val CHAT_HISTORY_JSON = stringPreferencesKey("chat_history_json")
-        
+
                 // Menu Customization
         private val ALL_MENU_ORDER_JSON = stringPreferencesKey("all_menu_order_json")
         // App Toggle feature (Global On/Off)
@@ -82,14 +78,14 @@ class DataStoreManager(private val context: Context) {
         // Streaming Text Animation
         private val IS_STREAMING_MODE_ENABLED = booleanPreferencesKey("is_streaming_mode_enabled")
         private val STREAMING_DELAY_MS = intPreferencesKey("streaming_delay_ms")
-        
+
         // Legacy keys
         private val SHOW_REPLY_IN_ALL = booleanPreferencesKey("show_reply_in_all")
         private val SHOW_TONE_IN_ALL = booleanPreferencesKey("show_tone_in_all")
         private val SHOW_SEARCH_IN_ALL = booleanPreferencesKey("show_search_in_all")
         private val SPECIAL_COMMANDS_POSITION = stringPreferencesKey("special_commands_position")
     }
-    
+
     // Settings flow
     val settingsFlow: Flow<Settings> = context.dataStore.data.map { preferences ->
         Settings(
@@ -143,7 +139,7 @@ class DataStoreManager(private val context: Context) {
             streamingDelayMs = preferences[STREAMING_DELAY_MS] ?: 50 // Default 50ms delay between words
         )
     }
-    
+
     // Preprompts flow
     val prepromptsFlow: Flow<List<Preprompt>> = context.dataStore.data.map { preferences ->
         val json = preferences[PREPROMPTS_JSON]
@@ -159,12 +155,12 @@ class DataStoreManager(private val context: Context) {
             }
         }
     }
-    
+
     // Check if first launch
     val isFirstLaunchFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
         preferences[IS_FIRST_LAUNCH] ?: true
     }
-    
+
     // Save API key
     suspend fun saveApiKey(apiKey: String) {
         context.dataStore.edit { preferences ->
@@ -178,28 +174,28 @@ class DataStoreManager(private val context: Context) {
             preferences[PROVIDER] = provider.id
         }
     }
-    
+
     // Save selected model
     suspend fun saveSelectedModel(model: String) {
         context.dataStore.edit { preferences ->
             preferences[SELECTED_MODEL] = model
         }
     }
-    
+
     // Save service enabled status
     suspend fun saveServiceEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[IS_SERVICE_ENABLED] = enabled
         }
     }
-    
+
     // Save offline mode
     suspend fun saveOfflineMode(offline: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[IS_OFFLINE_MODE] = offline
         }
     }
-    
+
     suspend fun saveTriggerMethod(triggerMethod: com.rr.aido.data.models.TriggerMethod) {
         context.dataStore.edit { preferences ->
             preferences[TRIGGER_METHOD] = triggerMethod.id
@@ -212,14 +208,14 @@ class DataStoreManager(private val context: Context) {
             preferences[THEME_MODE] = themeMode.id
         }
     }
-    
+
     // Save haptic feedback preference
     suspend fun saveHapticFeedback(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[HAPTIC_FEEDBACK] = enabled
         }
     }
-    
+
     // Save show app shortcuts preference
     suspend fun saveShowAppShortcuts(enabled: Boolean) {
         context.dataStore.edit { preferences ->
@@ -456,14 +452,14 @@ class DataStoreManager(private val context: Context) {
             preferences[CUSTOM_MODEL_NAME] = model
         }
     }
-    
+
     // Toggle service on/off
     suspend fun toggleService(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[IS_SERVICE_ENABLED] = enabled
         }
     }
-    
+
     // Save preprompts
     suspend fun savePreprompts(preprompts: List<Preprompt>) {
         context.dataStore.edit { preferences ->
@@ -471,14 +467,14 @@ class DataStoreManager(private val context: Context) {
             preferences[PREPROMPTS_JSON] = json
         }
     }
-    
+
     // Mark first launch complete
     suspend fun markFirstLaunchComplete() {
         context.dataStore.edit { preferences ->
             preferences[IS_FIRST_LAUNCH] = false
         }
     }
-    
+
     // Get anonymous favorites
     suspend fun getAnonymousFavorites(): Set<String> {
         var result = emptySet<String>()
@@ -497,14 +493,14 @@ class DataStoreManager(private val context: Context) {
         }
         return result
     }
-    
+
     // Save anonymous favorites
     suspend fun saveAnonymousFavorites(favorites: Set<String>) {
         context.dataStore.edit { preferences ->
             preferences[ANONYMOUS_FAVORITES] = gson.toJson(favorites)
         }
     }
-    
+
     // Save complete settings
     suspend fun saveSettings(settings: Settings) {
         context.dataStore.edit { preferences ->
@@ -542,12 +538,12 @@ class DataStoreManager(private val context: Context) {
             preferences[STREAMING_DELAY_MS] = settings.streamingDelayMs
         }
     }
-    
+
     // Add new preprompt
     suspend fun addPreprompt(preprompt: Preprompt, currentList: List<Preprompt>) {
         val updatedList = currentList + preprompt
         savePreprompts(updatedList)
-        
+
         // Auto-add to @all menu order if not already there
         val currentSettings = settingsFlow.first()
         val currentOrder = currentSettings.allMenuOrder.toMutableList()
@@ -556,14 +552,14 @@ class DataStoreManager(private val context: Context) {
             saveAllMenuOrder(currentOrder)
         }
     }
-    
+
     // Update preprompt
     suspend fun updatePreprompt(oldTrigger: String, newPreprompt: Preprompt, currentList: List<Preprompt>) {
-        val updatedList = currentList.map { 
-            if (it.trigger == oldTrigger) newPreprompt else it 
+        val updatedList = currentList.map {
+            if (it.trigger == oldTrigger) newPreprompt else it
         }
         savePreprompts(updatedList)
-        
+
         // Auto-update trigger name in @all menu order
         if (oldTrigger != newPreprompt.trigger) {
             val currentSettings = settingsFlow.first()
@@ -573,12 +569,12 @@ class DataStoreManager(private val context: Context) {
             saveAllMenuOrder(currentOrder)
         }
     }
-    
+
     // Delete preprompt
     suspend fun deletePreprompt(trigger: String, currentList: List<Preprompt>) {
         val updatedList = currentList.filter { it.trigger != trigger }
         savePreprompts(updatedList)
-        
+
         // Auto-remove from @all menu order
         val currentSettings = settingsFlow.first()
         val currentOrder = currentSettings.allMenuOrder.filter { it != trigger }
@@ -592,7 +588,7 @@ class DataStoreManager(private val context: Context) {
         mutableList.add(toIndex, item)
         savePreprompts(mutableList)
     }
-    
+
     // Reset to default preprompts
     suspend fun resetToDefaultPreprompts() {
         savePreprompts(DefaultPreprompts.list)
@@ -625,7 +621,7 @@ class DataStoreManager(private val context: Context) {
             }
         }
     }
-    
+
     // Add disabled apps preference and methods
     val disabledAppsFlow: Flow<Set<String>> = context.dataStore.data
         .catch { exception ->
@@ -638,7 +634,7 @@ class DataStoreManager(private val context: Context) {
         .map { preferences ->
             preferences[DISABLED_APPS] ?: emptySet()
         }
-    
+
     // Text Shortcuts Flow
     val textShortcutsFlow: Flow<List<com.rr.aido.data.models.TextShortcut>> = context.dataStore.data.map { preferences ->
         val json = preferences[TEXT_SHORTCUTS_JSON] ?: "[]"
@@ -664,14 +660,14 @@ class DataStoreManager(private val context: Context) {
             }
         }
     }
-    
+
     suspend fun saveChatHistory(messages: List<com.rr.aido.data.models.ChatMessage>) {
         context.dataStore.edit { preferences ->
             val json = gson.toJson(messages)
             preferences[CHAT_HISTORY_JSON] = json
         }
     }
-    
+
     suspend fun clearChatHistory() {
         context.dataStore.edit { preferences ->
             preferences.remove(CHAT_HISTORY_JSON)

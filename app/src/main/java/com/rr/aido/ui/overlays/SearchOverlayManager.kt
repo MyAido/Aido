@@ -25,9 +25,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-/**
- * SearchOverlayManager - Handles the @search WebView popup
- */
 class SearchOverlayManager(
     private val context: Context,
     private val windowManager: WindowManager,
@@ -44,7 +41,7 @@ class SearchOverlayManager(
         scope.launch(Dispatchers.Main) {
             // Remove existing popup if any
             removePopup()
-            
+
             currentTextToReplace = textToReplace
 
             val params = WindowManager.LayoutParams(
@@ -56,7 +53,7 @@ class SearchOverlayManager(
             )
             params.gravity = Gravity.BOTTOM
             params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE // Handle keyboard
-            
+
             val layout = LinearLayout(context).apply {
                 orientation = LinearLayout.VERTICAL
                 setBackgroundColor(0xFFFFFFFF.toInt()) // White background
@@ -131,7 +128,7 @@ class SearchOverlayManager(
             headerLayout.addView(closeButton)
 
             layout.addView(headerLayout)
-            
+
             // Progress Bar
             val progressBar = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
                 layoutParams = LinearLayout.LayoutParams(
@@ -154,20 +151,20 @@ class SearchOverlayManager(
                 settings.displayZoomControls = false
                 // Set User-Agent to avoid CAPTCHA (mimic Pixel 7)
                 settings.userAgentString = "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36"
-                
+
                 isLongClickable = true
                 setOnLongClickListener { v ->
                     val hitTestResult = (v as WebView).hitTestResult
-                    
+
                     // Try to get selected text first via JS
                     v.evaluateJavascript("(function(){ return window.getSelection().toString() })()") { selection ->
                         val selectedText = selection?.trim()?.replace("^\"|\"$".toRegex(), "") ?: "" // Remove quotes added by evaluateJavascript
-                        
+
                         val options = mutableListOf<String>()
                         val actions = mutableListOf<() -> Unit>()
-                        
+
                         // Link Options
-                        if (hitTestResult.type == WebView.HitTestResult.SRC_ANCHOR_TYPE || 
+                        if (hitTestResult.type == WebView.HitTestResult.SRC_ANCHOR_TYPE ||
                             hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
                             val url = hitTestResult.extra
                             if (!url.isNullOrEmpty()) {
@@ -177,9 +174,9 @@ class SearchOverlayManager(
                                 }
                             }
                         }
-                        
+
                         // Image Options
-                        if (hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE || 
+                        if (hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
                             hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
                             val imageUrl = hitTestResult.extra
                             if (!imageUrl.isNullOrEmpty()) {
@@ -193,7 +190,7 @@ class SearchOverlayManager(
                                 }
                             }
                         }
-                        
+
                         // Text Option
                         if (selectedText.isNotEmpty()) {
                             options.add("Copy Selected Text")
@@ -201,7 +198,7 @@ class SearchOverlayManager(
                                 copyToClipboard("Copied Text", selectedText)
                             }
                         }
-                        
+
                         if (options.isNotEmpty()) {
                             showContextMenuDialog(options, actions)
                         } else {
@@ -216,27 +213,27 @@ class SearchOverlayManager(
                             // Let's try to NOT consume if it's text type and let system handle it.
                         }
                     }
-                    
+
                     // If it's text type, return false to let system show selection handles
-                    if (hitTestResult.type == WebView.HitTestResult.EDIT_TEXT_TYPE || 
+                    if (hitTestResult.type == WebView.HitTestResult.EDIT_TEXT_TYPE ||
                         hitTestResult.type == WebView.HitTestResult.UNKNOWN_TYPE) { // UNKNOWN is often text
                          return@setOnLongClickListener false
                     }
-                    
+
                     true // Consume for images/links to show our menu
                 }
-                
+
                 webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                         return false // Load in WebView
                     }
-                    
+
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         titleView.text = view?.title ?: url
                     }
                 }
-                
+
                 webChromeClient = object : WebChromeClient() {
                     override fun onProgressChanged(view: WebView?, newProgress: Int) {
                         progressBar.progress = newProgress
@@ -247,7 +244,7 @@ class SearchOverlayManager(
                         }
                     }
                 }
-                
+
                 // Determine URL to load
                 val urlToLoad = if (Patterns.WEB_URL.matcher(query).matches()) {
                     if (query.startsWith("http://") || query.startsWith("https://")) {
@@ -269,7 +266,7 @@ class SearchOverlayManager(
                         "https://www.google.com/search?q=$query"
                     }
                 }
-                
+
                 loadUrl(urlToLoad)
             }
             currentWebView = webView
@@ -310,7 +307,7 @@ class SearchOverlayManager(
                 val request = okhttp3.Request.Builder().url(imageUrl).build()
                 val response = okhttp3.OkHttpClient().newCall(request).execute()
                 val inputStream = response.body?.byteStream()
-                
+
                 if (inputStream != null) {
                     val filename = "aido_image_${System.currentTimeMillis()}.jpg"
                     val contentValues = android.content.ContentValues().apply {
@@ -318,20 +315,20 @@ class SearchOverlayManager(
                         put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
                         put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, android.os.Environment.DIRECTORY_PICTURES)
                     }
-                    
+
                     val resolver = context.contentResolver
                     val uri = resolver.insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                    
+
                     if (uri != null) {
                         resolver.openOutputStream(uri)?.use { outputStream ->
                             inputStream.copyTo(outputStream)
                         }
-                        
+
                         // Now copy URI to clipboard
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                         val clip = ClipData.newUri(resolver, "Copied Image", uri)
                         clipboard.setPrimaryClip(clip)
-                        
+
                         launch(Dispatchers.Main) {
                             android.widget.Toast.makeText(context, "Image copied to clipboard", android.widget.Toast.LENGTH_SHORT).show()
                         }
@@ -363,7 +360,7 @@ class SearchOverlayManager(
             setPadding(32, 32, 32, 32)
             elevation = 24f
         }
-        
+
         // Title
         val title = TextView(context).apply {
             text = "Options"
@@ -388,7 +385,7 @@ class SearchOverlayManager(
             }
             dialogLayout.addView(button)
         }
-        
+
         // Cancel Button
         val cancelButton = Button(context).apply {
             text = "Cancel"

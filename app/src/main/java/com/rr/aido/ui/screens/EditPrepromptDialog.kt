@@ -84,7 +84,7 @@ fun EditPrepromptDialog(
                 }
 
                 Spacer(Modifier.height(16.dp))
-                
+
                 Text(
                     "Title:",
                     style = MaterialTheme.typography.labelMedium

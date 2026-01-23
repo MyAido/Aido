@@ -15,26 +15,26 @@ class AIChatViewModel(
     private val dataStoreManager: DataStoreManager,
     private val geminiRepository: GeminiRepository
 ) : ViewModel() {
-    
+
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages: StateFlow<List<ChatMessage>> = _messages.asStateFlow()
-    
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-    
+
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
-    
+
     val settings = dataStoreManager.settingsFlow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         com.rr.aido.data.models.Settings()
     )
-    
+
     init {
         loadChatHistory()
     }
-    
+
     private fun loadChatHistory() {
         viewModelScope.launch {
             dataStoreManager.chatHistoryFlow.collect { history ->
@@ -42,26 +42,26 @@ class AIChatViewModel(
             }
         }
     }
-    
+
     fun sendMessage(text: String) {
         if (text.isBlank()) return
-        
+
         val userMessage = ChatMessage(
             id = UUID.randomUUID().toString(),
             text = text,
             isUser = true,
             timestamp = System.currentTimeMillis()
         )
-        
+
         // Add user message
         _messages.value = _messages.value + userMessage
         saveChatHistory()
-        
+
         // Get AI response
         viewModelScope.launch {
             _isLoading.value = true
             _errorMessage.value = null
-            
+
             try {
                 val currentSettings = settings.value
                 val provider = currentSettings.provider
@@ -70,21 +70,21 @@ class AIChatViewModel(
                     AiProvider.GEMINI -> currentSettings.apiKey
                     AiProvider.CUSTOM -> currentSettings.customApiKey
                 }
-                
+
                 if (provider == AiProvider.GEMINI && apiKey.isEmpty()) {
                     _errorMessage.value = "Please set your API key in Settings"
                     _isLoading.value = false
                     return@launch
                 }
-                
+
                 if (provider == AiProvider.CUSTOM && apiKey.isEmpty()) {
                     _errorMessage.value = "Please set your Custom API key in Settings"
                     _isLoading.value = false
                     return@launch
                 }
-                
+
                 val model = if (provider == AiProvider.CUSTOM) currentSettings.customModelName else currentSettings.selectedModel
-                
+
                 val result = geminiRepository.sendPrompt(
                     provider = provider,
                     apiKey = apiKey,
@@ -92,7 +92,7 @@ class AIChatViewModel(
                     prompt = text,
                     customApiUrl = currentSettings.customApiUrl
                 )
-                
+
                 when (result) {
                     is Result.Success -> {
                         val aiMessage = ChatMessage(
@@ -118,20 +118,20 @@ class AIChatViewModel(
             }
         }
     }
-    
+
     fun clearHistory() {
         viewModelScope.launch {
             _messages.value = emptyList()
             dataStoreManager.clearChatHistory()
         }
     }
-    
+
     private fun saveChatHistory() {
         viewModelScope.launch {
             dataStoreManager.saveChatHistory(_messages.value)
         }
     }
-    
+
     fun clearError() {
         _errorMessage.value = null
     }

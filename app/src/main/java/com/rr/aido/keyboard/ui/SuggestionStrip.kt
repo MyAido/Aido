@@ -41,7 +41,7 @@ fun SuggestionStrip(
 ) {
     val iconColor = if (isDark) Color.White else Color.Black
     val dividerColor = if (isDark) Color(0xFF3A3A3C) else Color(0xFFB0B0B0)
-    
+
     // Suggestion Strip Height usually around 40-50dp
     Row(
         modifier = Modifier
@@ -52,7 +52,7 @@ fun SuggestionStrip(
     ) {
         // Menu Button
         StripIconButton(Icons.Default.Menu, "Menu", listener::onMenuClick, iconColor)
-        
+
         // Divider
         VerticalDivider(dividerColor)
 
@@ -76,7 +76,6 @@ fun SuggestionStrip(
                 Spacer(Modifier.width(16.dp))
                 StripIconButton(Icons.Default.Redo, "Redo", listener::onRedoClick, iconColor)
             } else {
-                // TODO: Implement suggestion pills
                 suggestions.take(3).forEach { suggestion ->
                     Text(
                         text = suggestion,

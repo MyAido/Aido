@@ -35,33 +35,29 @@ import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 
-/**
- * Aido Custom Keyboard with AI Integration
- * Complete keyboard implementation with trigger detection and processing
- */
-class AidoInputMethodService : InputMethodService(), 
-    androidx.lifecycle.LifecycleOwner, 
-    androidx.lifecycle.ViewModelStoreOwner, 
+class AidoInputMethodService : InputMethodService(),
+    androidx.lifecycle.LifecycleOwner,
+    androidx.lifecycle.ViewModelStoreOwner,
     androidx.savedstate.SavedStateRegistryOwner {
 
     // Compose Keyboard State if needed
     private var caps = false
     private var mainKeyboardView: android.view.View? = null
-    
+
     private lateinit var dataStoreManager: DataStoreManager
     private val geminiRepository = GeminiRepositoryImpl()
-    
+
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    
+
     // Suggestion strip components
     // private var suggestionContainer: android.widget.LinearLayout? = null // Legacy removed
     private val _suggestions = MutableStateFlow<List<String>>(emptyList())
     private var currentWord = StringBuilder()
-    
+
     // Track recently used words for better predictions
     private val recentWords = mutableListOf<String>()
     private val maxRecentWords = 50
-    
+
     // Keyboard service modules
     private lateinit var clipboardManager: KeyboardClipboardManager
     private lateinit var textEditingManager: TextEditingManager
@@ -69,11 +65,11 @@ class AidoInputMethodService : InputMethodService(),
     private lateinit var emojiPanelHandler: EmojiPanelHandler
     private lateinit var clipboardPanelHandler: ClipboardPanelHandler
     private lateinit var triggerPanelHandler: TriggerPanelHandler
-    
+
     private enum class KeyboardType {
         QWERTY, SYMBOLS
     }
-    
+
     companion object {
         private const val TAG = "AidoKeyboard"
         private const val KEYCODE_SPACE = 32
@@ -89,12 +85,12 @@ class AidoInputMethodService : InputMethodService(),
     // Theme State
     private var themeMode = com.rr.aido.data.models.ThemeMode.SYSTEM
     private var currentThemeId = 0
-    
+
     // Lifecycle and SavedState
     private val lifecycleRegistry = androidx.lifecycle.LifecycleRegistry(this)
     private val savedStateRegistryController = androidx.savedstate.SavedStateRegistryController.create(this)
     private val store = androidx.lifecycle.ViewModelStore()
-    
+
     override val lifecycle: androidx.lifecycle.Lifecycle
         get() = lifecycleRegistry
 
@@ -105,15 +101,15 @@ class AidoInputMethodService : InputMethodService(),
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        
+
         // Auto-detect view based on input type
         val inputType = info?.inputType ?: 0
         val variation = inputType and EditorInfo.TYPE_MASK_VARIATION
         val classType = inputType and EditorInfo.TYPE_MASK_CLASS
-        
+
         when (classType) {
-            EditorInfo.TYPE_CLASS_NUMBER, 
-            EditorInfo.TYPE_CLASS_PHONE, 
+            EditorInfo.TYPE_CLASS_NUMBER,
+            EditorInfo.TYPE_CLASS_PHONE,
             EditorInfo.TYPE_CLASS_DATETIME -> {
                 currentViewState.value = com.rr.aido.keyboard.ui.KeyboardView.NUMBER_PAD
             }
@@ -132,20 +128,20 @@ class AidoInputMethodService : InputMethodService(),
         savedStateRegistryController.performRestore(null)
         lifecycleRegistry.handleLifecycleEvent(androidx.lifecycle.Lifecycle.Event.ON_CREATE)
         lifecycleRegistry.handleLifecycleEvent(androidx.lifecycle.Lifecycle.Event.ON_START)
-        
+
         // Set ViewTree owners on the window decor view for WindowRecomposer
         window?.window?.let { window ->
             val decorView = window.decorView
             decorView.setViewTreeLifecycleOwner(this)
             decorView.setViewTreeViewModelStoreOwner(this)
             decorView.setViewTreeSavedStateRegistryOwner(this)
-            
+
             // Enable edge-to-edge to handle insets manually
             androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
         }
-        
+
         dataStoreManager = DataStoreManager(applicationContext)
-        
+
         // Listen for settings changes
         serviceScope.launch {
             dataStoreManager.settingsFlow.collect { settings ->
@@ -156,8 +152,6 @@ class AidoInputMethodService : InputMethodService(),
             }
         }
     }
-
-
 
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -189,20 +183,20 @@ class AidoInputMethodService : InputMethodService(),
 
     override fun onComputeInsets(outInsets: Insets) {
         super.onComputeInsets(outInsets)
-        
+
         val inputView = window?.window?.decorView
         if (inputView != null && inputView.visibility == View.VISIBLE) {
             // Get the actual height of the keyboard view
             val location = IntArray(2)
             inputView.getLocationInWindow(location)
-            
+
             val viewHeight = inputView.height
             val viewTop = location[1]
-            
+
             // Set content insets to tell the app where the keyboard starts
             outInsets.contentTopInsets = viewTop
             outInsets.visibleTopInsets = viewTop
-            
+
             // Touch only region - keyboard should receive all touch events
             outInsets.touchableInsets = Insets.TOUCHABLE_INSETS_VISIBLE
             outInsets.touchableRegion.setEmpty()
@@ -224,11 +218,11 @@ class AidoInputMethodService : InputMethodService(),
         clipboardManager = KeyboardClipboardManager(applicationContext)
         textEditingManager = TextEditingManager(applicationContext)
         // Menu handler simplified or removed for now as we transition to Compose
-        
+
         // Create ComposeView
         val composeView = androidx.compose.ui.platform.ComposeView(this).apply {
             setViewCompositionStrategy(androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            
+
             setContent {
                 val suggestions by _suggestions.collectAsState()
                 val clipboardHistory = clipboardManager.historyFlow.collectAsState(initial = emptyList()).value // Need to add flow to manager
@@ -237,7 +231,7 @@ class AidoInputMethodService : InputMethodService(),
 
                 // View State - Hoisted to Service level
                 val currentView by currentViewState.collectAsState()
-                
+
                 // Optimized Stable Listeners
                 val actionListener = remember {
                     object : com.rr.aido.keyboard.ui.KeyboardActionListener {
@@ -290,17 +284,17 @@ class AidoInputMethodService : InputMethodService(),
                         }
                     }
                 }
-                
+
                 com.rr.aido.keyboard.ui.AidoKeyboard(
                     actionListener = actionListener,
                     suggestionListener = suggestionListener,
                     suggestions = suggestions,
                     themeMode = themeMode,
-                    
+
                     // State & Actions
                     currentView = currentView,
                     onViewChange = { newView -> currentViewState.value = newView },
-                    
+
                     // Menu Actions
                     onSettingsClick = {
                         try {
@@ -315,11 +309,11 @@ class AidoInputMethodService : InputMethodService(),
                     onThemeClick = {
                          val nightModeFlags = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
                          val isSystemDark = nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES
-                         
+
                          val nextTheme = when (themeMode) {
                              com.rr.aido.data.models.ThemeMode.SYSTEM -> {
                                  // If System is Dark, go Light. If System is Light, go Dark.
-                                 if (isSystemDark) com.rr.aido.data.models.ThemeMode.LIGHT 
+                                 if (isSystemDark) com.rr.aido.data.models.ThemeMode.LIGHT
                                  else com.rr.aido.data.models.ThemeMode.DARK
                              }
                              com.rr.aido.data.models.ThemeMode.LIGHT -> {
@@ -337,7 +331,7 @@ class AidoInputMethodService : InputMethodService(),
                              dataStoreManager.saveThemeMode(nextTheme)
                          }
                     },
-                    
+
                     // Clipboard
                     clipboardHistory = clipboardHistory,
                     onPasteClick = { text ->
@@ -349,7 +343,7 @@ class AidoInputMethodService : InputMethodService(),
                     onClearClipboardClick = {
                         clipboardManager.clearHistory()
                     },
-                    
+
                     // Triggers
                     triggers = triggers,
                     onTriggerClick = { text ->
@@ -363,7 +357,7 @@ class AidoInputMethodService : InputMethodService(),
                 )
             }
         }
-        
+
         Log.d(TAG, "Aido Keyboard connected via Compose")
         mainKeyboardView = composeView
         return composeView
@@ -375,7 +369,7 @@ class AidoInputMethodService : InputMethodService(),
             val keyboardView = window?.window?.decorView
             keyboardView?.let { menuHandler.showMenuPopup(it) }
         }
-        
+
         // Microphone button
         view.findViewById<android.widget.ImageButton>(R.id.btn_microphone)?.setOnClickListener {
             handleVoiceInput()
@@ -474,8 +468,7 @@ class AidoInputMethodService : InputMethodService(),
                         mainKeyboardView?.requestLayout()
                         window?.window?.decorView?.requestLayout()
                     }, 50)
-                    
-                    // Trigger insert karne ke baad check karo
+
                     if (ic != null) {
                         Handler(Looper.getMainLooper()).postDelayed({
                             checkForTrigger(ic)
@@ -506,7 +499,7 @@ class AidoInputMethodService : InputMethodService(),
         val text: String,
         val cursorPosition: Int
     )
-    
+
     private val undoStack = java.util.Stack<TextState>()
     private val redoStack = java.util.Stack<TextState>()
     private var isUndoingOrRedoing = false
@@ -514,28 +507,28 @@ class AidoInputMethodService : InputMethodService(),
 
     private fun saveHistory() {
         if (isUndoingOrRedoing) return
-        
+
         val ic = currentInputConnection ?: return
-        
+
         // Get all text and cursor position
         val textBefore = ic.getTextBeforeCursor(10000, 0)?.toString() ?: ""
         val textAfter = ic.getTextAfterCursor(10000, 0)?.toString() ?: ""
         val fullText = textBefore + textAfter
         val cursorPos = textBefore.length
-        
+
         // Only save if text actually changed
         if (fullText != lastSavedText) {
             val state = TextState(fullText, cursorPos)
-            
+
             // Don't save duplicate states
             if (undoStack.isEmpty() || undoStack.peek().text != fullText) {
                 undoStack.push(state)
                 redoStack.clear()
                 lastSavedText = fullText
-                
+
                 Log.d(TAG, "History saved: text='${fullText.take(50)}...', cursor=$cursorPos, stack size=${undoStack.size}")
             }
-            
+
             // Limit stack size
             if (undoStack.size > 50) {
                 undoStack.removeAt(0)
@@ -545,13 +538,13 @@ class AidoInputMethodService : InputMethodService(),
 
     private fun handleUndo() {
         val ic = currentInputConnection ?: return
-        
+
         if (undoStack.isEmpty()) {
             Log.d(TAG, "Undo: Stack is empty")
             android.widget.Toast.makeText(this, "Nothing to undo", android.widget.Toast.LENGTH_SHORT).show()
             return
         }
-        
+
         isUndoingOrRedoing = true
         try {
             // Save current state to redo stack
@@ -559,29 +552,29 @@ class AidoInputMethodService : InputMethodService(),
             val textAfter = ic.getTextAfterCursor(10000, 0)?.toString() ?: ""
             val currentText = textBefore + textAfter
             val currentCursor = textBefore.length
-            
+
             redoStack.push(TextState(currentText, currentCursor))
-            
+
             // Get previous state
             val previousState = undoStack.pop()
-            
+
             Log.d(TAG, "Undo: from '${currentText.take(30)}...' to '${previousState.text.take(30)}...'")
-            
+
             // Clear all text
             ic.beginBatchEdit()
             ic.deleteSurroundingText(textBefore.length, textAfter.length)
-            
+
             // Insert previous text
             ic.commitText(previousState.text, 1)
-            
+
             // Set cursor position
             if (previousState.cursorPosition <= previousState.text.length) {
                 ic.setSelection(previousState.cursorPosition, previousState.cursorPosition)
             }
             ic.endBatchEdit()
-            
+
             lastSavedText = previousState.text
-            
+
         } catch (e: Exception) {
             Log.e(TAG, "Undo error", e)
         } finally {
@@ -591,13 +584,13 @@ class AidoInputMethodService : InputMethodService(),
 
     private fun handleRedo() {
         val ic = currentInputConnection ?: return
-        
+
         if (redoStack.isEmpty()) {
             Log.d(TAG, "Redo: Stack is empty")
             android.widget.Toast.makeText(this, "Nothing to redo", android.widget.Toast.LENGTH_SHORT).show()
             return
         }
-        
+
         isUndoingOrRedoing = true
         try {
             // Save current state to undo stack
@@ -605,29 +598,29 @@ class AidoInputMethodService : InputMethodService(),
             val textAfter = ic.getTextAfterCursor(10000, 0)?.toString() ?: ""
             val currentText = textBefore + textAfter
             val currentCursor = textBefore.length
-            
+
             undoStack.push(TextState(currentText, currentCursor))
-            
+
             // Get next state
             val nextState = redoStack.pop()
-            
+
             Log.d(TAG, "Redo: from '${currentText.take(30)}...' to '${nextState.text.take(30)}...'")
-            
+
             // Clear all text
             ic.beginBatchEdit()
             ic.deleteSurroundingText(textBefore.length, textAfter.length)
-            
+
             // Insert next text
             ic.commitText(nextState.text, 1)
-            
+
             // Set cursor position
             if (nextState.cursorPosition <= nextState.text.length) {
                 ic.setSelection(nextState.cursorPosition, nextState.cursorPosition)
             }
             ic.endBatchEdit()
-            
+
             lastSavedText = nextState.text
-            
+
         } catch (e: Exception) {
             Log.e(TAG, "Redo error", e)
         } finally {
@@ -642,13 +635,13 @@ class AidoInputMethodService : InputMethodService(),
             if (extractedText != null) {
                 val start = extractedText.selectionStart
                 val end = extractedText.selectionEnd
-                
+
                 var newPos = start + offset
-                
+
                 // Clamp
                 if (newPos < 0) newPos = 0
                 if (newPos > extractedText.text.length) newPos = extractedText.text.length
-                
+
                 ic.setSelection(newPos, newPos)
             } else {
                  // Fallback if extracted text not supported
@@ -664,7 +657,7 @@ class AidoInputMethodService : InputMethodService(),
     }
 
     // Legacy methods adapted for Compose actions
-    
+
     private fun handleEnter(ic: InputConnection?) {
         ic?.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
         ic?.sendKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER))
@@ -676,7 +669,7 @@ class AidoInputMethodService : InputMethodService(),
         val selectedText = ic.getSelectedText(0)
         if (TextUtils.isEmpty(selectedText)) {
             ic.deleteSurroundingText(1, 0)
-            
+
             // Remove last character from current word
             if (currentWord.isNotEmpty()) {
                 currentWord.deleteCharAt(currentWord.length - 1)
@@ -696,7 +689,7 @@ class AidoInputMethodService : InputMethodService(),
     private fun handleDone(ic: InputConnection) {
         val imeOptions = currentInputEditorInfo.imeOptions
         val actionId = imeOptions and EditorInfo.IME_MASK_ACTION
-        
+
         when (actionId) {
             EditorInfo.IME_ACTION_SEARCH -> ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH)
             EditorInfo.IME_ACTION_SEND -> ic.performEditorAction(EditorInfo.IME_ACTION_SEND)
@@ -731,19 +724,16 @@ class AidoInputMethodService : InputMethodService(),
         }
     }
 
-    /**
-     * Switch to voice input method (similar to FlorisBoard implementation)
-     * Searches for available voice input methods and switches to the first one found
-     */
+
     private fun switchToVoiceInputMethod(): Boolean {
         try {
             val imm = getSystemService(android.view.inputmethod.InputMethodManager::class.java) ?: return false
             val list: List<android.view.inputmethod.InputMethodInfo> = imm.enabledInputMethodList
-            
+
             for (el in list) {
                 for (i in 0 until el.subtypeCount) {
                     val subtype = el.getSubtypeAt(i)
-                    
+
                     // Check if this is a voice input subtype
                     if (subtype.mode == "voice") {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -761,7 +751,7 @@ class AidoInputMethodService : InputMethodService(),
                     }
                 }
             }
-            
+
             return false
         } catch (e: Exception) {
             Log.e(TAG, "Error switching to voice input", e)
@@ -774,37 +764,37 @@ class AidoInputMethodService : InputMethodService(),
             try {
                 // Get settings first to check trigger method
                 val settings = dataStoreManager.settingsFlow.first()
-                
+
                 // Check if service is enabled
                 if (!settings.isServiceEnabled) {
                     Log.d(TAG, "Service is disabled by user")
                     return@launch
                 }
-                
+
                 // Check if keyboard method is selected
                 if (settings.triggerMethod != TriggerMethod.KEYBOARD) {
                     Log.d(TAG, "Keyboard method not selected, skipping trigger")
                     return@launch
                 }
-                
+
                 // Get text before cursor (last 100 characters to check for trigger)
                 val textBeforeCursor = ic.getTextBeforeCursor(100, 0)?.toString() ?: ""
-                
+
                 // Extract trigger using PromptParser
                 val trigger = PromptParser.extractTrigger(textBeforeCursor)
-                
+
                 if (trigger != null) {
                     Log.d(TAG, "Trigger detected: $trigger")
-                    
+
                     // Get preprompts
                     val preprompts = dataStoreManager.prepromptsFlow.first()
-                    
+
                     // Parse input with preprompt
                     val parseResult = PromptParser.parseInput(textBeforeCursor, preprompts)
-                    
+
                     if (parseResult != null && parseResult.matchedPreprompt != null) {
                         Log.d(TAG, "Processing with preprompt: ${parseResult.matchedPreprompt.trigger}")
-                        
+
                         // Send to AI
                         val initialPrompt = parseResult.finalPrompt
                         val finalPrompt = if (settings.responseLanguage != "English" && settings.responseLanguage != "None") {
@@ -819,17 +809,17 @@ class AidoInputMethodService : InputMethodService(),
                             model = settings.selectedModel,
                             prompt = finalPrompt
                         )
-                        
+
                         if (result is com.rr.aido.data.repository.Result.Success) {
                             val response = result.data
-                            
+
                             // Delete the original text with trigger
                             val textLength = textBeforeCursor.length
                             ic.deleteSurroundingText(textLength, 0)
-                            
+
                             // Insert AI response
                             ic.commitText(response, 1)
-                            
+
                             Log.d(TAG, "AI response inserted successfully")
                         } else if (result is com.rr.aido.data.repository.Result.Error) {
                             Log.e(TAG, "AI error: ${result.message}")
@@ -851,11 +841,8 @@ class AidoInputMethodService : InputMethodService(),
             else -> am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
         }
     }
-    
-    /**
-     * Update suggestions based on current word being typed
-     * Uses WordDatabase with smart frequency-based ranking
-     */
+
+
     private fun updateSuggestionsForCurrentWord() {
         // Next Word Prediction Logic
         if (currentWord.isEmpty()) {
@@ -869,7 +856,7 @@ class AidoInputMethodService : InputMethodService(),
             // Find last word (split by spaces, ignore empty)
             val words = textBefore.trim().split("\\s+".toRegex())
             val lastWord = if (words.isNotEmpty()) words.last() else ""
-            
+
             if (lastWord.isNotEmpty()) {
                 val predictions = com.rr.aido.utils.SuggestionEngine.getPredictions(lastWord, 6)
                 // Always show something if possible, or clear
@@ -883,89 +870,79 @@ class AidoInputMethodService : InputMethodService(),
             }
             return
         }
-        
+
         // Word Completion Logic
         val prefix = currentWord.toString().lowercase()
-        
+
         val completions = com.rr.aido.utils.SuggestionEngine.getCompletions(prefix, 6)
-        
+
         val recentMatches = recentWords
             .filter { it.startsWith(prefix) && it != prefix }
             .take(2)
-            
+
         val allSuggestions: List<String> = (recentMatches + completions)
             .distinct()
             .take(6)
-        
+
         updateSuggestions(allSuggestions)
     }
-    
-    /**
-     * Update the suggestion strip with new suggestions
-     */
-    /**
-     * Update the suggestion strip with new suggestions
-     */
+
+
+
     private fun updateSuggestions(suggestions: List<String>) {
         _suggestions.value = suggestions
     }
-    
-    /**
-     * Insert a suggestion when user taps it
-     */
+
+
     private fun insertSuggestion(word: String) {
         saveHistory()
         val ic = currentInputConnection ?: return
-        
+
         // Delete the current partial word
         if (currentWord.isNotEmpty()) {
             ic.deleteSurroundingText(currentWord.length, 0)
         }
-        
+
         // Insert the complete word with a space
         ic.commitText("$word ", 1)
-        
+
         // Add to recent words for better future predictions
         addToRecentWords(word)
-        
+
         // Clear current word
         currentWord.clear()
-        
+
         // Trigger next word prediction after a short delay to let InputConnection update
         Handler(Looper.getMainLooper()).postDelayed({
             updateSuggestionsForCurrentWord()
         }, 50)
     }
-    
-    /**
-     * Track recently used words for personalized suggestions
-     */
+
+
     private fun addToRecentWords(word: String) {
         val lowerWord = word.lowercase()
-        
+
         // Remove if already exists (to move to front)
         recentWords.remove(lowerWord)
-        
+
         // Add to front
         recentWords.add(0, lowerWord)
-        
+
         // Keep only last N words
         if (recentWords.size > maxRecentWords) {
             recentWords.removeAt(recentWords.size - 1)
         }
     }
 
-    /**
-     * Downloads media to local cache and shares via FileProvider
-     */
+
     private suspend fun downloadAndCommitMedia(url: String, mimeType: String) {
         val ic = currentInputConnection ?: return
-        
+
         try {
             // 1. Download File
             val client = okhttp3.OkHttpClient()
             val request = okhttp3.Request.Builder().url(url).build()
-            
+
             // Should be on IO thread (called from launch(Dispatchers.IO))
             val response = client.newCall(request).execute()
             if (!response.isSuccessful) {
@@ -973,46 +950,46 @@ class AidoInputMethodService : InputMethodService(),
                 ic.commitText(url, 1) // Fallback
                 return
             }
-            
+
             val body = response.body ?: return
-            
+
             // Create cache file
             val cachePath = java.io.File(cacheDir, "images")
             if (!cachePath.exists()) {
                 cachePath.mkdirs()
             }
-            
+
             // Clean up old files (basic)
             if ((cachePath.listFiles()?.size ?: 0) > 20) {
                  cachePath.listFiles()?.forEach { it.delete() }
             }
-            
+
             val fileName = "media_${System.currentTimeMillis()}.${if(mimeType.contains("gif")) "gif" else "png"}"
             val file = java.io.File(cachePath, fileName)
-            
+
             val fos = java.io.FileOutputStream(file)
             fos.write(body.bytes())
             fos.close()
-            
+
             // 2. Get Content URI
             val contentUri = androidx.core.content.FileProvider.getUriForFile(
                 this,
                 "${packageName}.fileprovider",
                 file
             )
-            
+
             // 3. Commit Content
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 val description = android.content.ClipDescription("Media", arrayOf(mimeType))
-                
+
                 val inputContentInfo = android.view.inputmethod.InputContentInfo(
                     contentUri,
                     description,
                     android.net.Uri.parse(url) // Link URI fallback
                 )
-                
+
                 val flags = android.view.inputmethod.InputConnection.INPUT_CONTENT_GRANT_READ_URI_PERMISSION
-                
+
                 withContext(Dispatchers.Main) {
                     if (!ic.commitContent(inputContentInfo, flags, null)) {
                         Log.w(TAG, "Editor rejected content, falling back to text")
@@ -1024,7 +1001,7 @@ class AidoInputMethodService : InputMethodService(),
                      ic.commitText(url, 1)
                  }
             }
-            
+
         } catch (e: Exception) {
             Log.e(TAG, "Error sharing media", e)
             withContext(Dispatchers.Main) {
@@ -1032,8 +1009,6 @@ class AidoInputMethodService : InputMethodService(),
             }
         }
     }
-
-
 
     override fun onDestroy() {
         super.onDestroy()

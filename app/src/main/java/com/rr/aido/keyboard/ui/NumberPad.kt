@@ -37,7 +37,7 @@ fun NumberPad(
             Column(modifier = Modifier.weight(1f)) {
                 listOf("+", "-", "*", "/").forEach { op ->
                     NumberKey(
-                        text = op, 
+                        text = op,
                         modifier = Modifier.height(60.dp).fillMaxWidth(),
                         backgroundColor = operatorColor,
                         textColor = textColor,
@@ -50,7 +50,7 @@ fun NumberPad(
             Column(modifier = Modifier.weight(1f)) {
                  listOf("1", "4", "7", ".").forEach { key ->
                     NumberKey(
-                        text = key, 
+                        text = key,
                         modifier = Modifier.height(60.dp).fillMaxWidth(),
                         backgroundColor = keyColor,
                         textColor = textColor,
@@ -63,7 +63,7 @@ fun NumberPad(
             Column(modifier = Modifier.weight(1f)) {
                  listOf("2", "5", "8", "0").forEach { key ->
                     NumberKey(
-                        text = key, 
+                        text = key,
                         modifier = Modifier.height(60.dp).fillMaxWidth(),
                         backgroundColor = keyColor,
                         textColor = textColor,
@@ -72,11 +72,11 @@ fun NumberPad(
                  }
             }
 
-            // Column 4: 3 6 9 , 
+            // Column 4: 3 6 9 ,
             Column(modifier = Modifier.weight(1f)) {
                  listOf("3", "6", "9", ",").forEach { key ->
                     NumberKey(
-                        text = key, 
+                        text = key,
                         modifier = Modifier.height(60.dp).fillMaxWidth(),
                         backgroundColor = keyColor,
                         textColor = textColor,
@@ -84,18 +84,18 @@ fun NumberPad(
                     )
                  }
             }
-            
+
             // Column 5: Actions (Backspace, Enter)
             Column(modifier = Modifier.weight(1f)) {
                 // Percentage or other symbol
                 NumberKey(
-                    text = "%", 
+                    text = "%",
                     modifier = Modifier.height(60.dp).fillMaxWidth(),
                     backgroundColor = operatorColor,
                     textColor = textColor,
                     onClick = { actionListener.onText("%") }
                 )
-                
+
                 // Backspace
                 NumberKey(
                     icon = KeyboardIcons.Backspace,
@@ -136,7 +136,7 @@ fun NumberPad(
                 backgroundColor = operatorColor,
                 onClick = onReturnToAlpha
             )
-            
+
             // ?123 (Back to symbols)
             NumberKey(
                 text = "?#1",
@@ -145,7 +145,7 @@ fun NumberPad(
                 textColor = textColor,
                 onClick = onReturnToSymbols
             )
-            
+
             // Space Bar
              NumberKey(
                 text = "space",
@@ -184,7 +184,7 @@ fun NumberKey(
         textColor = textColor
         // onRepeat = onRepeat  // Add repeat support to KeyboardKey if possible, or just click
     )
-    // Note: KeyboardKey wrapper handles styling usually. 
+    // Note: KeyboardKey wrapper handles styling usually.
     // We are reusing the shared KeyboardKey but setting specific modifiers.
     // However, KeyboardKey implementation in KeyboardLayout might need to accept backgroundColor override.
     // If not, we might need to recreate a simple box here.

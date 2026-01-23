@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -42,60 +41,53 @@ import com.rr.aido.ui.components.ProcessingAnimationView
 import com.rr.aido.data.models.ProcessingAnimationType
 import com.rr.aido.ui.overlays.SearchOverlayManager
 
-/**
- * AidoAccessibilityService - Main accessibility service
- * 
- * IMPORTANT SECURITY NOTE:
- * Accessibility services have powerful permissions. Use responsibly.
- * This service can read and modify text in other apps.
- */
 class AidoAccessibilityService : AccessibilityService() {
-    
+
     private val TAG = "AidoAccessibility"
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-    
+
     private lateinit var dataStoreManager: DataStoreManager
     private val geminiRepository = GeminiRepositoryImpl()
-    
+
     private var lastProcessedText: String? = null
     private var isProcessing = false
     private var currentEditableNode: AccessibilityNodeInfo? = null
     private var currentPopupView: View? = null
 
     private var currentAnimationView: View? = null
-    
+
     private lateinit var searchOverlayManager: SearchOverlayManager
-    
+
     // Undo/Redo Manager
     private lateinit var undoRedoManager: UndoRedoManager
-    
+
     // Text Selection Processor
     private lateinit var textSelectionProcessor: TextSelectionProcessor
-    
+
     // Temporary state for Undo/Redo capture
     private var lastOriginalText: String? = null
     private var lastGeneratedText: String? = null
     private var undoRedoNode: AccessibilityNodeInfo? = null
-    
+
     companion object {
         // Shared flag to temporarily pause processing (e.g., when editing preprompts)
         @Volatile
         var isPaused = false
     }
-    
+
     private var disabledApps: Set<String> = emptySet()
     private var textShortcuts: List<com.rr.aido.data.models.TextShortcut> = emptyList()
-    
+
     // App Toggle Processor
     private lateinit var appToggleProcessor: AppToggleProcessor
-    
+
     override fun onCreate() {
         super.onCreate()
         dataStoreManager = DataStoreManager(applicationContext)
         val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         undoRedoManager = UndoRedoManager(applicationContext, windowManager, dataStoreManager, serviceScope)
         undoRedoManager = UndoRedoManager(applicationContext, windowManager, dataStoreManager, serviceScope)
-        
+
         searchOverlayManager = SearchOverlayManager(
             context = applicationContext,
             windowManager = windowManager,
@@ -104,7 +96,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 replaceTextInNode(url) // Or logic to replace textToReplace with url
             }
         )
-        
+
         textSelectionProcessor = TextSelectionProcessor(
             context = applicationContext,
             dataStoreManager = dataStoreManager,
@@ -115,15 +107,15 @@ class AidoAccessibilityService : AccessibilityService() {
             onHideAnimation = { hideProcessingAnimation() },
             onShowToast = { message, force -> showToast(message, force) }
         )
-        
+
         appToggleProcessor = AppToggleProcessor(
             dataStoreManager = dataStoreManager,
             scope = serviceScope,
             onShowToast = { message, force -> showToast(message, force) }
         )
-        
+
         Log.d(TAG, "Aido Accessibility Service created")
-        
+
         // Monitor disabled apps
         serviceScope.launch {
             dataStoreManager.disabledAppsFlow.collect {
@@ -131,7 +123,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 Log.d(TAG, "Disabled apps updated: $it")
             }
         }
-        
+
         // Monitor text shortcuts
         serviceScope.launch {
             dataStoreManager.textShortcutsFlow.collect {
@@ -140,25 +132,25 @@ class AidoAccessibilityService : AccessibilityService() {
             }
         }
     }
-    
+
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
-        
+
         // Check if service is temporarily paused (e.g., editing preprompts)
         if (isPaused) {
             Log.d(TAG, "Service is paused, skipping event")
             return
         }
-        
+
         // Check if app is blacklisted
         val packageName = event.packageName?.toString()
         if (packageName != null && disabledApps.contains(packageName)) {
             Log.d(TAG, "App is blacklisted: $packageName, skipping event")
             return
         }
-        
+
         Log.d(TAG, "Event received: ${event.eventType}, Package: ${event.packageName}")
-        
+
         // Only process text change events
         when (event.eventType) {
             AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> {
@@ -175,10 +167,8 @@ class AidoAccessibilityService : AccessibilityService() {
             }
         }
     }
-    
-    /**
-     * Handle text change events
-     */
+
+
     private fun handleTextEvent(event: AccessibilityEvent) {
         // Try to get text from event first
         val eventText = if (event.text.isNotEmpty()) {
@@ -186,9 +176,9 @@ class AidoAccessibilityService : AccessibilityService() {
         } else {
             ""
         }
-        
+
         Log.d(TAG, "Event text: $eventText")
-        
+
         // Get the source node
         val source = event.source
         if (source == null) {
@@ -198,21 +188,21 @@ class AidoAccessibilityService : AccessibilityService() {
             }
             return
         }
-        
+
         // Check if it's an editable text field
         if (!source.isEditable) {
             Log.d(TAG, "Source is not editable")
             source.recycle()
             return
         }
-        
+
         // Get current text from node
         val nodeText = source.text?.toString() ?: ""
         Log.d(TAG, "Node text: $nodeText")
-        
+
         // Use whichever text is available
         val currentText = if (nodeText.isNotEmpty()) nodeText else eventText
-        
+
         if (currentText.isNotEmpty()) {
             // Store the node for later text replacement
             currentEditableNode?.recycle()
@@ -223,37 +213,33 @@ class AidoAccessibilityService : AccessibilityService() {
             source.recycle()
         }
     }
-    
-    /**
-     * Check and process text shortcuts
-     */
+
+
     private fun checkAndProcessShortcuts(text: String) {
         if (textShortcuts.isEmpty()) return
-        
+
         // Find a matching shortcut that the text ends with
         // We look for shortcuts where the text ends with the trigger
         // Example: text "Hello !email", trigger "!email" -> match
         val matchingShortcut = textShortcuts.find { text.endsWith(it.trigger) }
-        
+
         if (matchingShortcut != null) {
             Log.d(TAG, "Found shortcut match: ${matchingShortcut.trigger} -> ${matchingShortcut.replacement}")
-            
+
             // Calculate the new text
             // Remove the trigger from the end and append the replacement
             val newText = text.substring(0, text.length - matchingShortcut.trigger.length) + matchingShortcut.replacement
-            
+
             // Replace the text
             replaceTextInNode(newText)
         }
     }
 
-    /**
-     * Check text for trigger and process
-     */
+
     private fun checkAndProcessText(text: String) {
         serviceScope.launch {
             val settings = dataStoreManager.settingsFlow.first()
-            
+
             // ONLY check toggle if feature is enabled
             if (settings.isAppToggleEnabled) {
                 // Check for @on/@off toggle commands FIRST (even if app is toggled off)
@@ -267,17 +253,17 @@ class AidoAccessibilityService : AccessibilityService() {
                         Log.e(TAG, "Error processing toggle command", e)
                     }
                 }
-                
+
                 // If app is toggled OFF, skip all processing
                 if (!settings.isAppToggledOn) {
                     Log.d(TAG, "App is toggled OFF, skipping processing")
                     return@launch
                 }
             }
-            
+
             val smartReplyTrigger = settings.smartReplyTrigger
             val toneRewriteTrigger = settings.toneRewriteTrigger
-            
+
             // Check for Smart Reply trigger
             if (text.trim().endsWith(smartReplyTrigger)) {
                 Log.d(TAG, "Smart Reply trigger detected")
@@ -298,7 +284,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 processAllTrigger(text, settings)
                 return@launch
             }
-            
+
             // Check for Search trigger
             val searchTrigger = settings.searchTrigger
             if (text.trim().endsWith(searchTrigger)) {
@@ -314,10 +300,10 @@ class AidoAccessibilityService : AccessibilityService() {
 
             // Check if text contains a trigger
             val trigger = PromptParser.extractTrigger(text)
-            
+
             Log.d(TAG, "Checking text: $text")
             Log.d(TAG, "Trigger found: $trigger")
-            
+
             if (trigger != null && text != lastProcessedText && !isProcessing) {
                 Log.d(TAG, "Processing trigger: $trigger")
                 processTextWithTrigger(text)
@@ -325,15 +311,13 @@ class AidoAccessibilityService : AccessibilityService() {
         }
     }
 
-    /**
-     * Process Smart Reply trigger
-     */
+
     private fun processSmartReply(text: String, settings: com.rr.aido.data.models.Settings) {
         if (!settings.isSmartReplyEnabled) {
             Log.d(TAG, "Smart Reply is disabled in settings")
             return
         }
-        
+
         if (!android.provider.Settings.canDrawOverlays(this@AidoAccessibilityService)) {
             Log.d(TAG, "Overlay permission not granted")
             showToast("Aido: Please grant 'Display over other apps' permission for Smart Reply", force = true)
@@ -341,19 +325,19 @@ class AidoAccessibilityService : AccessibilityService() {
         }
 
         Log.d(TAG, "Processing Smart Reply...")
-        
+
         serviceScope.launch {
             // Show processing animation
             showProcessingAnimation()
-            
+
             try {
                 // 1. Read context (screen content)
                 val contextText = readScreenContext()
                 Log.d(TAG, "Context read: ${contextText.take(100)}...")
-                
+
                 // 2. Get suggestions from AI
                 val suggestions = getSmartReplySuggestions(contextText, settings)
-                
+
                 // 3. Show popup
                 if (suggestions.isNotEmpty()) {
                     showReplyPopup(suggestions, settings.smartReplyTrigger)
@@ -367,14 +351,12 @@ class AidoAccessibilityService : AccessibilityService() {
         }
     }
 
-    /**
-     * Process Tone Rewrite trigger
-     */
+
     private fun processToneRewrite(text: String, settings: com.rr.aido.data.models.Settings) {
         if (!settings.isToneRewriteEnabled) {
             return
         }
-        
+
         if (!android.provider.Settings.canDrawOverlays(this@AidoAccessibilityService)) {
             showToast("Aido: Please grant 'Display over other apps' permission", force = true)
             return
@@ -389,15 +371,15 @@ class AidoAccessibilityService : AccessibilityService() {
         }
 
         Log.d(TAG, "Rewriting text: $originalText")
-        
+
         serviceScope.launch {
             // Show processing animation
             showProcessingAnimation()
-            
+
             try {
                 // Get rewrites from AI
                 val suggestions = getToneRewrites(originalText, settings)
-                
+
                 if (suggestions.isNotEmpty()) {
                     // We want to replace the whole "originalText @tone" sequence
                     // But since 'text' passed here IS that sequence (mostly), we can pass 'text' as target to replace.
@@ -412,36 +394,34 @@ class AidoAccessibilityService : AccessibilityService() {
         }
     }
 
-    /**
-     * Process @all trigger
-     */
+
     private fun processAllTrigger(text: String, settings: com.rr.aido.data.models.Settings) {
         if (!settings.isAllTriggerEnabled) {
             return
         }
-        
+
         serviceScope.launch {
             // Get preprompts
             val preprompts = dataStoreManager.prepromptsFlow.first()
-            
+
             // Build set of all available (enabled) triggers
            val availableTriggers = mutableSetOf<String>()
-            
+
             if (settings.isSmartReplyEnabled) {
                 availableTriggers.add(settings.smartReplyTrigger)
             }
-            
+
             if (settings.isToneRewriteEnabled) {
                 availableTriggers.add(settings.toneRewriteTrigger)
             }
-            
+
             if (settings.isSearchTriggerEnabled) {
                 availableTriggers.add(settings.searchTrigger)
             }
-            
+
             // Add all preprompts
             preprompts.forEach { availableTriggers.add(it.trigger) }
-           
+
             // Use custom order if available, otherwise use default ordering
             val allTriggers = if (settings.allMenuOrder.isNotEmpty()) {
                 // Filter custom order to only show available/enabled triggers
@@ -452,11 +432,11 @@ class AidoAccessibilityService : AccessibilityService() {
                 if (settings.isSmartReplyEnabled) specialCommands.add(settings.smartReplyTrigger)
                 if (settings.isToneRewriteEnabled) specialCommands.add(settings.toneRewriteTrigger)
                 if (settings.isSearchTriggerEnabled) specialCommands.add(settings.searchTrigger)
-                
+
                 val customTriggers = preprompts.map { it.trigger }
                 specialCommands + customTriggers
             }
-            
+
             if (allTriggers.isNotEmpty()) {
                 showReplyPopup(allTriggers, "@all")
             } else {
@@ -465,40 +445,37 @@ class AidoAccessibilityService : AccessibilityService() {
         }
     }
 
-    /**
-     * Process @search trigger
-     */
+
     private fun processSearchTrigger(text: String, settings: com.rr.aido.data.models.Settings) {
         if (!settings.isSearchTriggerEnabled) {
             return
         }
-        
+
         if (!android.provider.Settings.canDrawOverlays(this@AidoAccessibilityService)) {
             showToast("Aido: Please grant 'Display over other apps' permission", force = true)
             return
         }
-        
+
         val trigger = settings.searchTrigger
-        
+
         // Extract query: "hello world @search" -> "hello world"
         val query = text.substringBeforeLast(trigger).trim()
-        
+
         if (query.isEmpty()) {
             showToast("Aido: Type something before $trigger", force = true)
             return
         }
-        
+
         searchOverlayManager.showSearchPopup(query, text, settings)
-        
+
         // Mark as processed to prevent re-trigger loop
         lastProcessedText = text
     }
 
-
     private fun readScreenContext(): String {
         val root = rootInActiveWindow ?: return ""
         val textBuilder = StringBuilder()
-        
+
         // Simple DFS to collect text
         fun traverse(node: AccessibilityNodeInfo) {
             if (node.text != null && node.text.isNotEmpty()) {
@@ -515,7 +492,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 }
             }
         }
-        
+
         traverse(root)
         return textBuilder.toString()
     }
@@ -532,18 +509,18 @@ class AidoAccessibilityService : AccessibilityService() {
             showToast("Aido: Please set your Gemini API key", force = true)
             return emptyList()
         }
-        
+
         if (provider == AiProvider.CUSTOM && apiKeyToUse.isEmpty()) {
             showToast("Aido: Please set your custom API key", force = true)
             return emptyList()
         }
-        
+
         // Construct prompt
         val instructions = settings.smartReplyPrompt.ifEmpty { PromptParser.DEFAULT_SMART_REPLY_INSTRUCTIONS }
         val prompt = """
             Context from screen:
             $context
-            
+
             $instructions
         """.trimIndent()
 
@@ -557,7 +534,7 @@ class AidoAccessibilityService : AccessibilityService() {
             prompt = prompt,
             customApiUrl = settings.customApiUrl
         )
-        
+
         return when (result) {
             is Result.Success -> {
                 result.data.lines()
@@ -588,21 +565,21 @@ class AidoAccessibilityService : AccessibilityService() {
             showToast("Aido: Please set your Gemini API key", force = true)
             return emptyList()
         }
-        
+
         if (provider == AiProvider.CUSTOM && apiKeyToUse.isEmpty()) {
             showToast("Aido: Please set your custom API key", force = true)
             return emptyList()
         }
-        
+
         val instructions = settings.toneRewritePrompt.ifEmpty { PromptParser.DEFAULT_TONE_REWRITE_INSTRUCTIONS }
         val prompt = """
             Original text: "$originalText"
-            
+
             $instructions
         """.trimIndent()
 
         val modelToUse = if (provider == AiProvider.CUSTOM) settings.customModelName else settings.selectedModel
-        
+
         val result = geminiRepository.sendPrompt(
             provider = provider,
             apiKey = apiKeyToUse,
@@ -610,7 +587,7 @@ class AidoAccessibilityService : AccessibilityService() {
             prompt = prompt,
             customApiUrl = settings.customApiUrl
         )
-        
+
         return when (result) {
             is Result.Success -> {
                 result.data.lines()
@@ -647,21 +624,21 @@ class AidoAccessibilityService : AccessibilityService() {
                 setBackgroundColor(0xFF1E1E1E.toInt()) // Dark background
                 setPadding(32, 24, 32, 32)
             }
-            
+
             // Header Row (Title + @all button + Close Icon)
             val headerLayout = LinearLayout(this@AidoAccessibilityService).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(0, 0, 0, 16)
             }
-            
+
             // Title
             val titleView = TextView(this@AidoAccessibilityService).apply {
                 text = "Aido Suggestions"
                 setTextColor(0xFFFFFFFF.toInt())
                 textSize = 16f
                 layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-                
+
                 // Make it clickable to launch the app
                 setOnClickListener {
                     val launchIntent = Intent(this@AidoAccessibilityService, com.rr.aido.MainActivity::class.java).apply {
@@ -680,7 +657,7 @@ class AidoAccessibilityService : AccessibilityService() {
                     textSize = 14f
                     gravity = Gravity.CENTER
                     setPadding(24, 8, 24, 8)
-                    
+
                     // White rounded background
                     val drawable = android.graphics.drawable.GradientDrawable().apply {
                         shape = android.graphics.drawable.GradientDrawable.RECTANGLE
@@ -688,7 +665,7 @@ class AidoAccessibilityService : AccessibilityService() {
                         setColor(0xFFFFFFFF.toInt()) // White background
                     }
                     background = drawable
-                    
+
                     setOnClickListener {
                         // Switch to @all view
                         serviceScope.launch {
@@ -696,7 +673,7 @@ class AidoAccessibilityService : AccessibilityService() {
                             val builtInTriggers = listOf("@reply", "@tone")
                             val customTriggers = preprompts.map { it.trigger }
                             val allTriggers = builtInTriggers + customTriggers
-                            
+
                             // Fix: If coming from @tone, textToReplace is the entire text.
                             // We want to preserve the original text and only replace the "@tone" suffix.
                             val nextTextToReplace = if (textToReplace.trim().endsWith("@tone")) {
@@ -704,12 +681,12 @@ class AidoAccessibilityService : AccessibilityService() {
                             } else {
                                 textToReplace
                             }
-                            
+
                             showReplyPopup(allTriggers, nextTextToReplace, forceGrid = true)
                         }
                     }
                 }
-                
+
                 val allButtonParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -718,26 +695,26 @@ class AidoAccessibilityService : AccessibilityService() {
                 }
                 headerLayout.addView(allButton, allButtonParams)
             }
-            
+
             // Close Icon (X)
             val closeIcon = TextView(this@AidoAccessibilityService).apply {
                 text = "✕" // Unicode multiplication X
                 setTextColor(0xFFFFFFFF.toInt()) // White text
                 textSize = 20f
                 gravity = android.view.Gravity.CENTER
-                
+
                 // Create circular background
                 val drawable = android.graphics.drawable.GradientDrawable().apply {
                     shape = android.graphics.drawable.GradientDrawable.OVAL
                     setColor(0xFFFF5555.toInt()) // Red background
                 }
                 background = drawable
-                
+
                 setOnClickListener {
                     removePopup()
                 }
             }
-            
+
             // Add close icon with proper layout params for vertical centering
             val closeIconParams = LinearLayout.LayoutParams(
                 (40 * resources.displayMetrics.density).toInt(),
@@ -747,14 +724,12 @@ class AidoAccessibilityService : AccessibilityService() {
                 gravity = Gravity.CENTER_VERTICAL
             }
             headerLayout.addView(closeIcon, closeIconParams)
-            
+
             layout.addView(headerLayout)
-
-
 
             // Decide layout based on trigger type or forceGrid
             val isGridLayout = textToReplace == "@all" || forceGrid
-            
+
             // ScrollView for suggestions
             val scrollView = ScrollView(this@AidoAccessibilityService).apply {
                 layoutParams = LinearLayout.LayoutParams(
@@ -778,7 +753,7 @@ class AidoAccessibilityService : AccessibilityService() {
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     )
                 }
-                
+
                 suggestions.forEach { suggestion ->
                     val button = Button(this@AidoAccessibilityService).apply {
                         text = suggestion
@@ -796,7 +771,7 @@ class AidoAccessibilityService : AccessibilityService() {
                     }
                     gridContainer.addView(button)
                 }
-                
+
                 scrollView.addView(gridContainer)
             } else {
                 // Vertical layout for @reply and @tone
@@ -820,7 +795,7 @@ class AidoAccessibilityService : AccessibilityService() {
                     }
                     buttonsContainer.addView(button)
                 }
-                
+
                 scrollView.addView(buttonsContainer)
             }
             layout.addView(scrollView)
@@ -850,7 +825,7 @@ class AidoAccessibilityService : AccessibilityService() {
     private fun insertReply(reply: String, textToReplace: String) {
         val node = currentEditableNode ?: return
         val currentText = node.text?.toString() ?: ""
-        
+
         // Replace the target text with the selected reply
         val newText = if (currentText.contains(textToReplace)) {
             currentText.replace(textToReplace, reply)
@@ -867,9 +842,9 @@ class AidoAccessibilityService : AccessibilityService() {
                 reply
             }
         }
-        
+
         replaceTextInNode(newText)
-        
+
         // Auto-trigger: After replacing text, check if the new text contains a trigger
         // This now works because currentEditableNode is preserved
         serviceScope.launch {
@@ -878,43 +853,38 @@ class AidoAccessibilityService : AccessibilityService() {
             checkAndProcessText(newText)
         }
     }
-    
-    /**
-     * Process text with trigger
-     * TODO: For production, add user confirmation before auto-replacing
-     * Abhi demo mode hai - automatic replacement nahi hoga
-     */
+
     private fun processTextWithTrigger(text: String) {
         isProcessing = true
         lastProcessedText = text
-        
+
         serviceScope.launch {
             try {
                 Log.d(TAG, "Starting to process text: $text")
-                
+
                 // Load settings and preprompts
                 val settings = dataStoreManager.settingsFlow.first()
                 val preprompts = dataStoreManager.prepromptsFlow.first()
-                
+
                 Log.d(TAG, "Settings loaded - Provider: ${settings.provider}, API Key: ${if (settings.apiKey.isEmpty()) "NOT SET" else "SET"}")
                 Log.d(TAG, "Service enabled: ${settings.isServiceEnabled}")
                 Log.d(TAG, "Trigger method: ${settings.triggerMethod}")
                 Log.d(TAG, "Preprompts loaded: ${preprompts.size}")
-                
+
                 // Check if service is enabled
                 if (!settings.isServiceEnabled) {
                     Log.d(TAG, "Service is disabled by user")
                     isProcessing = false
                     return@launch
                 }
-                
+
                 // Check if accessibility method is selected
                 if (settings.triggerMethod != com.rr.aido.data.models.TriggerMethod.ACCESSIBILITY) {
                     Log.d(TAG, "Accessibility method not selected, skipping trigger")
                     isProcessing = false
                     return@launch
                 }
-                
+
                 val provider = settings.provider
                 val apiKeyToUse = when (provider) {
 
@@ -928,14 +898,14 @@ class AidoAccessibilityService : AccessibilityService() {
                     isProcessing = false
                     return@launch
                 }
-                
+
                 if (provider == AiProvider.CUSTOM && apiKeyToUse.isEmpty()) {
                     Log.d(TAG, "Custom provider selected but API key not set")
                     showToast("Aido: Please set your custom API key", force = true)
                     isProcessing = false
                     return@launch
                 }
-                
+
                 // Check if offline mode
                 if (settings.isOfflineMode) {
                     Log.d(TAG, "Offline mode enabled")
@@ -943,12 +913,12 @@ class AidoAccessibilityService : AccessibilityService() {
                     isProcessing = false
                     return@launch
                 }
-                
+
                 // Parse input
                 val parseResult = PromptParser.parseInput(text, preprompts)
-                
+
                 Log.d(TAG, "Parse result - Trigger: ${parseResult.trigger}, Matched: ${parseResult.matchedPreprompt != null}")
-                
+
                 if (parseResult.matchedPreprompt == null) {
                     Log.d(TAG, "No matching preprompt found for trigger: ${parseResult.trigger}")
                     isProcessing = false
@@ -972,17 +942,17 @@ class AidoAccessibilityService : AccessibilityService() {
                     prompt = parseResult.finalPrompt,
                     customApiUrl = settings.customApiUrl
                 )
-                
+
                 // Hide animation
                 hideProcessingAnimation()
-                
+
                 when (result) {
                     is Result.Success -> {
                         Log.d(TAG, "Got response from Gemini: ${result.data}")
-                        
+
                         // Replace text in the input field
                         val replaced = replaceTextInNode(result.data)
-                        
+
                         if (!replaced) {
                             // Fallback: Copy to clipboard
                             copyToClipboard(result.data)
@@ -996,7 +966,7 @@ class AidoAccessibilityService : AccessibilityService() {
                         // Handle Loading or other states if necessary
                     }
                 }
-                
+
             } catch (e: Exception) {
                 Log.e(TAG, "Exception in processTextWithTrigger", e)
                 showToast("Aido: Error - ${e.message}", force = true)
@@ -1005,29 +975,25 @@ class AidoAccessibilityService : AccessibilityService() {
             }
         }
     }
-    
-    /**
-     * Replace text in the current editable node
-     * Returns true if successful, false otherwise
-     * Supports streaming mode for word-by-word typing animation
-     */
+
+
     private fun replaceTextInNode(newText: String): Boolean {
         val node = currentEditableNode
         if (node == null) {
             Log.d(TAG, "No editable node available for replacement")
             return false
         }
-        
+
         // Capture original text for Undo/Redo
         val originalText = node.text?.toString() ?: ""
         lastOriginalText = originalText
         lastGeneratedText = newText
         undoRedoNode = node // Keep reference to node (might need refreshing though)
-        
+
 // Get settings to check if streaming mode is enabled
         serviceScope.launch {
             val settings = dataStoreManager.settingsFlow.first()
-            
+
             if (settings.isStreamingModeEnabled) {
                 // Streaming mode: Display word-by-word with animation
                 streamTextToNode(node, newText, settings.streamingDelayMs, settings)
@@ -1036,13 +1002,11 @@ class AidoAccessibilityService : AccessibilityService() {
                 replaceTextInstantly(node, newText, settings)
             }
         }
-        
+
         return true
     }
-    
-    /**
-     * Stream text word-by-word to create typing animation effect
-     */
+
+
     private suspend fun streamTextToNode(
         node: AccessibilityNodeInfo,
         fullText: String,
@@ -1054,7 +1018,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 // Split text into words
                 val words = fullText.split(" ")
                 val textBuilder = StringBuilder()
-                
+
                 // Display each word progressively
                 for ((index, word) in words.withIndex()) {
                     // Add the current word
@@ -1062,7 +1026,7 @@ class AidoAccessibilityService : AccessibilityService() {
                         textBuilder.append(" ")
                     }
                     textBuilder.append(word)
-                    
+
                     // Update the node with accumulated text
                     val arguments = Bundle()
                     arguments.putCharSequence(
@@ -1070,20 +1034,20 @@ class AidoAccessibilityService : AccessibilityService() {
                         textBuilder.toString()
                     )
                     node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
-                    
+
                     // Delay before next word (skip delay on last word)
                     if (index < words.size - 1) {
                         delay(delayMs.toLong())
                     }
                 }
-                
+
                 Log.d(TAG, "Text streamed successfully with ${words.size} words")
-                
+
                 // Show Undo/Redo popup after streaming is complete
                 if (settings.isUndoRedoEnabled) {
                     undoRedoManager.showPopup(fullText, lastOriginalText ?: "", undoRedoNode ?: node)
                 }
-                
+
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to stream text, falling back to instant replace", e)
                 // Fallback to instant replacement
@@ -1091,10 +1055,8 @@ class AidoAccessibilityService : AccessibilityService() {
             }
         }
     }
-    
-    /**
-     * Replace text instantly (original behavior)
-     */
+
+
     private suspend fun replaceTextInstantly(
         node: AccessibilityNodeInfo,
         newText: String,
@@ -1109,24 +1071,24 @@ class AidoAccessibilityService : AccessibilityService() {
                     newText
                 )
                 val success = node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
-                
+
                 if (success) {
                     Log.d(TAG, "Text replaced successfully using ACTION_SET_TEXT")
-                    
+
                     // Check if Undo/Redo is enabled and show popup
                     if (settings.isUndoRedoEnabled) {
                         undoRedoManager.showPopup(newText, lastOriginalText ?: "", undoRedoNode ?: node)
                     }
-                    
+
                     return@withContext
                 }
-                
+
                 // Method 2: Focus and paste (fallback)
                 node.performAction(AccessibilityNodeInfo.ACTION_FOCUS)
-                
+
                 // Copy new text to clipboard
                 copyToClipboard(newText)
-                
+
                 // Clear existing text by setting empty
                 val clearArgs = Bundle()
                 clearArgs.putCharSequence(
@@ -1134,12 +1096,12 @@ class AidoAccessibilityService : AccessibilityService() {
                     ""
                 )
                 node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, clearArgs)
-                
+
                 // Paste new text
                 node.performAction(AccessibilityNodeInfo.ACTION_PASTE)
-                
+
                 Log.d(TAG, "Text replaced using paste method")
-                
+
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to replace text", e)
             }
@@ -1147,36 +1109,32 @@ class AidoAccessibilityService : AccessibilityService() {
         // Note: NOT clearing currentEditableNode here to allow subsequent operations
         // It will be cleared/updated on the next text change event
     }
-    
-    /**
-     * Copy text to clipboard
-     */
+
+
     private fun copyToClipboard(text: String) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("Aido Response", text)
         clipboard.setPrimaryClip(clip)
     }
-    
-    /**
-     * Show processing animation overlay
-     */
+
+
     private suspend fun showProcessingAnimation() {
         val settings = dataStoreManager.settingsFlow.first()
-        
+
         // Check if animation is enabled
         if (!settings.isProcessingAnimationEnabled) {
             return
         }
-        
+
         // Check if overlay permission is granted
         if (!android.provider.Settings.canDrawOverlays(this@AidoAccessibilityService)) {
             return
         }
-        
+
         serviceScope.launch(Dispatchers.Main) {
             // Remove existing animation if any
             hideProcessingAnimation()
-            
+
             val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
             val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -1186,7 +1144,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 PixelFormat.TRANSLUCENT
             )
             params.gravity = Gravity.CENTER
-            
+
             val animationView = ProcessingAnimationView(this@AidoAccessibilityService).apply {
                 setAnimationType(settings.processingAnimationType)
                 // Use transparent background for peaceful animations
@@ -1199,7 +1157,7 @@ class AidoAccessibilityService : AccessibilityService() {
                 }
                 setBackgroundColor(backgroundColor)
             }
-            
+
             try {
                 windowManager.addView(animationView, params)
                 currentAnimationView = animationView
@@ -1210,14 +1168,8 @@ class AidoAccessibilityService : AccessibilityService() {
             }
         }
     }
-    
-
-    
 
 
-    /**
-     * Hide processing animation overlay
-     */
     private fun hideProcessingAnimation() {
         if (currentAnimationView != null) {
             val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
@@ -1231,10 +1183,8 @@ class AidoAccessibilityService : AccessibilityService() {
             currentAnimationView = null
         }
     }
-    
-    /**
-     * Show toast message
-     */
+
+
     private fun showToast(message: String, force: Boolean = false) {
         val isDebuggable = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         if (!force && !isDebuggable) {
@@ -1248,11 +1198,11 @@ class AidoAccessibilityService : AccessibilityService() {
             ).show()
         }
     }
-    
+
     override fun onInterrupt() {
         Log.d(TAG, "Service interrupted")
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         textSelectionProcessor.cleanup()
@@ -1261,38 +1211,3 @@ class AidoAccessibilityService : AccessibilityService() {
     }
 }
 
-/**
- * IMPLEMENTATION NOTES:
- * 
- * 1. SECURITY & PRIVACY:
- *    - Accessibility services can read ALL text on screen
- *    - Only process text when user explicitly uses triggers
- *    - Never log sensitive information
- *    - Inform users about data being sent to external API
- * 
- * 2. DEMO MODE vs PRODUCTION:
- *    - Current implementation copies result to clipboard (safe demo mode)
- *    - For auto-replace, uncomment replaceText() call
- *    - Consider adding user confirmation dialog before replacing
- * 
- * 3. PERFORMANCE:
- *    - Avoid processing every text change event
- *    - Only process when trigger is detected
- *    - Use debouncing to prevent multiple rapid calls
- * 
- * 4. USER EXPERIENCE:
- *    - Show loading indicator when processing
- *    - Provide feedback via toast/notification
- *    - Allow users to disable service easily
- * 
- * 5. PERMISSIONS:
- *    - Requires BIND_ACCESSIBILITY_SERVICE permission
- *    - User must manually enable in Settings > Accessibility
- *    - Cannot be enabled programmatically (security feature)
- * 
- * 6. TESTING:
- *    - Test in various apps (WhatsApp, Gmail, Notes, etc.)
- *    - Test with different keyboards
- *    - Test with different Android versions
- *    - Monitor battery usage
- */

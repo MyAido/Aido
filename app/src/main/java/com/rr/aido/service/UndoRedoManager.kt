@@ -26,14 +26,14 @@ class UndoRedoManager(
     private val serviceScope: CoroutineScope
 ) {
     private val TAG = "UndoRedoManager"
-    
+
     // State
     private var popupView: View? = null
     private var lastOriginalText: String? = null
     private var lastGeneratedText: String? = null
     private var targetNode: AccessibilityNodeInfo? = null
     private var autoDismissJob: Job? = null
-    
+
     // Position
     private var initialX = 0
     private var initialY = 0
@@ -41,21 +41,21 @@ class UndoRedoManager(
     private var initialTouchY = 0f
     private var currentX = 0
     private var currentY = 0
-    
+
     fun showPopup(newText: String, originalText: String, node: AccessibilityNodeInfo) {
         lastGeneratedText = newText
         lastOriginalText = originalText
         targetNode = node
-        
+
         serviceScope.launch(Dispatchers.Main) {
             // Remove existing popup
             removePopup(false)
-            
+
             // Load saved position
             val settings = dataStoreManager.settingsFlow.first()
             currentX = settings.undoRedoPopupX
             currentY = settings.undoRedoPopupY
-            
+
             // If position is 0,0 (default), set a reasonable default (Top Center)
             if (currentX == 0 && currentY == 0) {
                 currentY = 150
@@ -71,9 +71,9 @@ class UndoRedoManager(
             params.gravity = Gravity.TOP or Gravity.START
             params.x = currentX
             params.y = currentY
-            
+
             val layout = createPopupLayout()
-            
+
             // Add drag listener
             layout.setOnTouchListener { view, event ->
                 when (event.action) {
@@ -106,7 +106,7 @@ class UndoRedoManager(
                     else -> false
                 }
             }
-            
+
             try {
                 windowManager.addView(layout, params)
                 popupView = layout
@@ -116,7 +116,7 @@ class UndoRedoManager(
             }
         }
     }
-    
+
     private fun createPopupLayout(): View {
         val layout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -132,7 +132,7 @@ class UndoRedoManager(
             setPadding(32, 16, 32, 16)
             elevation = 10f
         }
-        
+
         // Undo Button
         val undoButton = TextView(context).apply {
             text = "↶ Undo"
@@ -146,7 +146,7 @@ class UndoRedoManager(
                 startAutoDismissTimer()
             }
         }
-        
+
         // Divider
         val divider = View(context).apply {
             layoutParams = LinearLayout.LayoutParams(2, 40).apply {
@@ -155,7 +155,7 @@ class UndoRedoManager(
             }
             setBackgroundColor(0xFF555555.toInt())
         }
-        
+
         // Redo Button
         val redoButton = TextView(context).apply {
             text = "↷ Redo"
@@ -169,7 +169,7 @@ class UndoRedoManager(
                 startAutoDismissTimer()
             }
         }
-        
+
         // Close Button (small x)
         val closeButton = TextView(context).apply {
             text = "✕"
@@ -181,15 +181,15 @@ class UndoRedoManager(
                 removePopup(true)
             }
         }
-        
+
         layout.addView(undoButton)
         layout.addView(divider)
         layout.addView(redoButton)
         layout.addView(closeButton)
-        
+
         return layout
     }
-    
+
     private fun startAutoDismissTimer() {
         autoDismissJob?.cancel()
         autoDismissJob = serviceScope.launch {
@@ -197,7 +197,7 @@ class UndoRedoManager(
             removePopup(true)
         }
     }
-    
+
     fun removePopup(force: Boolean) {
         autoDismissJob?.cancel()
         if (popupView != null) {
@@ -209,16 +209,16 @@ class UndoRedoManager(
             popupView = null
         }
     }
-    
+
     private fun performUndo() {
         val textToRestore = lastOriginalText ?: return
         val node = targetNode ?: return
-        
+
         // Try to refresh node if needed
         if (!node.refresh()) {
              // Node might be stale, but we can try anyway if we have a reference
         }
-        
+
         val arguments = Bundle()
         arguments.putCharSequence(
             AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
@@ -226,15 +226,15 @@ class UndoRedoManager(
         )
         node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
     }
-    
+
     private fun performRedo() {
         val textToRestore = lastGeneratedText ?: return
         val node = targetNode ?: return
-        
+
         if (!node.refresh()) {
              // Node might be stale
         }
-        
+
         val arguments = Bundle()
         arguments.putCharSequence(
             AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,

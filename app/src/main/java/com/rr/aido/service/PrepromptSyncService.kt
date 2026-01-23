@@ -17,18 +17,15 @@ import com.rr.aido.data.repository.Result
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 
-/**
- * Background service for syncing preprompts to the cloud
- */
 class PrepromptSyncService : Service() {
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var dataStoreManager: DataStoreManager
     private lateinit var marketplaceRepository: MarketplaceRepository
-    
+
     // Sync interval in milliseconds (default: 1 hour)
     private val syncInterval = 60 * 60 * 1000L
-    
+
     // Mock user ID (in production, get from authentication)
     private val currentUserId = "user_current_sync"
 
@@ -36,10 +33,10 @@ class PrepromptSyncService : Service() {
         super.onCreate()
         dataStoreManager = DataStoreManager(applicationContext)
         marketplaceRepository = MarketplaceRepositoryImpl()
-        
+
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification("Initializing sync..."))
-        
+
         Log.d(TAG, "PrepromptSyncService created")
     }
 
@@ -62,7 +59,7 @@ class PrepromptSyncService : Service() {
                 performSync()
             }
         }
-        
+
         return START_STICKY
     }
 
@@ -81,11 +78,11 @@ class PrepromptSyncService : Service() {
         serviceScope.launch {
             try {
                 updateNotification("Syncing preprompts...")
-                
+
                 // Get local preprompts
                 val localPreprompts = dataStoreManager.prepromptsFlow.first()
                 Log.d(TAG, "Found ${localPreprompts.size} local preprompts")
-                
+
                 // Perform sync
                 when (val result = marketplaceRepository.syncUserPreprompts(currentUserId, localPreprompts)) {
                     is Result.Success -> {
@@ -97,7 +94,7 @@ class PrepromptSyncService : Service() {
                         }
                         updateNotification(message)
                         Log.d(TAG, message)
-                        
+
                         // Download any new preprompts from cloud
                         downloadCloudPreprompts()
                     }
@@ -110,7 +107,7 @@ class PrepromptSyncService : Service() {
                         updateNotification("Sync in progress...")
                     }
                 }
-                
+
             } catch (e: Exception) {
                 Log.e(TAG, "Error during sync", e)
                 updateNotification("Sync error: ${e.message}")
@@ -125,11 +122,11 @@ class PrepromptSyncService : Service() {
                     val remotePreprompts = cloudPreprompts.data
                     if (remotePreprompts.isNotEmpty()) {
                         val localPreprompts = dataStoreManager.prepromptsFlow.first()
-                        
+
                         // Merge: Add cloud preprompts that don't exist locally
                         val localTriggers = localPreprompts.map { it.trigger }.toSet()
                         val newPreprompts = remotePreprompts.filter { it.trigger !in localTriggers }
-                        
+
                         if (newPreprompts.isNotEmpty()) {
                             val mergedPreprompts = localPreprompts + newPreprompts
                             dataStoreManager.savePreprompts(mergedPreprompts)
@@ -159,7 +156,7 @@ class PrepromptSyncService : Service() {
             ).apply {
                 description = "Background synchronization of preprompts"
             }
-            
+
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
@@ -189,14 +186,12 @@ class PrepromptSyncService : Service() {
         private const val TAG = "PrepromptSyncService"
         private const val CHANNEL_ID = "preprompt_sync_channel"
         private const val NOTIFICATION_ID = 1001
-        
+
         const val ACTION_SYNC_NOW = "com.rr.aido.SYNC_NOW"
         const val ACTION_START_AUTO_SYNC = "com.rr.aido.START_AUTO_SYNC"
         const val ACTION_STOP_AUTO_SYNC = "com.rr.aido.STOP_AUTO_SYNC"
 
-        /**
-         * Start manual sync
-         */
+
         fun startSync(context: Context) {
             val intent = Intent(context, PrepromptSyncService::class.java).apply {
                 action = ACTION_SYNC_NOW
@@ -208,9 +203,7 @@ class PrepromptSyncService : Service() {
             }
         }
 
-        /**
-         * Start automatic periodic sync
-         */
+
         fun startAutoSync(context: Context) {
             val intent = Intent(context, PrepromptSyncService::class.java).apply {
                 action = ACTION_START_AUTO_SYNC
@@ -222,9 +215,7 @@ class PrepromptSyncService : Service() {
             }
         }
 
-        /**
-         * Stop sync service
-         */
+
         fun stopSync(context: Context) {
             val intent = Intent(context, PrepromptSyncService::class.java).apply {
                 action = ACTION_STOP_AUTO_SYNC

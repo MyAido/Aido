@@ -58,7 +58,7 @@ fun KeyboardMenu(
                 fontSize = 18.sp,
                 modifier = Modifier.padding(start = 8.dp)
             )
-            
+
             // Close Button
             Box(
                 modifier = Modifier
@@ -89,7 +89,7 @@ fun KeyboardMenu(
                 backgroundColor = itemColor,
                 textColor = textColor
             )
-            
+
             MenuItem(
                 modifier = Modifier.weight(1f),
                 icon = Icons.Default.ColorLens,
@@ -98,7 +98,7 @@ fun KeyboardMenu(
                 backgroundColor = itemColor,
                 textColor = textColor
             )
-            
+
             MenuItem(
                 modifier = Modifier.weight(1f),
                 icon = Icons.Default.StickyNote2,
@@ -107,7 +107,7 @@ fun KeyboardMenu(
                 backgroundColor = itemColor,
                 textColor = textColor
             )
-            
+
             MenuItem(
                 modifier = Modifier.weight(1f),
                 icon = Icons.Default.Gif,

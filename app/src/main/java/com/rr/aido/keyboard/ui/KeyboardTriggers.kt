@@ -61,9 +61,9 @@ fun KeyboardTriggers(
                     tint = textColor
                 )
             }
-            
+
             Spacer(modifier = Modifier.width(8.dp))
-            
+
             Text(
                 text = "Triggers",
                 color = textColor,
@@ -129,9 +129,9 @@ fun TriggerItemRow(
                 fontSize = 16.sp
             )
         }
-        
+
         Spacer(modifier = Modifier.height(4.dp))
-        
+
         Text(
             text = preprompt.instruction,
             color = secondaryColor,

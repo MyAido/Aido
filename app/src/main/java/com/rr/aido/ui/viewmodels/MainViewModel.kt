@@ -15,44 +15,37 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-/**
- * MainViewModel - Main screen ke liye
- * Demo input, accessibility status, etc handle karta hai
- */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    
+
     private val dataStoreManager = DataStoreManager(application)
     private val geminiRepository = GeminiRepositoryImpl()
-    
+
     // UI State
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
-    
+
     // Settings flow
     val settings = dataStoreManager.settingsFlow
-    
+
     // Preprompts flow
     val preprompts = dataStoreManager.prepromptsFlow
-    
+
     init {
         loadData()
     }
-    
+
     private fun loadData() {
         viewModelScope.launch {
             // Load settings and preprompts
             val currentSettings = settings.first()
             val currentPreprompts = preprompts.first()
-            
+
             _uiState.value = _uiState.value.copy(
                 isLoading = false
             )
         }
     }
-    
-    /**
-     * Demo input process karta hai
-     */
+
     fun processDemoInput(input: String) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
@@ -61,14 +54,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 demoOutput = "",
                 errorMessage = null
             )
-            
+
             try {
                 val currentPreprompts = preprompts.first()
                 val currentSettings = settings.first()
-                
+
                 // Parse input
                 val parseResult = PromptParser.parseInput(input, currentPreprompts)
-                
+
                 // Check provider
                 val provider = currentSettings.provider
                 if (provider == AiProvider.GEMINI && currentSettings.apiKey.isEmpty()) {
@@ -78,7 +71,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     )
                     return@launch
                 }
-                
+
                 // Send to Gemini
                 val result = geminiRepository.sendPrompt(
                     provider = provider,
@@ -86,7 +79,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     model = currentSettings.selectedModel,
                     prompt = parseResult.finalPrompt
                 )
-                
+
                 when (result) {
                     is Result.Success -> {
                         _uiState.value = _uiState.value.copy(
@@ -103,7 +96,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     else -> {}
                 }
-                
+
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isProcessing = false,
@@ -112,10 +105,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    
-    /**
-     * Clear demo output
-     */
+
+
     fun clearDemo() {
         _uiState.value = _uiState.value.copy(
             demoInput = "",
@@ -124,19 +115,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             errorMessage = null
         )
     }
-    
-    /**
-     * Toggle service on/off
-     */
+
+
     fun toggleService(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.toggleService(enabled)
         }
     }
-    
-    /**
-     * Update service enabled status
-     */
+
+
     fun updateServiceEnabled(enabled: Boolean) {
         viewModelScope.launch {
             dataStoreManager.saveServiceEnabled(enabled)
@@ -144,9 +131,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 }
 
-/**
- * UI State for Main screen
- */
 data class MainUiState(
     val isLoading: Boolean = true,
     val isProcessing: Boolean = false,

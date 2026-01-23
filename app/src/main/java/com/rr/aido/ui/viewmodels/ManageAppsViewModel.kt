@@ -37,12 +37,12 @@ class ManageAppsViewModel(
         val filteredApps = if (query.isEmpty()) {
             allApps
         } else {
-            allApps.filter { 
-                it.name.contains(query, ignoreCase = true) || 
-                it.packageName.contains(query, ignoreCase = true) 
+            allApps.filter {
+                it.name.contains(query, ignoreCase = true) ||
+                it.packageName.contains(query, ignoreCase = true)
             }
         }
-        
+
         ManageAppsUiState(
             apps = filteredApps,
             disabledApps = disabledApps,

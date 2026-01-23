@@ -41,10 +41,6 @@ import com.rr.aido.utils.AccessibilityUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-/**
- * Premium Settings Screen Redesign
- * A visually stunning, modern implementation of the settings interface.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
@@ -59,7 +55,7 @@ fun SettingsScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     val settings by viewModel.settings.collectAsState(initial = com.rr.aido.data.models.Settings())
-    
+
     // Handle deep link to specific section
     LaunchedEffect(targetSection) {
         if (targetSection != null) {
@@ -67,16 +63,16 @@ fun SettingsScreen(
             viewModel.toggleSection(targetSection, true)
         }
     }
-    
+
     // Setup logic
     var expanded by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    
+
     var isAccessibilityEnabled by remember { mutableStateOf(false) }
     var isKeyboardEnabled by remember { mutableStateOf(false) }
     var isKeyboardActive by remember { mutableStateOf(false) }
-    
+
     // Check status periodically
     LaunchedEffect(Unit) {
         while (true) {
@@ -86,7 +82,7 @@ fun SettingsScreen(
             delay(1000)
         }
     }
-    
+
     // Show snackbar for test result
     LaunchedEffect(uiState.testResult, uiState.errorMessage) {
         uiState.testResult?.let {
@@ -178,9 +174,9 @@ fun SettingsScreen(
                             currentMethod = settings.triggerMethod,
                             onMethodSelected = { viewModel.updateTriggerMethod(it) }
                         )
-                        
+
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         when (settings.triggerMethod) {
                             TriggerMethod.ACCESSIBILITY -> {
                                 PremiumStatusCard(
@@ -203,7 +199,7 @@ fun SettingsScreen(
                                         buttonText = "Enable",
                                         onAction = { AccessibilityUtils.redirectToKeyboardSettings(context) }
                                     )
-                                    
+
                                     if (isKeyboardEnabled) {
                                         PremiumStatusCard(
                                             title = "Select Keyboard",
@@ -231,7 +227,7 @@ fun SettingsScreen(
                             currentProvider = uiState.provider,
                             onProviderSelected = { viewModel.updateProvider(it) }
                         )
-                        
+
                         AnimatedVisibility(visible = uiState.provider == AiProvider.GEMINI) {
                             Column {
                                 Spacer(modifier = Modifier.height(16.dp))
@@ -245,7 +241,7 @@ fun SettingsScreen(
                                 )
                             }
                         }
-                        
+
                         AnimatedVisibility(visible = uiState.provider == AiProvider.CUSTOM) {
                             Column {
                                 Spacer(modifier = Modifier.height(16.dp))
@@ -259,11 +255,11 @@ fun SettingsScreen(
                                 )
                             }
                         }
-                        
+
                         Spacer(modifier = Modifier.height(16.dp))
                         Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         // Test Connection Button
                         val actionButtonEnabled = when (uiState.provider) {
 
@@ -316,26 +312,26 @@ fun SettingsScreen(
                             icon = Icons.Default.AutoAwesome,
                             onClick = onNavigateToSpecialCommands
                         )
-                        
+
                         PremiumSettingItem(
                             title = "Text Shortcuts",
                             subtitle = "Create snippets (e.g., !email -> my@email.com)",
                             icon = Icons.Default.Bolt,
                             onClick = onNavigateToTextShortcuts
                         )
-                        
+
                         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
-                        
+
                         // Processing Animation
                         var showAnimationDialog by remember { mutableStateOf(false) }
                         val overlayPermissionLauncher = rememberLauncherForActivityResult(
                             contract = ActivityResultContracts.StartActivityForResult()
-                        ) { 
+                        ) {
                              if (Settings.canDrawOverlays(context)) {
                                  coroutineScope.launch { snackbarHostState.showSnackbar("Overlay permission granted!") }
                              }
                         }
-                        
+
                         PremiumSwitchItem(
                             title = "Processing Animation",
                             subtitle = if (settings.isProcessingAnimationEnabled) settings.processingAnimationType.displayName else "Show visual feedback",
@@ -352,8 +348,8 @@ fun SettingsScreen(
                                     viewModel.toggleProcessingAnimation(false)
                                 }
                             },
-                            onClick = { 
-                                if (settings.isProcessingAnimationEnabled) showAnimationDialog = true 
+                            onClick = {
+                                if (settings.isProcessingAnimationEnabled) showAnimationDialog = true
                                 else {
                                      viewModel.toggleProcessingAnimation(true)
                                      if (!Settings.canDrawOverlays(context)) {
@@ -363,7 +359,7 @@ fun SettingsScreen(
                                 }
                             }
                         )
-                        
+
                         if (showAnimationDialog) {
                             AnimationSelectionDialog(
                                 currentType = settings.processingAnimationType,
@@ -381,7 +377,7 @@ fun SettingsScreen(
                         )
                     }
                 }
-                
+
                 // Keyboard Section
                 item {
                     PremiumSection(
@@ -414,7 +410,7 @@ fun SettingsScreen(
                             checked = uiState.isOfflineMode,
                             onCheckedChange = { viewModel.toggleOfflineMode(it) }
                         )
-                        
+
                         PremiumSettingItem(
                             title = "Manage Apps",
                             subtitle = "Blacklist apps where Aido should not appear",
@@ -423,12 +419,12 @@ fun SettingsScreen(
                         )
                     }
                 }
-                
+
                 // Backup & Restore
                 item {
                     BackupRestoreSection(viewModel, snackbarHostState)
                 }
-                
+
                 item { Spacer(modifier = Modifier.height(40.dp)) }
             }
         }
@@ -489,7 +485,7 @@ fun PremiumSection(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                
+
                 val rotation by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "arrow")
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
@@ -498,7 +494,7 @@ fun PremiumSection(
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
-            
+
             if (isExpanded) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
@@ -593,7 +589,6 @@ fun PremiumSwitchItem(
         )
     }
 }
-
 
 @Composable
 fun PremiumIconButton(
@@ -716,7 +711,7 @@ fun BackupRestoreSection(viewModel: SettingsViewModel, snackbarHostState: Snackb
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Button(
-                onClick = { 
+                onClick = {
                     try { createDocumentLauncher.launch("aido-backup-${System.currentTimeMillis()}.json") }
                     catch (e: Exception) { coroutineScope.launch { snackbarHostState.showSnackbar("Error: No file manager found.") } }
                 },
@@ -729,7 +724,7 @@ fun BackupRestoreSection(viewModel: SettingsViewModel, snackbarHostState: Snackb
                 Text("Backup")
             }
             Button(
-                onClick = { 
+                onClick = {
                     try { openDocumentLauncher.launch(arrayOf("application/json", "text/plain")) }
                     catch (e: Exception) { coroutineScope.launch { snackbarHostState.showSnackbar("Error: No file picker found.") } }
                 },
@@ -781,7 +776,7 @@ fun AnimationSelectionDialog(
 }
 
 // Re-implementing helper components from previous file to ensure compatibility
-// but styling them to fit the new theme if needed. 
+// but styling them to fit the new theme if needed.
 
 @Composable
 fun TriggerMethodSelector(
@@ -796,7 +791,7 @@ fun TriggerMethodSelector(
             val isSelected = currentMethod == method
             val containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
             val contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-            
+
             Card(
                 modifier = Modifier
                     .weight(1f)
@@ -837,7 +832,7 @@ fun AiProviderSelector(
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         AiProvider.values().forEach { provider ->
             val isSelected = currentProvider == provider
-            
+
             // Explicit colors for visibility
             val containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent
             val borderColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
@@ -905,7 +900,7 @@ fun GeminiConfiguration(
             shape = RoundedCornerShape(16.dp),
             singleLine = true
         )
-        
+
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = onExpandedChange

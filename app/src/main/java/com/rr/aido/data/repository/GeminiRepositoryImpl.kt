@@ -20,13 +20,8 @@ import retrofit2.http.Path
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-/**
- * Gemini API service interface
- * TODO: Real Gemini API endpoints add karne hain
- */
 interface GeminiApiService {
-    
-    // TODO: Replace with actual Gemini API endpoint
+
     // Example: https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent
     @POST("v1beta/models/{model}:generateContent")
     @retrofit2.http.Headers("Content-Type: application/json")
@@ -37,11 +32,6 @@ interface GeminiApiService {
     ): GeminiResponse
 }
 
-
-
-/**
- * Request body for Gemini API
- */
 data class GeminiRequest(
     val contents: List<Content>
 )
@@ -54,9 +44,6 @@ data class Part(
     val text: String
 )
 
-/**
- * Response from Gemini API
- */
 data class GeminiResponse(
     val candidates: List<Candidate>?
 )
@@ -65,10 +52,6 @@ data class Candidate(
     val content: Content?
 )
 
-/**
- * OpenAI-compatible API request/response
- * Works with OpenRouter, OpenAI, and other compatible APIs
- */
 data class OpenAIRequest(
     val model: String,
     val messages: List<OpenAIMessage>,
@@ -88,12 +71,8 @@ data class OpenAIChoice(
     val message: OpenAIMessage?
 )
 
-/**
- * GeminiRepositoryImpl - Actual implementation
- * Abhi stub hai, real API integration ke liye TODO marks dekho
- */
 class GeminiRepositoryImpl : GeminiRepository {
-    
+
     private val gson = Gson()
     private val client = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -102,20 +81,16 @@ class GeminiRepositoryImpl : GeminiRepository {
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
-    
+
     private val retrofit = Retrofit.Builder()
-        // TODO: Replace with actual Gemini API base URL
         .baseUrl("https://generativelanguage.googleapis.com/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    
+
     private val apiService = retrofit.create(GeminiApiService::class.java)
-    
-    /**
-     * Test API key
-     * TODO: Implement real API key validation
-     */
+
+
     override suspend fun testApiKey(provider: AiProvider, apiKey: String, model: String): Result<Boolean> {
         return when (provider) {
             AiProvider.GEMINI -> {
@@ -125,20 +100,9 @@ class GeminiRepositoryImpl : GeminiRepository {
                 try {
                     // Simulated delay
                     delay(1000)
-                    
-                    // TODO: Uncomment for real API call when backend ready
-                    /*
-                    val request = GeminiRequest(
-                        contents = listOf(
-                            Content(
-                                parts = listOf(Part("Test"))
-                            )
-                        )
-                    )
-                    val response = apiService.generateContent(model, apiKey, request)
-                    Result.Success(response.candidates?.isNotEmpty() == true)
-                    */
-                    
+
+
+
                     // Basic format validation until real API integration
                     if (apiKey.length > 20) {
                         Result.Success(true)
@@ -159,15 +123,12 @@ class GeminiRepositoryImpl : GeminiRepository {
             }
         }
     }
-    
-    /**
-     * Send prompt to Gemini
-     * Real API implementation
-     */
+
+
     override suspend fun sendPrompt(
-        provider: AiProvider, 
-        apiKey: String, 
-        model: String, 
+        provider: AiProvider,
+        apiKey: String,
+        model: String,
         prompt: String,
         customApiUrl: String
     ): Result<String> {
@@ -176,8 +137,6 @@ class GeminiRepositoryImpl : GeminiRepository {
             AiProvider.CUSTOM -> sendPromptViaCustomAPI(customApiUrl, apiKey, model, prompt)
         }
     }
-
-
 
     private suspend fun sendPromptViaGemini(apiKey: String, model: String, prompt: String): Result<String> {
         return try {
@@ -310,10 +269,8 @@ class GeminiRepositoryImpl : GeminiRepository {
             }
         }
     }
-    
-    /**
-     * Simulate grammar fix
-     */
+
+
     private fun simulateGrammarFix(text: String): String {
         return text
             .replace("are wrong", "is wrong")
@@ -326,40 +283,3 @@ class GeminiRepositoryImpl : GeminiRepository {
     }
 }
 
-/**
- * INTEGRATION NOTES:
- * 
- * Real Gemini API integration ke liye:
- * 
- * 1. API Key: https://aistudio.google.com se API key generate karo
- * 
- * 2. Base URL: https://generativelanguage.googleapis.com/
- * 
- * 3. Endpoint: /v1beta/models/{model}:generateContent
- * 
- * 4. Headers:
- *    - x-goog-api-key: YOUR_API_KEY
- *    - Content-Type: application/json
- * 
- * 5. Request body:
- *    {
- *      "contents": [{
- *        "parts": [{
- *          "text": "your prompt here"
- *        }]
- *      }]
- *    }
- * 
- * 6. Response:
- *    {
- *      "candidates": [{
- *        "content": {
- *          "parts": [{
- *            "text": "response text"
- *          }]
- *        }
- *      }]
- *    }
- * 
- * 7. TODO marks ko follow karo aur uncomment karo real API calls
- */

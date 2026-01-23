@@ -72,12 +72,12 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    
+
     // Status states
     var isAccessibilityEnabled by remember { mutableStateOf(false) }
     var isKeyboardEnabled by remember { mutableStateOf(false) }
     var isKeyboardActive by remember { mutableStateOf(false) }
-    
+
     // Refresh status when app comes to foreground
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -110,7 +110,7 @@ fun HomeScreen(
                     HomeHeader()
                 }
             }
-            
+
             // Status Dashboard
             item {
                 StatusDashboard(
@@ -119,7 +119,7 @@ fun HomeScreen(
                     context = context
                 )
             }
-            
+
             // Features Showcase
             item {
                 FeaturesShowcaseSection(
@@ -142,12 +142,7 @@ fun HomeScreen(
                     QuickActionsGrid(onNavigateToPlayground, onNavigateToChat)
                 }
             }
-            
 
-            
-
-            
-            
             // Support
             item {
                 SupportSection(context)
@@ -252,7 +247,7 @@ private fun StatusDashboard(
                      context.startActivity(intent)
                 }
             )
-            
+
             // Keyboard Status
             StatusCard(
                 modifier = Modifier.weight(1f),
@@ -276,14 +271,14 @@ private fun StatusCard(
     onClick: () -> Unit
 ) {
     // Colors - Use softer colors for inactive state, vibrant key color for active
-    val containerColor = if (isActive) 
+    val containerColor = if (isActive)
         MaterialTheme.colorScheme.primary
-    else 
+    else
         MaterialTheme.colorScheme.surfaceVariant
-        
-    val contentColor = if (isActive) 
+
+    val contentColor = if (isActive)
         MaterialTheme.colorScheme.onPrimary
-    else 
+    else
         MaterialTheme.colorScheme.onSurfaceVariant
 
     Surface(
@@ -325,7 +320,7 @@ private fun StatusCard(
                     )
                 }
             }
-            
+
             // Status Indicator Circle
             Box(
                 modifier = Modifier
@@ -452,7 +447,7 @@ private fun FeatureCard(
                     tint = contentColor
                 )
             }
-            
+
             // Text Bottom
             Column {
                 Text(
@@ -495,7 +490,7 @@ private fun QuickActionsGrid(
             onClick = onPlaygroundClick,
             color = MaterialTheme.colorScheme.secondary
         )
-        
+
         // Chat Card
         QuickActionCard(
             modifier = Modifier.weight(1f),
@@ -541,7 +536,7 @@ private fun QuickActionCard(
                     color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
                 )
             }
-            
+
             Box(
                 modifier = Modifier
                     .size(40.dp)
@@ -559,8 +554,6 @@ private fun QuickActionCard(
     }
 }
 
-
-
 @Composable
 private fun SupportSection(context: android.content.Context) {
     Column(
@@ -572,7 +565,7 @@ private fun SupportSection(context: android.content.Context) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        
+
         // Buttons Row
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -600,7 +593,7 @@ private fun SupportSection(context: android.content.Context) {
                     Text("Telegram", style = MaterialTheme.typography.labelLarge)
                 }
             }
-            
+
             // Support Dev Button
             Button(
                 onClick = {
@@ -625,7 +618,7 @@ private fun SupportSection(context: android.content.Context) {
                 }
             }
         }
-        
+
         // Play Store Link
          Surface(
             modifier = Modifier

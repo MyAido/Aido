@@ -1,8 +1,5 @@
 package com.rr.aido.data.models
 
-/**
- * Data class for full app backup
- */
 data class BackupData(
     val settings: Settings,
     val preprompts: List<Preprompt>,

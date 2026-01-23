@@ -1,11 +1,7 @@
 package com.rr.aido.utils
 
-/**
- * Comprehensive word database for auto-suggestions
- * Contains 500+ most commonly used English words
- */
 object WordDatabase {
-    
+
     val commonWords = listOf(
         // Very common words (1-50)
         "the", "and", "for", "are", "but", "not", "you", "all", "can", "had",
@@ -13,7 +9,7 @@ object WordDatabase {
         "how", "man", "new", "now", "old", "see", "two", "way", "who", "boy",
         "did", "its", "let", "put", "say", "she", "too", "use", "will", "have",
         "this", "been", "call", "come", "find", "first", "from", "good", "great", "hand",
-        
+
         // Common words (51-150)
         "here", "just", "know", "last", "like", "little", "long", "look", "made", "make",
         "many", "more", "most", "much", "must", "name", "need", "next", "night", "only",
@@ -25,7 +21,7 @@ object WordDatabase {
         "year", "your", "about", "above", "after", "again", "against", "also", "always", "another",
         "answer", "any", "around", "asked", "away", "back", "because", "before", "began", "begin",
         "being", "below", "between", "both", "bring", "came", "cannot", "change", "children", "city",
-        
+
         // Useful words (151-300)
         "close", "could", "country", "course", "does", "done", "door", "down", "each", "early",
         "earth", "easy", "enough", "even", "every", "example", "face", "family", "far", "feel",
@@ -42,7 +38,7 @@ object WordDatabase {
         "toward", "town", "try", "turn", "turned", "upon", "used", "usually", "want", "watch",
         "water", "week", "went", "white", "whole", "whose", "why", "word", "words", "year",
         "yet", "young", "able", "almost", "became", "become", "behind", "better", "book", "called",
-        
+
         // Conversational & tech words (301-450)
         "hello", "please", "thanks", "sorry", "yes", "okay", "sure", "maybe", "welcome", "goodbye",
         "morning", "afternoon", "evening", "tonight", "today", "tomorrow", "yesterday", "weekend", "week", "month",
@@ -59,7 +55,7 @@ object WordDatabase {
         "notification", "alert", "reminder", "calendar", "schedule", "appointment", "event", "date", "time", "clock",
         "location", "address", "map", "direction", "distance", "travel", "trip", "vacation", "hotel", "restaurant",
         "food", "drink", "coffee", "tea", "water", "lunch", "dinner", "breakfast", "eat", "cook",
-        
+
         // Additional common words (451-500)
         "shop", "store", "buy", "sell", "price", "cost", "pay", "money", "cash", "card",
         "bank", "payment", "order", "delivery", "shipping", "return", "refund", "discount", "sale", "offer",
@@ -67,16 +63,13 @@ object WordDatabase {
         "music", "song", "play", "listen", "watch", "movie", "show", "game", "sport", "exercise",
         "health", "doctor", "hospital", "medicine", "sick", "pain", "care", "treatment", "test", "result"
     )
-    
-    /**
-     * Get word suggestions based on prefix
-     * Returns up to maxResults suggestions
-     */
+
+
     fun getSuggestions(prefix: String, maxResults: Int = 6): List<String> {
         if (prefix.isBlank()) return emptyList()
-        
+
         val lowerPrefix = prefix.lowercase().trim()
-        
+
         // Filter and sort suggestions
         return commonWords
             .filter { it.startsWith(lowerPrefix) && it != lowerPrefix }
@@ -86,29 +79,24 @@ object WordDatabase {
             ))
             .take(maxResults)
     }
-    
-    /**
-     * Check if a word exists in dictionary
-     */
+
+
     fun containsWord(word: String): Boolean {
         return commonWords.contains(word.lowercase())
     }
-    
-    /**
-     * Get suggestions with frequency-based ranking
-     * More commonly used words appear first
-     */
+
+
     fun getSmartSuggestions(prefix: String, maxResults: Int = 6): List<String> {
         if (prefix.isBlank()) return emptyList()
-        
+
         val lowerPrefix = prefix.lowercase().trim()
         val prefixLength = lowerPrefix.length
-        
+
         // Filter words that start with prefix
-        val matches = commonWords.filter { 
-            it.startsWith(lowerPrefix) && it != lowerPrefix 
+        val matches = commonWords.filter {
+            it.startsWith(lowerPrefix) && it != lowerPrefix
         }
-        
+
         // Sort by: 1) Index in commonWords (frequency), 2) Length difference
         return matches
             .sortedWith(compareBy(

@@ -1,19 +1,3 @@
-/*
- * Copyright 2026 Aido Development Team
- *
- * Licensed under the MIT License (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://opensource.org/licenses/MIT
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 
 
 package com.rr.aido
@@ -48,7 +32,6 @@ import com.rr.aido.ui.viewmodels.MarketplaceViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,29 +44,28 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
     }
 }
 
-
 @Composable
 fun AidoApp(navigateTo: String? = null) {
     val context = LocalContext.current
     val navController = rememberNavController()
     val dataStoreManager = remember { DataStoreManager(context) }
-    
+
     var isFirstLaunch by remember { mutableStateOf(true) }
     var isLoading by remember { mutableStateOf(true) }
-    
+
     // Check if first launch
     LaunchedEffect(Unit) {
         isFirstLaunch = dataStoreManager.isFirstLaunchFlow.first()
         isLoading = false
     }
-    
+
     // Handle deep navigation
     LaunchedEffect(navigateTo) {
         if (!isLoading && navigateTo != null) {
@@ -96,14 +78,14 @@ try {
             }
         }
     }
-    
+
     if (isLoading) {
         // Show loading or splash screen
         return
     }
-    
+
     val startDestination = if (isFirstLaunch) "onboarding" else "home"
-    
+
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -144,7 +126,7 @@ try {
                 }
             )
         }
-        
+
         // Home Screen
         composable("home") {
             HomeScreen(
@@ -157,13 +139,13 @@ try {
                 onNavigateToFeaturesSettings = { navController.navigate("settings?section=Features") }
             )
         }
-        
+
         // Settings Screen
         composable(
             "settings?section={section}",
-            arguments = listOf(androidx.navigation.navArgument("section") { 
+            arguments = listOf(androidx.navigation.navArgument("section") {
                 type = androidx.navigation.NavType.StringType
-                nullable = true 
+                nullable = true
             })
         ) { backStackEntry ->
             SettingsScreen(
@@ -175,7 +157,7 @@ try {
                 targetSection = backStackEntry.arguments?.getString("section")
             )
         }
-        
+
         // Keyboard Settings Screen
         composable("keyboard_settings") {
             KeyboardSettingsScreen(
@@ -189,27 +171,27 @@ try {
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
+
         // Preprompts Screen
         composable("preprompts") {
             PrepromptsScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
+
         // Demo Screen
         composable("demo") {
             DemoScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
+
         // Marketplace Screen
         composable("marketplace") {
-            val marketplaceViewModel = remember { 
+            val marketplaceViewModel = remember {
                 MarketplaceViewModel(
                     dataStoreManager = dataStoreManager
-                ) 
+                )
             }
             MarketplaceScreen(
                 viewModel = marketplaceViewModel,
@@ -223,7 +205,7 @@ try {
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
+
         // AI Chat Screen
         composable("ai_chat") {
             val aiChatViewModel = remember {
@@ -237,7 +219,7 @@ try {
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
+
         // Manage Apps Screen
         composable("manage_apps") {
             val appRepository = remember { com.rr.aido.data.repository.AppRepository(context) }
@@ -252,7 +234,7 @@ try {
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
+
         // Text Shortcuts Screen
         composable("text_shortcuts") {
             val textShortcutsViewModel = remember {

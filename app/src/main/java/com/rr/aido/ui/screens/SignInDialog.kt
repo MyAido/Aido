@@ -29,14 +29,14 @@ fun SignInDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    if (isSignUp) "Create an account to share preprompts with your name" 
+                    if (isSignUp) "Create an account to share preprompts with your name"
                     else "Sign in to your account",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                
+
                 Spacer(Modifier.height(16.dp))
-                
+
                 if (isSignUp) {
                     OutlinedTextField(
                         value = displayName,
@@ -47,7 +47,7 @@ fun SignInDialog(
                     )
                     Spacer(Modifier.height(12.dp))
                 }
-                
+
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -55,9 +55,9 @@ fun SignInDialog(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
-                
+
                 Spacer(Modifier.height(12.dp))
-                
+
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
@@ -66,15 +66,15 @@ fun SignInDialog(
                     singleLine = true,
                     visualTransformation = PasswordVisualTransformation()
                 )
-                
+
                 Spacer(Modifier.height(16.dp))
-                
+
                 TextButton(
                     onClick = { isSignUp = !isSignUp },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        if (isSignUp) "Already have an account? Sign In" 
+                        if (isSignUp) "Already have an account? Sign In"
                         else "Don't have an account? Sign Up",
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -85,12 +85,12 @@ fun SignInDialog(
             Button(
                 onClick = {
                     onSignIn(
-                        email, 
-                        password, 
+                        email,
+                        password,
                         if (isSignUp) displayName else email.substringBefore('@')
                     )
                 },
-                enabled = email.isNotBlank() && password.isNotBlank() && 
+                enabled = email.isNotBlank() && password.isNotBlank() &&
                          (!isSignUp || displayName.isNotBlank())
             ) {
                 Text(if (isSignUp) "Sign Up" else "Sign In")

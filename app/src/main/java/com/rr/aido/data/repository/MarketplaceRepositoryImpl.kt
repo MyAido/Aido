@@ -9,9 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.tasks.await
 
-/**
- * Firebase Firestore implementation of Marketplace Repository
- */
 class MarketplaceRepositoryImpl : MarketplaceRepository {
 
     private val firestore = FirebaseFirestore.getInstance()
@@ -31,7 +28,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .limit(20)
                 .get()
                 .await()
-            
+
             val preprompts = snapshot.documents.mapNotNull { doc ->
                 try {
                     doc.toObject(SharedPreprompt::class.java)?.copy(id = doc.id)
@@ -40,7 +37,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                     null
                 }
             }
-            
+
             Log.d(TAG, "Loaded ${preprompts.size} featured preprompts")
             Result.Success(preprompts)
         } catch (e: Exception) {
@@ -52,25 +49,25 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
     override suspend fun searchPreprompts(query: String, filter: MarketplaceFilter): Result<List<SharedPreprompt>> {
         return try {
             Log.d(TAG, "Searching preprompts: query='$query', category=${filter.category?.name}, minDownloads=${filter.minDownloads}")
-            
+
             var firestoreQuery: Query = prepromptsCollection
-            
+
             // Apply category filter
             filter.category?.let { category ->
                 Log.d(TAG, "Applying category filter: ${category.name}")
                 firestoreQuery = firestoreQuery.whereEqualTo("category", category.name)
             }
-            
+
             // Apply verified filter
             if (filter.showVerifiedOnly) {
                 firestoreQuery = firestoreQuery.whereEqualTo("isVerified", true)
             }
-            
+
             // Apply featured filter
             if (filter.showFeaturedOnly) {
                 firestoreQuery = firestoreQuery.whereEqualTo("isFeatured", true)
             }
-            
+
             val snapshot = firestoreQuery.get().await()
             var results = snapshot.documents.mapNotNull { doc ->
                 try {
@@ -79,7 +76,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                     null
                 }
             }
-            
+
             // Client-side filtering for text search
             if (query.isNotBlank()) {
                 results = results.filter {
@@ -90,18 +87,18 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                     it.tags.any { tag -> tag.contains(query, ignoreCase = true) }
                 }
             }
-            
+
             // Apply downloads filter
             if (filter.minDownloads > 0) {
                 Log.d(TAG, "Applying minDownloads filter: ${filter.minDownloads}")
                 results = results.filter { it.downloads >= filter.minDownloads }
             }
-            
+
             // Apply rating filter
             filter.minRating?.let { minRating ->
                 results = results.filter { it.rating >= minRating }
             }
-            
+
             // Apply sorting
             results = when (filter.sortBy) {
                 SortOption.POPULAR -> results.sortedByDescending { it.downloads }
@@ -110,7 +107,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 SortOption.TRENDING -> results.sortedByDescending { it.downloads + it.rating * 100 }
                 SortOption.RECENTLY_UPDATED -> results.sortedByDescending { it.updatedAt }
             }
-            
+
             Log.d(TAG, "Found ${results.size} matching preprompts after all filters")
             Result.Success(results)
         } catch (e: Exception) {
@@ -125,7 +122,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .whereEqualTo("category", category.name)
                 .get()
                 .await()
-            
+
             val results = snapshot.documents.mapNotNull { doc ->
                 doc.toObject(SharedPreprompt::class.java)?.copy(id = doc.id)
             }
@@ -142,7 +139,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .limit(limit.toLong())
                 .get()
                 .await()
-            
+
             val trending = snapshot.documents.mapNotNull { doc ->
                 doc.toObject(SharedPreprompt::class.java)?.copy(id = doc.id)
             }
@@ -170,7 +167,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .whereEqualTo("authorId", userId)
                 .get()
                 .await()
-            
+
             val userPreprompts = snapshot.documents.mapNotNull { doc ->
                 try {
                     doc.toObject(SharedPreprompt::class.java)?.copy(id = doc.id)
@@ -178,7 +175,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                     null
                 }
             }.sortedByDescending { it.createdAt }  // Sort in memory instead
-            
+
             Log.d(TAG, "Found ${userPreprompts.size} user preprompts")
             Result.Success(userPreprompts)
         } catch (e: Exception) {
@@ -190,11 +187,11 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
     override suspend fun uploadPreprompt(preprompt: SharedPreprompt): Result<String> {
         return try {
             Log.d(TAG, "Uploading preprompt: ${preprompt.trigger}")
-            
+
             // Add to Firestore
             val docRef = prepromptsCollection.add(preprompt).await()
             val documentId = docRef.id
-            
+
             Log.d(TAG, "Successfully uploaded preprompt with ID: $documentId")
             Result.Success(documentId)
         } catch (e: Exception) {
@@ -227,20 +224,20 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
     override suspend fun getFavoritePreprompts(userId: String): Result<List<SharedPreprompt>> {
         return try {
             Log.d(TAG, "Fetching favorites for user: $userId")
-            
+
             // Get list of favorite IDs from user's subcollection
             val favoritesSnapshot = firestore.collection("users")
                 .document(userId)
                 .collection("favorites")
                 .get()
                 .await()
-            
+
             val favoriteIds = favoritesSnapshot.documents.map { it.id }
-            
+
             if (favoriteIds.isEmpty()) {
                 return Result.Success(emptyList())
             }
-            
+
             // Fetch the actual preprompts
             // Firestore has a limit of 10 items in 'in' queries, so we batch them
             val favorites = mutableListOf<SharedPreprompt>()
@@ -249,12 +246,12 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                     .whereIn("__name__", chunk)
                     .get()
                     .await()
-                
+
                 snapshot.documents.mapNotNullTo(favorites) { doc ->
                     doc.toObject(SharedPreprompt::class.java)?.copy(id = doc.id)
                 }
             }
-            
+
             Result.Success(favorites)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to load favorites", e)
@@ -271,12 +268,12 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .document(prepromptId)
                 .set(mapOf("addedAt" to System.currentTimeMillis()))
                 .await()
-            
+
             // Increment likes count on the preprompt
             prepromptsCollection.document(prepromptId)
                 .update("likes", com.google.firebase.firestore.FieldValue.increment(1))
                 .await()
-            
+
             Result.Success(true)
         } catch (e: Exception) {
             Result.Error("Failed to add favorite: ${e.message}", e)
@@ -292,12 +289,12 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .document(prepromptId)
                 .delete()
                 .await()
-            
+
             // Decrement likes count on the preprompt
             prepromptsCollection.document(prepromptId)
                 .update("likes", com.google.firebase.firestore.FieldValue.increment(-1))
                 .await()
-            
+
             Result.Success(true)
         } catch (e: Exception) {
             Result.Error("Failed to remove favorite: ${e.message}", e)
@@ -436,7 +433,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                 .whereEqualTo("authorId", userId)
                 .get()
                 .await()
-            
+
             // Convert SharedPreprompt to Preprompt format
             val preprompts = snapshot.documents.mapNotNull { doc ->
                 try {
@@ -452,7 +449,7 @@ class MarketplaceRepositoryImpl : MarketplaceRepository {
                     null
                 }
             }
-            
+
             Log.d(TAG, "Downloaded ${preprompts.size} preprompts")
             Result.Success(preprompts)
         } catch (e: Exception) {

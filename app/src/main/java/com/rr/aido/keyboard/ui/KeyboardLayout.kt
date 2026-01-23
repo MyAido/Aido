@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.Alignment 
+import androidx.compose.ui.Alignment
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
@@ -56,17 +56,17 @@ fun AidoKeyboard(
     // View State
     currentView: KeyboardView = KeyboardView.ALPHA,
     onViewChange: (KeyboardView) -> Unit = {},
-    
+
     // Menu Actions
     onSettingsClick: () -> Unit = {},
     onThemeClick: () -> Unit = {},
-    
+
     // Clipboard Data
     clipboardHistory: List<KeyboardClipboardManager.ClipboardItem> = emptyList(),
     onPasteClick: (String) -> Unit = {},
     onDeleteClipClick: (Int) -> Unit = {},
     onClearClipboardClick: () -> Unit = {},
-    
+
     // Trigger Data
     triggers: List<Preprompt> = emptyList(),
     onTriggerClick: (String) -> Unit = {}
@@ -77,11 +77,11 @@ fun AidoKeyboard(
         com.rr.aido.data.models.ThemeMode.LIGHT -> false
         else -> isSystemDark
     }
-    
+
     val backgroundColor = if (isDark) Color(0xFF1C1C1E) else Color(0xFFD4D8DF) // Standard Keyboard Grey
     var capsState by remember { androidx.compose.runtime.mutableStateOf(CapsState.NONE) }
     var layoutState by remember { androidx.compose.runtime.mutableStateOf(LayoutState.ALPHA) }
-    
+
     // Hoisted Media State (Persist across views)
     var isMediaSearchActive by remember { mutableStateOf(false) }
     var mediaSearchQuery by remember { mutableStateOf("") }
@@ -110,7 +110,7 @@ fun AidoKeyboard(
         // Suggestion Strip - Only show if in Alpha/Symbol mode to avoid clutter in panels
         if (currentView == KeyboardView.ALPHA || currentView == KeyboardView.SYMBOLS) {
             AdvancedSuggestionStrip(
-                suggestions = suggestions, 
+                suggestions = suggestions,
                 listener = suggestionListener,
                 isDark = isDark
             )
@@ -122,13 +122,13 @@ fun AidoKeyboard(
                 KeyboardMenu(
                     onSettingsClick = onSettingsClick,
                     onThemeClick = onThemeClick,
-                    onStickerClick = { 
+                    onStickerClick = {
                         currentMediaTab = MediaTab.STICKER
-                        onViewChange(KeyboardView.EMOJI) 
-                    }, 
-                    onGifClick = { 
+                        onViewChange(KeyboardView.EMOJI)
+                    },
+                    onGifClick = {
                         currentMediaTab = MediaTab.GIF
-                        onViewChange(KeyboardView.EMOJI) 
+                        onViewChange(KeyboardView.EMOJI)
                     },
                     onCloseClick = { onViewChange(KeyboardView.ALPHA) },
                     isDark = isDark
@@ -137,7 +137,7 @@ fun AidoKeyboard(
             KeyboardView.CLIPBOARD -> {
                 KeyboardClipboard(
                     clipboardHistory = clipboardHistory,
-                    onPasteClick = { text -> 
+                    onPasteClick = { text ->
                         onPasteClick(text)
                         onViewChange(KeyboardView.ALPHA)
                     },
@@ -178,16 +178,16 @@ fun AidoKeyboard(
                                  modifier = Modifier.weight(1f)
                              )
                              Icon(
-                                 Icons.Default.Close, 
-                                 "Close", 
+                                 Icons.Default.Close,
+                                 "Close",
                                  tint = if (isDark) Color.White else Color.Black,
-                                 modifier = Modifier.clickable { 
-                                     isMediaSearchActive = false 
+                                 modifier = Modifier.clickable {
+                                     isMediaSearchActive = false
                                      // Don't clear query so results show
                                  }
                              )
                          }
-                         
+
                          // Alpha Keyboard for typing
                          val searchListener = object : KeyboardActionListener {
                              override fun onKey(code: Int) {}
@@ -204,7 +204,7 @@ fun AidoKeyboard(
                              override fun onMedia(url: String, mimeType: String) {}
                              override fun onMoveCursor(offset: Int) {}
                          }
-                         
+
                          AlphaKeyboard(
                              actionListener = searchListener,
                              capsState = CapsState.NONE,
@@ -220,7 +220,7 @@ fun AidoKeyboard(
                         searchText = mediaSearchQuery,
                         onClearSearch = { mediaSearchQuery = "" },
                         onEmojiClick = { emoji -> actionListener.onText(emoji) },
-                        onMediaClick = { url, mime -> 
+                        onMediaClick = { url, mime ->
                              actionListener.onMedia(url, mime)
                         },
                         onSearchClick = { isMediaSearchActive = true },
@@ -233,11 +233,11 @@ fun AidoKeyboard(
             KeyboardView.NUMBER_PAD -> {
                 NumberPad(
                     actionListener = actionListener,
-                    onReturnToAlpha = { 
-                        onViewChange(KeyboardView.ALPHA) 
+                    onReturnToAlpha = {
+                        onViewChange(KeyboardView.ALPHA)
                         layoutState = LayoutState.ALPHA
                     },
-                    onReturnToSymbols = { 
+                    onReturnToSymbols = {
                         onViewChange(KeyboardView.ALPHA)
                         layoutState = LayoutState.SYMBOLS
                     },
@@ -256,7 +256,7 @@ fun AidoKeyboard(
                         }
                     }
                 }
-                
+
                 val onCapsReset = remember {
                     {
                         if (capsState == CapsState.SHIFT) {
@@ -264,7 +264,7 @@ fun AidoKeyboard(
                         }
                     }
                 }
-                
+
                 val onSymbolToggle = remember {
                     { layoutState = LayoutState.SYMBOLS }
                 }
@@ -301,7 +301,7 @@ fun AidoKeyboard(
             }
         }
     }
-        
+
         // Glide Path visualization - constrain to keyboard area only
     }
     }
@@ -368,7 +368,7 @@ fun AlphaKeyboard(
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(54.dp),
                 text = label,
-                onClick = { 
+                onClick = {
                     actionListener.onText(label)
                     onCapsReset()
                 },
@@ -379,7 +379,7 @@ fun AlphaKeyboard(
 
     // Row 3: ASDF
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp) 
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
     ) {
         val asdf = "ASDFGHJKL"
         asdf.forEach { char ->
@@ -388,7 +388,7 @@ fun AlphaKeyboard(
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(54.dp),
                 text = label,
-                onClick = { 
+                onClick = {
                     actionListener.onText(label)
                     onCapsReset()
                 },
@@ -409,12 +409,12 @@ fun AlphaKeyboard(
             },
             isSpecial = true,
             onClick = onCapsToggle,
-            onLongClick = { 
+            onLongClick = {
                 // Optional: Force CAPS lock on long press if not handled by toggle
-                // onCapsToggle() 
+                // onCapsToggle()
             }
         )
-        
+
         val zxcv = "ZXCVBNM"
         zxcv.forEach { char ->
             val label = if (capsState == CapsState.NONE) char.toString().lowercase() else char.toString().uppercase()
@@ -422,7 +422,7 @@ fun AlphaKeyboard(
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(54.dp),
                 text = label,
-                onClick = { 
+                onClick = {
                     actionListener.onText(label)
                     onCapsReset()
                 },
@@ -434,7 +434,7 @@ fun AlphaKeyboard(
         KeyboardKey(
             modifier = Modifier.weight(1.5f).height(54.dp),
             icon = KeyboardIcons.Backspace,
-            isSpecial = true, 
+            isSpecial = true,
             onClick = { actionListener.onDelete() },
             onRepeat = { actionListener.onDelete() }
         )
@@ -449,7 +449,7 @@ fun AlphaKeyboard(
             isSpecial = true,
             onClick = onSymbolToggle
         )
-        
+
         // @
          KeyboardKey(
             modifier = Modifier.weight(1f).height(54.dp),
@@ -512,7 +512,7 @@ fun AlphaKeyboard(
         )
     }
     }
-    
+
     // Draw glide path
     if (glidePath.isNotEmpty()) {
         Canvas(modifier = Modifier.matchParentSize()) {
@@ -521,9 +521,9 @@ fun AlphaKeyboard(
             for (i in 1 until glidePath.size) {
                 path.lineTo(glidePath[i].x, glidePath[i].y)
             }
-            
+
             drawPath(
-                path = path, 
+                path = path,
                 color = Color.Cyan.copy(alpha = 0.6f),
                 style = Stroke(width = 15f, cap = StrokeCap.Round, join = StrokeJoin.Round)
             )
@@ -543,7 +543,7 @@ fun SymbolKeyboard(
     if (symbolPage == 0) {
         Column(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
             // PAGE 1 (Image 0)
-        
+
         // Row 1: Numbers
         KeyboardRow {
             val numbers = "1234567890"
@@ -573,7 +573,7 @@ fun SymbolKeyboard(
             // Toggle to Page 2
             KeyboardKey(
                 modifier = Modifier.weight(1.5f).height(67.5.dp),
-                text = "=\\<", 
+                text = "=\\<",
                 isSpecial = true,
                 onClick = { symbolPage = 1 }
             )
@@ -591,7 +591,7 @@ fun SymbolKeyboard(
             KeyboardKey(
                 modifier = Modifier.weight(1.5f).height(67.5.dp),
                 icon = KeyboardIcons.Backspace,
-                isSpecial = true, 
+                isSpecial = true,
                 onClick = { actionListener.onDelete() },
                 onRepeat = { actionListener.onDelete() }
             )
@@ -606,7 +606,7 @@ fun SymbolKeyboard(
                 isSpecial = true,
                 onClick = onReturnToAlpha
             )
-            
+
             // Comma
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(67.5.dp),
@@ -619,11 +619,11 @@ fun SymbolKeyboard(
             // 1234 (Number Pad Trigger)
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(67.5.dp),
-                text = "12\n34", 
+                text = "12\n34",
                 isSpecial = true,
                 onClick = onNumberPadClick
             )
-            
+
             // Space
             KeyboardKey(
                 modifier = Modifier.weight(4f).height(67.5.dp),
@@ -638,12 +638,12 @@ fun SymbolKeyboard(
                 isSpecial = true,
                 onClick = { actionListener.onText(".") }
             )
-            
+
             // Enter
             KeyboardKey(
                 modifier = Modifier.weight(1.5f).height(67.5.dp),
                 icon = KeyboardIcons.Enter,
-                isSpecial = true, 
+                isSpecial = true,
                 onClick = { actionListener.onEnter() }
             )
         }
@@ -653,7 +653,7 @@ fun SymbolKeyboard(
     } else {
         Column(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
             // PAGE 2 (Image 2)
-        
+
         // Row 1: ~ ` | • √ π ÷ × § Δ
         KeyboardRow {
             val r1 = "~`|•√π÷×§Δ"
@@ -683,7 +683,7 @@ fun SymbolKeyboard(
             // Return to Page 1
             KeyboardKey(
                 modifier = Modifier.weight(1.5f).height(67.5.dp),
-                text = "?123", 
+                text = "?123",
                 isSpecial = true,
                 onClick = { symbolPage = 0 }
             )
@@ -701,7 +701,7 @@ fun SymbolKeyboard(
             KeyboardKey(
                 modifier = Modifier.weight(1.5f).height(67.5.dp),
                 icon = KeyboardIcons.Backspace,
-                isSpecial = true, 
+                isSpecial = true,
                 onClick = { actionListener.onDelete() },
                 onRepeat = { actionListener.onDelete() }
             )
@@ -716,7 +716,7 @@ fun SymbolKeyboard(
                 isSpecial = true,
                 onClick = onReturnToAlpha
             )
-            
+
             // <
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(67.5.dp),
@@ -729,11 +729,11 @@ fun SymbolKeyboard(
             // 1234 (Number Pad Trigger)
             KeyboardKey(
                 modifier = Modifier.weight(1f).height(67.5.dp),
-                text = "12\n34", 
+                text = "12\n34",
                 isSpecial = true,
                 onClick = onNumberPadClick
             )
-            
+
             // Space
             KeyboardKey(
                 modifier = Modifier.weight(4f).height(67.5.dp),
@@ -748,19 +748,18 @@ fun SymbolKeyboard(
                 isSpecial = true,
                 onClick = { actionListener.onText(">") }
             )
-            
+
             // Enter
             KeyboardKey(
                 modifier = Modifier.weight(1.5f).height(67.5.dp),
                 icon = KeyboardIcons.Enter,
-                isSpecial = true, 
+                isSpecial = true,
                 onClick = { actionListener.onEnter() }
             )
         }
         }
     }
 }
-
 
 @Composable
 fun KeyboardRow(content: @Composable RowScope.() -> Unit) {

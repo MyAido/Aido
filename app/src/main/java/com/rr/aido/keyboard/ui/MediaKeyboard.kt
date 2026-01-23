@@ -63,10 +63,10 @@ fun MediaKeyboard(
     val textColor = if (isDark) Color.White else Color.Black
     val iconColor = if (isDark) Color.White else Color.Black
     val searchBgColor = if (isDark) Color(0xFF2C2C2C) else Color.White
-    
+
     // Internal state removed, using passed currentTab
     // searchText is now passed in
-    
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,8 +97,8 @@ fun MediaKeyboard(
                     Spacer(modifier = Modifier.weight(1f))
                     if (searchText.isNotEmpty()) {
                         Icon(
-                            Icons.Default.Close, 
-                            contentDescription = "Clear", 
+                            Icons.Default.Close,
+                            contentDescription = "Clear",
                             tint = Color.Gray,
                             modifier = Modifier
                                 .padding(end = 8.dp)
@@ -162,7 +162,7 @@ fun MediaKeyboard(
                 onClick = { onTabChange(MediaTab.STICKER) },
                 tint = iconColor
             )
-            
+
             // Kaomoji (Face)
             Text(
                 text = ":-)",
@@ -209,10 +209,10 @@ fun IconButton(
 fun EmojiTab(onEmojiClick: (String) -> Unit, textColor: Color, isDark: Boolean) {
     var selectedCategoryIndex by remember { mutableStateOf(0) }
     val categories = listOf(
-        "Smileys", "Gestures", "Hearts", "Animals", "Food", 
+        "Smileys", "Gestures", "Hearts", "Animals", "Food",
         "Sports", "Travel", "Objects", "Symbols"
     )
-    
+
     val currentEmojis = remember(selectedCategoryIndex) {
         when(categories[selectedCategoryIndex]) {
             "Smileys" -> EmojiData.SMILEYS_PEOPLE
@@ -241,7 +241,7 @@ fun EmojiTab(onEmojiClick: (String) -> Unit, textColor: Color, isDark: Boolean) 
                 Tab(
                     selected = selectedCategoryIndex == index,
                     onClick = { selectedCategoryIndex = index },
-                    text = { 
+                    text = {
                         Text(
                             text = title,
                             color = if(selectedCategoryIndex == index) textColor else textColor.copy(alpha = 0.6f),
@@ -355,7 +355,7 @@ fun GifItem(url: String, onClick: () -> Unit) {
 fun StickerTab(searchText: String, onMediaClick: (String, String) -> Unit) {
     // Stickers on Tenor often use the search term "sticker" appended to query or specific endpoint?
     // Tenor V1 has no explicit 'sticker' endpoint, but searching "tag sticker" works.
-    
+
     var stickerUrls by remember { mutableStateOf<List<String>>(emptyList()) }
 
     LaunchedEffect(searchText) {
@@ -375,7 +375,7 @@ fun StickerTab(searchText: String, onMediaClick: (String, String) -> Unit) {
         }
     } else {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3), 
+            columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(4.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -406,7 +406,7 @@ fun KaomojiTab(onTextClick: (String) -> Unit, textColor: Color) {
     val kaomojis = listOf(
         ":-)", ":-(", ";-)", ":-P", "(^_^)", "(T_T)", "¯\\_(ツ)_/¯", "(╯°□°）╯︵ ┻━┻"
     )
-    
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(8.dp)

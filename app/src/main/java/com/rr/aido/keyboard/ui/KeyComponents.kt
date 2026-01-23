@@ -59,9 +59,6 @@ private val DarkSpecialKeyBackground = Color(0xFF424242)
 private val LightTextColor = Color.Black
 private val DarkTextColor = Color.White
 
-
-
-
 // Theme CompositionLocal
 val LocalKeyboardIsDark = androidx.compose.runtime.compositionLocalOf { false }
 
@@ -83,7 +80,7 @@ fun KeyboardKey(
     val isDark = LocalKeyboardIsDark.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressedState by interactionSource.collectIsPressedAsState()
-    
+
     // Scale animation
     val scale by animateFloatAsState(if (isPressedState) 0.95f else 1f, label = "scale")
 
@@ -100,11 +97,11 @@ fun KeyboardKey(
             }
         }
     }
-    
+
     // UI Constants
     val cornerRadius = 5.dp
     val shadowElevation = if (isDark) 0.dp else 1.dp
-    
+
     // Colors
     val finalBackgroundColor = when {
         isPressedState -> if (isDark) DarkKeyBackgroundPressed else Color(0xFFE5E5E5) // Pressed state
@@ -112,7 +109,7 @@ fun KeyboardKey(
         isSpecial -> if (isDark) DarkSpecialKeyBackground else LightSpecialKeyBackground
         else -> if (isDark) DarkKeyBackground else LightKeyBackground
     }
-    
+
     val contentColor = textColor ?: if (isDark) DarkTextColor else LightTextColor
 
     Box(
@@ -129,7 +126,7 @@ fun KeyboardKey(
             modifier = Modifier
                 .fillMaxSize()
                 .shadow(
-                    elevation = if(isPressed) 0.dp else shadowElevation, 
+                    elevation = if(isPressed) 0.dp else shadowElevation,
                     shape = RoundedCornerShape(cornerRadius),
                     clip = false
                 )

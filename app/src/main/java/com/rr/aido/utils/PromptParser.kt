@@ -2,11 +2,8 @@ package com.rr.aido.utils
 
 import com.rr.aido.data.models.Preprompt
 
-/**
- * PromptParser - Input text ko parse karke trigger aur final prompt banata hai
- */
 object PromptParser {
-    
+
     const val DEFAULT_SMART_REPLY_INSTRUCTIONS = """The user is typing a reply in a messaging app.
 
 CRITICAL LANGUAGE DETECTION:
@@ -43,23 +40,13 @@ Rewrite the above text in 6 different tones:
 6. Polite/Formal
 
 Output ONLY the rewritten versions, one per line. Do not include numbering or labels."""
-    
-    /**
-     * Input text se trigger extract karta hai
-     * Example: "Hello world@fixg" -> "@fixg"
-     * Example: "Hello world~test" -> "~test"
-     * Supports: @ ~ ! # $ % ^ & * ( ) - _ = + [ ] { } \ | ; : ' " , < . > / ?
-     */
+
     fun extractTrigger(input: String): String? {
         // Koi bhi special symbol + alphanumeric word
         val regex = "[`~!@#$%^&*()\\-_=+\\[\\]{}\\\\|;:'\",<.>/\\?]\\w+".toRegex()
         return regex.findAll(input).lastOrNull()?.value
     }
-    
-    /**
-     * Input text se trigger remove karke clean text return karta hai
-     * Example: "Hello world@fixg" -> "Hello world"
-     */
+
     fun removeTriger(input: String): String {
         val trigger = extractTrigger(input)
         return if (trigger != null) {
@@ -68,11 +55,7 @@ Output ONLY the rewritten versions, one per line. Do not include numbering or la
             input.trim()
         }
     }
-    
-    /**
-     * Final prompt banata hai preprompt instruction ke saath
-     * Example: text="Hello world", preprompt="Fix grammar" -> "Fix grammar. Hello world"
-     */
+
     fun buildFinalPrompt(text: String, preprompt: Preprompt?): String {
         return if (preprompt != null) {
             "${preprompt.instruction} $text"
@@ -80,22 +63,19 @@ Output ONLY the rewritten versions, one per line. Do not include numbering or la
             text
         }
     }
-    
-    /**
-     * Complete parsing - trigger extract, text clean, aur final prompt build
-     */
+
     fun parseInput(input: String, preprompts: List<Preprompt>): ParseResult {
         val trigger = extractTrigger(input)
         val cleanText = removeTriger(input)
-        
+
         val matchedPreprompt = if (trigger != null) {
             preprompts.find { it.trigger == trigger }
         } else {
             null
         }
-        
+
         val finalPrompt = buildFinalPrompt(cleanText, matchedPreprompt)
-        
+
         return ParseResult(
             originalInput = input,
             trigger = trigger,
@@ -106,9 +86,6 @@ Output ONLY the rewritten versions, one per line. Do not include numbering or la
     }
 }
 
-/**
- * Parse result data class
- */
 data class ParseResult(
     val originalInput: String,
     val trigger: String?,

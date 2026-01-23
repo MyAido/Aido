@@ -233,21 +233,21 @@ object KeyboardIcons {
                  lineTo(10f, 10f)
                  lineTo(4f, 10f)
                  close()
-                 
+
                  // Top Right
                  moveTo(14f, 4f)
                  lineTo(20f, 4f)
                  lineTo(20f, 10f)
                  lineTo(14f, 10f)
                  close()
-                 
+
                  // Bottom Left
                  moveTo(4f, 14f)
                  lineTo(10f, 14f)
                  lineTo(10f, 20f)
                  lineTo(4f, 20f)
                  close()
-                 
+
                  // Bottom Right
                  moveTo(14f, 14f)
                  lineTo(20f, 14f)
