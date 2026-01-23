@@ -1,3 +1,4 @@
+
 <div align="center">
 
 # 🧠 AIDO - AI, Do It Once
@@ -28,7 +29,7 @@ Result: "This text has grammar mistakes"
 
 <div align="center">
 
-### App Interface
+### App Working
 
 <table>
   <tr>
@@ -254,3 +255,4 @@ Enable offline mode to:
 *Last Updated: January 23, 2026 | Version 4.0 | Build 60*
 
 </div>
+
