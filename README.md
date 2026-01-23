@@ -15,7 +15,7 @@
 
 ## 🎯 What is AIDO?
 
-**AIDO** (AI, Do It Once) is a revolutionary AI-powered Android keyboard that transforms the way you type. It's not just a keyboard it's your intelligent writing assistant that works seamlessly across **every app** on your device. Simply type your text, add a trigger like `@fixg` or `@summ`, and watch AI instantly enhance, rewrite, or transform your content.
+**AIDO** (AI, Do It Once) is a revolutionary AI-powered Android app & keyboard that transforms the way you type. It's not just a keyboard it's your intelligent writing assistant that works seamlessly across **every app** on your device. Simply type your text, add a trigger like `@fixg` or `@summ`, and watch AI instantly enhance, rewrite, or transform your content.
 
 **Example:**
 ```
