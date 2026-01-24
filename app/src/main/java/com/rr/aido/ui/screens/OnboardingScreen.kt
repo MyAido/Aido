@@ -61,118 +61,154 @@ fun OnboardingScreen(
         "Permissions"
     )
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            OnboardingBottomBar(
-                currentStep = currentStep,
-                totalSteps = steps.size,
-                onNext = {
-                    if (currentStep < steps.size - 1) {
-                        currentStep++
-                    } else {
-                        onSaveSettings(
-                            selectedProvider,
-                            apiKey,
-                            "gemini-2.5-flash-lite", // Default model
-                            customApiUrl,
-                            customApiKey,
-                            customModelName,
-                            triggerMethod
-                        )
-                        onComplete()
-                    }
-                },
-                onBack = {
-                    if (currentStep > 0) {
-                        currentStep--
-                    }
-                },
-                canProceed = when(currentStep) {
-                    2 -> if (selectedProvider == AiProvider.GEMINI) apiKey.isNotEmpty() else customApiKey.isNotEmpty()
-                    else -> true
-                }
-            )
-        }
-    ) { padding ->
-        Column(
+    // Modern Gradient Background (Same as HomeScreen)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        // Decorative background blobs
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Progress Indicator
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 32.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                steps.forEachIndexed { index, _ ->
-                    Box(
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .size(if (index == currentStep) 12.dp else 8.dp)
-                            .clip(CircleShape)
-                            .background(
-                                if (index <= currentStep)
-                                    MaterialTheme.colorScheme.primary
-                                else
-                                    MaterialTheme.colorScheme.surfaceVariant
-                            )
+                .size(300.dp)
+                .offset(x = (-100).dp, y = (-100).dp)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                            Color.Transparent
+                        )
                     )
-                }
-            }
-
-            AnimatedContent(
-                targetState = currentStep,
-                label = "OnboardingStep"
-            ) { step ->
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    when (step) {
-                        0 -> WelcomeStep()
-                        1 -> ProviderStep(
-                            selectedProvider = selectedProvider,
-                            onProviderSelected = { selectedProvider = it }
+                )
+        )
+        Box(
+            modifier = Modifier
+                .size(300.dp)
+                .align(Alignment.BottomEnd)
+                .offset(x = 100.dp, y = 100.dp)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                            Color.Transparent
                         )
-                        2 -> SetupStep(
-                            provider = selectedProvider,
-                            apiKey = apiKey,
-                            onApiKeyChange = { apiKey = it },
-                            customApiUrl = customApiUrl,
-                            onCustomUrlChange = { customApiUrl = it },
-                            customApiKey = customApiKey,
-                            onCustomApiKeyChange = { customApiKey = it },
-                            customModelName = customModelName,
-                            onCustomModelChange = { customModelName = it }
-                        )
+                    )
+                )
+        )
 
-                        3 -> TutorialStep()
-                        4 -> {
-                            val context = LocalContext.current
-                            PermissionsStep(
-                                onEnableClick = {
-                                    val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                                    context.startActivity(intent)
-                                },
-                                onLaterClick = {
-                                    onSaveSettings(
-                                        selectedProvider,
-                                        apiKey,
-                                        "gemini-2.5-flash-lite",
-                                        customApiUrl,
-                                        customApiKey,
-                                        customModelName,
-                                        triggerMethod
-                                    )
-                                    onComplete()
-                                }
+        Scaffold(
+            containerColor = Color.Transparent,
+            bottomBar = {
+                OnboardingBottomBar(
+                    currentStep = currentStep,
+                    totalSteps = steps.size,
+                    onNext = {
+                        if (currentStep < steps.size - 1) {
+                            currentStep++
+                        } else {
+                            onSaveSettings(
+                                selectedProvider,
+                                apiKey,
+                                "gemini-2.5-flash-lite", // Default model
+                                customApiUrl,
+                                customApiKey,
+                                customModelName,
+                                triggerMethod
                             )
+                            onComplete()
+                        }
+                    },
+                    onBack = {
+                        if (currentStep > 0) {
+                            currentStep--
+                        }
+                    },
+                    canProceed = when(currentStep) {
+                        2 -> if (selectedProvider == AiProvider.GEMINI) apiKey.isNotEmpty() else customApiKey.isNotEmpty()
+                        else -> true
+                    }
+                )
+            }
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Progress Indicator
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 32.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    steps.forEachIndexed { index, _ ->
+                        Box(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .size(if (index == currentStep) 12.dp else 8.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    if (index <= currentStep)
+                                        MaterialTheme.colorScheme.primary
+                                    else
+                                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                                )
+                        )
+                    }
+                }
+
+                AnimatedContent(
+                    targetState = currentStep,
+                    label = "OnboardingStep"
+                ) { step ->
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        when (step) {
+                            0 -> WelcomeStep()
+                            1 -> ProviderStep(
+                                selectedProvider = selectedProvider,
+                                onProviderSelected = { selectedProvider = it }
+                            )
+                            2 -> SetupStep(
+                                provider = selectedProvider,
+                                apiKey = apiKey,
+                                onApiKeyChange = { apiKey = it },
+                                customApiUrl = customApiUrl,
+                                onCustomUrlChange = { customApiUrl = it },
+                                customApiKey = customApiKey,
+                                onCustomApiKeyChange = { customApiKey = it },
+                                customModelName = customModelName,
+                                onCustomModelChange = { customModelName = it }
+                            )
+
+                            3 -> TutorialStep()
+                            4 -> {
+                                val context = LocalContext.current
+                                PermissionsStep(
+                                    onEnableClick = {
+                                        val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                                        context.startActivity(intent)
+                                    },
+                                    onLaterClick = {
+                                        onSaveSettings(
+                                            selectedProvider,
+                                            apiKey,
+                                            "gemini-2.5-flash-lite",
+                                            customApiUrl,
+                                            customApiKey,
+                                            customModelName,
+                                            triggerMethod
+                                        )
+                                        onComplete()
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -195,8 +231,8 @@ private fun WelcomeStep() {
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            MaterialTheme.colorScheme.primary
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
                         )
                     ),
                     shape = CircleShape
@@ -209,7 +245,8 @@ private fun WelcomeStep() {
             text = "Welcome to Aido",
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
@@ -234,7 +271,8 @@ private fun ProviderStep(
         Text(
             text = "Choose Intelligence",
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
@@ -280,11 +318,12 @@ private fun ProviderCard(
             ),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected)
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
             else
-                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                MaterialTheme.colorScheme.surface.copy(alpha = 0.5f) // Glassmorphic
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = if(isSelected) 4.dp else 1.dp)
     ) {
         Row(
             modifier = Modifier
@@ -301,7 +340,8 @@ private fun ProviderCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = description,
@@ -337,7 +377,8 @@ private fun SetupStep(
         Text(
             text = "Setup Connection",
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         if (provider == AiProvider.GEMINI) {
@@ -354,7 +395,13 @@ private fun SetupStep(
                 label = { Text("API Key") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                leadingIcon = { Icon(Icons.Outlined.Security, contentDescription = null) }
+                leadingIcon = { Icon(Icons.Outlined.Security, contentDescription = null) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+                    focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
+                )
             )
 
             Button(
@@ -363,7 +410,7 @@ private fun SetupStep(
                     context.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f),
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             ) {
@@ -386,7 +433,11 @@ private fun SetupStep(
                 label = { Text("API URL (Base URL)") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("https://api.openai.com/v1/") }
+                placeholder = { Text("https://api.openai.com/v1/") },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
+                )
             )
 
             OutlinedTextField(
@@ -395,7 +446,11 @@ private fun SetupStep(
                 label = { Text("API Key (Optional)") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                leadingIcon = { Icon(Icons.Outlined.Security, contentDescription = null) }
+                leadingIcon = { Icon(Icons.Outlined.Security, contentDescription = null) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
+                )
             )
 
             OutlinedTextField(
@@ -404,7 +459,11 @@ private fun SetupStep(
                 label = { Text("Model Name") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("gpt-4o") }
+                placeholder = { Text("gpt-4o") },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
+                )
             )
         }
     }
@@ -420,7 +479,8 @@ private fun TutorialStep() {
         Text(
             text = "How to use Aido",
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
@@ -489,9 +549,10 @@ private fun TutorialCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f) // Glassmorphic
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -512,7 +573,8 @@ private fun TutorialCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -522,7 +584,7 @@ private fun TutorialCard(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                     .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                     .padding(12.dp)
             ) {
@@ -555,7 +617,7 @@ private fun PermissionsStep(
             contentDescription = null,
             modifier = Modifier
                 .size(80.dp)
-                .background(MaterialTheme.colorScheme.tertiaryContainer, CircleShape)
+                .background(MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f), CircleShape)
                 .padding(16.dp),
             tint = MaterialTheme.colorScheme.onTertiaryContainer
         )
@@ -563,7 +625,8 @@ private fun PermissionsStep(
         Text(
             text = "Enable Aido",
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
@@ -575,10 +638,11 @@ private fun PermissionsStep(
 
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Row(
                 modifier = Modifier.padding(16.dp),
@@ -610,7 +674,8 @@ private fun PermissionsStep(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(16.dp),
+            elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
         ) {
             Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(12.dp))
@@ -654,7 +719,10 @@ private fun OnboardingBottomBar(
     ) {
         if (currentStep > 0) {
             TextButton(onClick = onBack) {
-                Text("Back")
+                Text(
+                    "Back",
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
         } else {
             Spacer(modifier = Modifier.width(1.dp))
@@ -667,7 +735,8 @@ private fun OnboardingBottomBar(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ),
-            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 12.dp)
+            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 12.dp),
+            elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
         ) {
             Text(
                 text = if (currentStep == totalSteps - 1) "Finish" else "Next",
