@@ -225,7 +225,7 @@ Enable offline mode to:
 
 <div align="center">
 
-### Made with ❤️ 
+### Made with ❤️ by Senzme
 
 **🧠 AIDO - AI, Do It Once**
 
