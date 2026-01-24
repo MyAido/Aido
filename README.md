@@ -1,11 +1,10 @@
-
 <div align="center">
 
-# 🧠 Aido - AI, Do It Once
+# 🧠 AIDO - AI, Do It Once
 
 ### *Type Once get it right with Aido*
 
-[![Version](https://img.shields.io/badge/version-4.0-blue.svg)](https://github.com/MyAido/Aido)
+[![Version](https://img.shields.io/badge/version-3.8-blue.svg)](https://github.com/rehan5039/aido)
 [![Android](https://img.shields.io/badge/Android-24%2B-green.svg)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.8+-purple.svg)](https://kotlinlang.org)
 
@@ -13,9 +12,9 @@
 
 ---
 
-## 🎯 What is Aido?
+## 🎯 What is AIDO?
 
-**Aido** (AI, Do It Once) is a revolutionary AI-powered Android app & keyboard that transforms the way you type. It's not just a keyboard it's your intelligent writing assistant that works seamlessly across **every app** on your device. Simply type your text, add a trigger like `@fixg` or `@summ`, and watch AI instantly enhance, rewrite, or transform your content.
+**AIDO** (AI, Do It Once) is a revolutionary AI-powered Android keyboard that transforms the way you type. It's not just a keyboard—it's your intelligent writing assistant that works seamlessly across **every app** on your device. Simply type your text, add a trigger like `@fixg` or `@summ`, and watch AI instantly enhance, rewrite, or transform your content.
 
 **Example:**
 ```
@@ -25,32 +24,7 @@ Result: "This text has grammar mistakes"
 
 ---
 
-## Screenshots
-
-<div align="center">
-
-### App Working
-
-<table>
-  <tr>
-    <td><img src="images/1.jpg" alt="Home Screen" width="200"/></td>
-    <td><img src="images/2.jpg" alt="Keyboard" width="200"/></td>
-    <td><img src="images/3.jpg" alt="Settings" width="200"/></td>
-    <td><img src="images/4.jpg" alt="Commands" width="200"/></td>
-  </tr>
-  <tr>
-    <td><img src="images/5.jpg" alt="Marketplace" width="200"/></td>
-    <td><img src="images/6.jpg" alt="Playground" width="200"/></td>
-    <td><img src="images/7.jpg" alt="Special Commands" width="200"/></td>
-    <td><img src="images/8.jpg" alt="AI Processing" width="200"/></td>
-  </tr>
-</table>
-
-</div>
-
----
-
-## Getting Started
+## 🔑 Getting Started
 
 ### 1. Setup Gemini API Key
 
@@ -72,23 +46,23 @@ AIDO requires a Google Gemini API key for AI features.
 6. Tap **"Test and Save API Key"**
 7. Wait for the success confirmation ✅
 
-### 2. Enable Aido Keyboard
+### 2. Enable AIDO Keyboard
 
 #### Activate Accessibility Service
-1. Open Aido app
+1. Open AIDO app
 2. Tap **"Grant Accessibility Permission"** button on Home screen
 3. Find **"Aido"** in the accessibility services list
 4. Toggle it **ON**
 5. Confirm the permission dialog
 
-#### Set Aido as Default Keyboard
+#### Set AIDO as Default Keyboard
 1. Go to Android **Settings** > **System** > **Languages & input** > **Virtual keyboard**
 2. Tap **"Manage keyboards"**
 3. Enable **"Aido Keyboard"**
 4. In any text field, long-press the spacebar or tap the keyboard icon
 5. Select **"Aido Keyboard"**
 
-### 3. Start Using Aido
+### 3. Start Using AIDO
 
 That's it! Now type in any app and use triggers to activate AI features.
 
@@ -144,7 +118,8 @@ Output: "Photosynthesis is the process by which plants use sunlight,
 ### Example 3: Make Polite
 ```
 Input:  "Send me the report now@polite"
-Output: "Would you kindly send me the report at your earliest convenience?"
+Output: "Would you kindly send me the report at your earliest convenience? 
+         Thank you."
 ```
 
 
@@ -185,6 +160,16 @@ Enable offline mode to:
 
 - **Enable Accessibility Service**: Required for trigger detection across apps
 - **Trigger Detection**: Configure sensitivity and patterns
+- **App Whitelist/Blacklist**: Control which apps can use AIDO
+- **Privacy Mode**: Exclude sensitive apps (banking, passwords, etc.)
+
+### Sync Settings
+
+- **Auto-Sync**: Enable automatic cloud synchronization
+- **Sync Frequency**: Choose sync interval (15 min, 1 hour, 6 hours, daily)
+- **Conflict Resolution**: Choose how to handle conflicts (keep local, keep cloud, merge)
+- **Manual Sync**: Force sync anytime from settings
+
 
 ---
 
@@ -232,7 +217,7 @@ Enable offline mode to:
 ---
 
 ### Community
-
+*
 - 💡 **Telegram**: [Aido Group](https://t.me/MyAido)
 
 ---
@@ -240,29 +225,19 @@ Enable offline mode to:
 
 <div align="center">
 
-### Made with ❤️ by Senzme
+### Made with ❤️ by [Rehan](https://github.com/rehan5039)
 
-**🧠 Aido - AI, Do It Once**
+**🧠 AIDO - AI, Do It Once**
 
 *Type smarter, anywhere. Your AI-powered keyboard companion.*
 
 ---
 
-## 💖 Support the Project
+[![Download on Google Play](https://img.shields.io/badge/Download-Play%20Store-green.svg?style=for-the-badge&logo=google-play)](https://play.google.com) [![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg?style=for-the-badge&logo=github)](https://github.com/rehan5039/aido)
 
-If you find AIDO helpful, consider supporting its development!
-
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/myaido)
-
-Your support helps keep Aido running! ☕
-
----
-
-[![Download on Google Play](https://img.shields.io/badge/Download-Play%20Store-green.svg?style=for-the-badge&logo=google-play)](https://play.google.com) [![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg?style=for-the-badge&logo=github)](https://github.com/MyAido/Aido)
 
 ---
 
 *Last Updated: January 23, 2026 | Version 4.0 | Build 60*
 
 </div>
-

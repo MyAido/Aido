@@ -3,58 +3,40 @@ package com.rr.aido.ui.screens
 import android.content.Intent
 import android.provider.Settings
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Create
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Keyboard
 import androidx.compose.material.icons.outlined.Settings
-
-import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rr.aido.R
-import com.rr.aido.data.models.AiProvider
 import com.rr.aido.utils.AccessibilityUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -73,10 +55,10 @@ fun HomeScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Status states
-    var isAccessibilityEnabled by remember { mutableStateOf(false) }
-    var isKeyboardEnabled by remember { mutableStateOf(false) }
-    var isKeyboardActive by remember { mutableStateOf(false) }
+    // Status states - Initialize with actual values to prevent flickering
+    var isAccessibilityEnabled by remember { mutableStateOf(AccessibilityUtils.isAccessibilityServiceEnabled(context)) }
+    var isKeyboardEnabled by remember { mutableStateOf(AccessibilityUtils.isAidoKeyboardEnabled(context)) }
+    var isKeyboardActive by remember { mutableStateOf(AccessibilityUtils.isAidoKeyboardActive(context)) }
 
     // Refresh status when app comes to foreground
     DisposableEffect(lifecycleOwner) {
@@ -93,59 +75,96 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background
-    ) { padding ->
-        LazyColumn(
+    // Modern Gradient Background (Same as SettingsScreen)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        // Decorative background blobs
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = 32.dp)
-        ) {
-            // Header
-            item {
-                Column {
-                    HomeTopBar(onSettingsClick = onNavigateToSettings)
-                    HomeHeader()
-                }
-            }
-
-            // Status Dashboard
-            item {
-                StatusDashboard(
-                    isAccessibilityEnabled = isAccessibilityEnabled,
-                    isKeyboardActive = isKeyboardActive,
-                    context = context
-                )
-            }
-
-            // Features Showcase
-            item {
-                FeaturesShowcaseSection(
-                    onNavigateToSpecialCommands = onNavigateToSpecialCommands,
-                    onNavigateToPreprompts = onNavigateToPreprompts,
-                    onNavigateToTextShortcuts = onNavigateToTextShortcuts,
-                    onNavigateToFeaturesSettings = onNavigateToFeaturesSettings
-                )
-            }
-
-            // Quick Actions
-            item {
-                Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                    Text(
-                        text = "Quick Actions",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(bottom = 12.dp)
+                .size(300.dp)
+                .offset(x = (-100).dp, y = (-100).dp)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                            Color.Transparent
+                        )
                     )
-                    QuickActionsGrid(onNavigateToPlayground, onNavigateToChat)
-                }
-            }
+                )
+        )
+        Box(
+            modifier = Modifier
+                .size(300.dp)
+                .align(Alignment.BottomEnd)
+                .offset(x = 100.dp, y = 100.dp)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                            Color.Transparent
+                        )
+                    )
+                )
+        )
 
-            // Support
-            item {
-                SupportSection(context)
+        Scaffold(
+            containerColor = Color.Transparent
+        ) { padding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+                contentPadding = PaddingValues(bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                // Header
+                item {
+                    Column {
+                        HomeTopBar(onSettingsClick = onNavigateToSettings)
+                        HomeHeader()
+                    }
+                }
+
+                // Status Dashboard
+                item {
+                    StatusDashboard(
+                        isAccessibilityEnabled = isAccessibilityEnabled,
+                        isKeyboardActive = isKeyboardActive,
+                        context = context
+                    )
+                }
+
+                // Features Showcase
+                item {
+                    FeaturesShowcaseSection(
+                        onNavigateToSpecialCommands = onNavigateToSpecialCommands,
+                        onNavigateToPreprompts = onNavigateToPreprompts,
+                        onNavigateToTextShortcuts = onNavigateToTextShortcuts,
+                        onNavigateToFeaturesSettings = onNavigateToFeaturesSettings
+                    )
+                }
+
+                // Quick Actions
+                item {
+                    Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+                        Text(
+                            text = "Quick Actions",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(bottom = 12.dp),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        QuickActionsGrid(onNavigateToPlayground, onNavigateToChat)
+                    }
+                }
+
+                // Support
+                item {
+                    SupportSection(context)
+                }
             }
         }
     }
@@ -168,7 +187,8 @@ private fun HomeTopBar(onSettingsClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
+            .statusBarsPadding()
+            .padding(horizontal = 24.dp, vertical = 24.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -188,17 +208,19 @@ private fun HomeTopBar(onSettingsClick: () -> Unit) {
         )
 
         // Settings Button
-        IconButton(
+        Surface(
             onClick = onSettingsClick,
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f), CircleShape)
-                .size(44.dp)
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+            modifier = Modifier.size(48.dp)
         ) {
-            Icon(
-                Icons.Outlined.Settings,
-                contentDescription = "Settings",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    Icons.Outlined.Settings,
+                    contentDescription = "Settings",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }
@@ -211,7 +233,7 @@ private fun HomeHeader() {
         Text(
             text = "Hello there,",
             style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -270,23 +292,21 @@ private fun StatusCard(
     icon: ImageVector,
     onClick: () -> Unit
 ) {
-    // Colors - Use softer colors for inactive state, vibrant key color for active
+    // Glassmorphic styling similar to Settings PremiumStatusCard
     val containerColor = if (isActive)
-        MaterialTheme.colorScheme.primary
+        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
     else
-        MaterialTheme.colorScheme.surfaceVariant
+        MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
 
-    val contentColor = if (isActive)
-        MaterialTheme.colorScheme.onPrimary
-    else
-        MaterialTheme.colorScheme.onSurfaceVariant
+    val contentColor = MaterialTheme.colorScheme.onSurface
 
-    Surface(
+    Card(
         modifier = modifier
-            .height(90.dp)
+            .height(100.dp)
             .clickable { onClick() },
-        shape = RoundedCornerShape(20.dp),
-        color = containerColor,
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -306,10 +326,10 @@ private fun StatusCard(
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        imageVector = if (isActive) Icons.Default.Check else Icons.Default.Warning,
+                        imageVector = if (isActive) Icons.Default.CheckCircle else Icons.Default.Warning,
                         contentDescription = null,
-                        modifier = Modifier.size(16.dp),
-                        tint = contentColor
+                        modifier = Modifier.size(18.dp),
+                        tint = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
@@ -321,12 +341,12 @@ private fun StatusCard(
                 }
             }
 
-            // Status Indicator Circle
+            // Icon circle
             Box(
                 modifier = Modifier
-                    .size(36.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
-                    .background(contentColor.copy(alpha = 0.1f)),
+                    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.5f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -353,10 +373,10 @@ private fun FeaturesShowcaseSection(
         Text(
             text = "Features",
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
-        // Using a custom Grid layout approach using Rows for better control
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             // Row 1
             Row(
@@ -366,20 +386,18 @@ private fun FeaturesShowcaseSection(
                 FeatureCard(
                     modifier = Modifier.weight(1f),
                     title = "My Triggers",
-                    description = "Custom commands (@fix...)",
+                    description = "Custom commands (@fixg...)",
                     icon = Icons.Outlined.Create,
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    onClick = onNavigateToPreprompts
+                    onClick = onNavigateToPreprompts,
+                    iconTint = MaterialTheme.colorScheme.primary
                 )
                 FeatureCard(
                     modifier = Modifier.weight(1f),
                     title = "Special Commands",
                     description = "Smart Reply, Tone Rewrite...",
                     icon = Icons.Default.AutoAwesome,
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    onClick = onNavigateToSpecialCommands
+                    onClick = onNavigateToSpecialCommands,
+                    iconTint = MaterialTheme.colorScheme.secondary
                 )
             }
 
@@ -393,18 +411,16 @@ private fun FeaturesShowcaseSection(
                     title = "Text Shortcuts",
                     description = "!mail -> snippets",
                     icon = Icons.Outlined.Keyboard,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                    onClick = onNavigateToTextShortcuts
+                    onClick = onNavigateToTextShortcuts,
+                    iconTint = MaterialTheme.colorScheme.tertiary
                 )
                 FeatureCard(
                     modifier = Modifier.weight(1f),
                     title = "Visual Feedback",
                     description = "AI processing effects",
                     icon = Icons.Default.Bolt,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    onClick = onNavigateToFeaturesSettings
+                    onClick = onNavigateToFeaturesSettings,
+                    iconTint = MaterialTheme.colorScheme.error // Or another color
                 )
             }
         }
@@ -417,16 +433,18 @@ private fun FeatureCard(
     title: String,
     description: String,
     icon: ImageVector,
-    containerColor: Color,
-    contentColor: Color,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    iconTint: Color
 ) {
-    Surface(
+    Card(
         modifier = modifier
-            .height(130.dp)
+            .height(140.dp)
             .clickable { onClick() },
-        shape = RoundedCornerShape(20.dp),
-        color = containerColor
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f) // Glass feel relative to background
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -435,16 +453,16 @@ private fun FeatureCard(
             // Icon Top Left
             Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)),
+                    .background(iconTint.copy(alpha = 0.15f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp),
-                    tint = contentColor
+                    modifier = Modifier.size(20.dp),
+                    tint = iconTint
                 )
             }
 
@@ -452,9 +470,9 @@ private fun FeatureCard(
             Column {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = contentColor,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -462,7 +480,7 @@ private fun FeatureCard(
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = contentColor.copy(alpha = 0.7f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     lineHeight = 16.sp
@@ -488,7 +506,8 @@ private fun QuickActionsGrid(
             subtitle = "Test prompts",
             icon = Icons.Default.Star,
             onClick = onPlaygroundClick,
-            color = MaterialTheme.colorScheme.secondary
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f),
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
 
         // Chat Card
@@ -498,7 +517,8 @@ private fun QuickActionsGrid(
             subtitle = "Ask anything",
             icon = Icons.Default.Send,
             onClick = onChatClick,
-            color = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 }
@@ -510,14 +530,16 @@ private fun QuickActionCard(
     subtitle: String,
     icon: ImageVector,
     onClick: () -> Unit,
-    color: Color
+    containerColor: Color,
+    contentColor: Color
 ) {
-    Surface(
+    Card(
         modifier = modifier
             .height(110.dp)
             .clickable { onClick() },
-        shape = RoundedCornerShape(20.dp),
-        color = color
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -528,12 +550,12 @@ private fun QuickActionCard(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = contentColor
                 )
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+                    color = contentColor.copy(alpha = 0.8f)
                 )
             }
 
@@ -541,13 +563,13 @@ private fun QuickActionCard(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.2f)),
+                    .background(contentColor.copy(alpha = 0.1f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = contentColor
                 )
             }
         }
@@ -563,7 +585,8 @@ private fun SupportSection(context: android.content.Context) {
         Text(
             text = "Community & Support",
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         // Buttons Row
@@ -575,7 +598,7 @@ private fun SupportSection(context: android.content.Context) {
             Button(
                 onClick = {
                       try {
-                            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://t.me/+jINnk67E33k1MWU9"))
+                            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://t.me/MyAido"))
                             context.startActivity(intent)
                         } catch (e: Exception) { }
                 },
@@ -583,8 +606,8 @@ private fun SupportSection(context: android.content.Context) {
                 shape = RoundedCornerShape(16.dp),
                 contentPadding = PaddingValues(vertical = 16.dp, horizontal = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -607,14 +630,14 @@ private fun SupportSection(context: android.content.Context) {
                 contentPadding = PaddingValues(vertical = 16.dp, horizontal = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                    contentColor = MaterialTheme.colorScheme.onSurface
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFFFFDD00).copy(alpha = 0.5f))
             ) {
                  Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFFFDD00), modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Support Dev", style = MaterialTheme.typography.labelLarge)
+                    Text("Support", style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -630,8 +653,8 @@ private fun SupportSection(context: android.content.Context) {
                     } catch (e: Exception) { }
                 },
             shape = RoundedCornerShape(20.dp),
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
