@@ -4,9 +4,10 @@
 
 ### *Type Once get it right with Aido*
 
-[![Version](https://img.shields.io/badge/version-3.8-blue.svg)](https://github.com/rehan5039/aido)
+[![Version](https://img.shields.io/badge/version-4.1-blue.svg)](https://github.com/MyAido/Aido)
 [![Android](https://img.shields.io/badge/Android-24%2B-green.svg)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.8+-purple.svg)](https://kotlinlang.org)
+[![License](https://img.shields.io/badge/License-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 </div>
 
