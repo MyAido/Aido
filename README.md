@@ -225,7 +225,7 @@ Enable offline mode to:
 
 <div align="center">
 
-### Made with ❤️ by [Rehan](https://github.com/rehan5039)
+### Made with ❤️ 
 
 **🧠 AIDO - AI, Do It Once**
 
