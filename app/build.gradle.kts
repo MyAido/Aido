@@ -21,6 +21,20 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            // For CI builds (GitHub Actions)
+            val keystoreFile = System.getenv("KEYSTORE_FILE")
+            if (keystoreFile != null && File(keystoreFile).exists()) {
+                storeFile = File(keystoreFile)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+            // For local builds, use Play Console signing (no config needed)
+        }
+    }
+
     buildTypes {
         release {
             // Enable code shrinking, obfuscation, and optimization
@@ -37,9 +51,9 @@ android {
             ndk {
                 debugSymbolLevel = "FULL"
             }
-            // Use Play/App signing (or configured CI keystore) for release artifacts.
-            // signingConfig is intentionally left unset here so Play Console signing
-            // can be used or CI-provided keystore can be applied.
+            
+            // Use signingConfig for GitHub Actions builds
+            signingConfig = signingConfigs.getByName("release")
         }
         
         debug {
