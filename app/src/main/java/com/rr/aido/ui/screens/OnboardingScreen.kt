@@ -307,23 +307,22 @@ private fun ProviderCard(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                if (isSelected)
+                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                else
+                    MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+            )
             .clickable { onClick() }
             .border(
                 width = if (isSelected) 2.dp else 0.dp,
                 color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = RoundedCornerShape(16.dp)
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isSelected)
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-            else
-                MaterialTheme.colorScheme.surface.copy(alpha = 0.5f) // Glassmorphic
-        ),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = if(isSelected) 4.dp else 1.dp)
+            )
     ) {
         Row(
             modifier = Modifier
@@ -546,13 +545,11 @@ private fun TutorialCard(
     description: String,
     content: @Composable () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f) // Glassmorphic
-        ),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -636,13 +633,11 @@ private fun PermissionsStep(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
-            ),
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
         ) {
             Row(
                 modifier = Modifier.padding(16.dp),

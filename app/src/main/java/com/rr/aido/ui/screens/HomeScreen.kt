@@ -300,13 +300,13 @@ private fun StatusCard(
 
     val contentColor = MaterialTheme.colorScheme.onSurface
 
-    Card(
+    // Using Box + clip/background instead of Card to avoid potential inner artifacts
+    Box(
         modifier = modifier
             .height(100.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(containerColor)
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
@@ -377,6 +377,7 @@ private fun FeaturesShowcaseSection(
             color = MaterialTheme.colorScheme.onBackground
         )
 
+        // Using a custom Grid layout approach using Rows for better control
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             // Row 1
             Row(
@@ -386,7 +387,7 @@ private fun FeaturesShowcaseSection(
                 FeatureCard(
                     modifier = Modifier.weight(1f),
                     title = "My Triggers",
-                    description = "Custom commands (@fixg...)",
+                    description = "Custom commands (@fix...)",
                     icon = Icons.Outlined.Create,
                     onClick = onNavigateToPreprompts,
                     iconTint = MaterialTheme.colorScheme.primary
@@ -436,18 +437,17 @@ private fun FeatureCard(
     onClick: () -> Unit,
     iconTint: Color
 ) {
-    Card(
+    Box(
         modifier = modifier
             .height(140.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f) // Glass feel relative to background
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
+            .clickable { onClick() }
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             // Icon Top Left
@@ -533,16 +533,17 @@ private fun QuickActionCard(
     containerColor: Color,
     contentColor: Color
 ) {
-    Card(
+    Box(
         modifier = modifier
             .height(110.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(containerColor)
+            .clickable { onClick() }
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {

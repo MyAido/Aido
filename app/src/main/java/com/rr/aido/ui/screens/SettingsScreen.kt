@@ -24,6 +24,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -441,13 +442,11 @@ fun PremiumSection(
     onExpandedChange: (Boolean) -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))
     ) {
         Column(
             modifier = Modifier.animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessLow))
@@ -615,12 +614,15 @@ fun PremiumStatusCard(
     buttonText: String,
     onAction: () -> Unit
 ) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = if (isEnabled) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f) else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
-        ),
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                if (isEnabled) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+                else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
+            )
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
