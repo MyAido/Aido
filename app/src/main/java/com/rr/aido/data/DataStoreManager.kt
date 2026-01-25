@@ -78,6 +78,7 @@ class DataStoreManager(private val context: Context) {
         // Streaming Text Animation
         private val IS_STREAMING_MODE_ENABLED = booleanPreferencesKey("is_streaming_mode_enabled")
         private val STREAMING_DELAY_MS = intPreferencesKey("streaming_delay_ms")
+        private val IS_CIRCLE_TO_SEARCH_ENABLED = booleanPreferencesKey("is_circle_to_search_enabled")
 
         // Legacy keys
         private val SHOW_REPLY_IN_ALL = booleanPreferencesKey("show_reply_in_all")
@@ -136,7 +137,8 @@ class DataStoreManager(private val context: Context) {
             isAppToggleEnabled = preferences[IS_APP_TOGGLE_ENABLED] ?: false, // Default OFF
             isAppToggledOn = preferences[IS_APP_TOGGLED_ON] ?: true, // Default ON
             isStreamingModeEnabled = preferences[IS_STREAMING_MODE_ENABLED] ?: false, // Default OFF
-            streamingDelayMs = preferences[STREAMING_DELAY_MS] ?: 50 // Default 50ms delay between words
+            streamingDelayMs = preferences[STREAMING_DELAY_MS] ?: 50, // Default 50ms delay between words
+            isCircleToSearchEnabled = preferences[IS_CIRCLE_TO_SEARCH_ENABLED] ?: false // Default OFF
         )
     }
 
@@ -384,6 +386,13 @@ class DataStoreManager(private val context: Context) {
         }
     }
 
+    // Save Circle to Search enabled
+    suspend fun saveCircleToSearchEnabled(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[IS_CIRCLE_TO_SEARCH_ENABLED] = enabled
+        }
+    }
+
     // Toggle app disabled state
     suspend fun toggleAppDisabled(packageName: String, isDisabled: Boolean) {
         context.dataStore.edit { preferences ->
@@ -536,6 +545,7 @@ class DataStoreManager(private val context: Context) {
             preferences[IS_APP_TOGGLED_ON] = settings.isAppToggledOn
             preferences[IS_STREAMING_MODE_ENABLED] = settings.isStreamingModeEnabled
             preferences[STREAMING_DELAY_MS] = settings.streamingDelayMs
+            preferences[IS_CIRCLE_TO_SEARCH_ENABLED] = settings.isCircleToSearchEnabled
         }
     }
 

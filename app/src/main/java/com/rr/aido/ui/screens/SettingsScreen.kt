@@ -376,6 +376,14 @@ fun SettingsScreen(
                             checked = uiState.isUndoRedoEnabled,
                             onCheckedChange = { viewModel.toggleUndoRedo(it) }
                         )
+
+                        PremiumSwitchItem(
+                            title = "Circle to Search Trigger",
+                            subtitle = "Double tap the notch to trigger Google Circle to Search",
+                            icon = Icons.Outlined.TouchApp,
+                            checked = uiState.isCircleToSearchEnabled,
+                            onCheckedChange = { viewModel.toggleCircleToSearch(it) }
+                        )
                     }
                 }
 

@@ -60,7 +60,8 @@ data class Settings(
     // Streaming Text Animation
     val isStreamingModeEnabled: Boolean = false, // Streaming mode disabled by default
     val streamingDelayMs: Int = 50, // Delay between words in milliseconds (50ms = fast, smooth animation)
-    val responseLanguage: String = "English" // Language for AI responses
+    val responseLanguage: String = "English", // Language for AI responses
+    val isCircleToSearchEnabled: Boolean = false // Circle to Search trigger (Double tap notch)
 )
 
 enum class ThemeMode(val id: String, val displayName: String) {

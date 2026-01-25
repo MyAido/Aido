@@ -40,6 +40,7 @@ import com.rr.aido.R
 import com.rr.aido.ui.components.ProcessingAnimationView
 import com.rr.aido.data.models.ProcessingAnimationType
 import com.rr.aido.ui.overlays.SearchOverlayManager
+import com.rr.aido.ui.overlays.NotchTouchDetector
 
 class AidoAccessibilityService : AccessibilityService() {
 
@@ -81,12 +82,16 @@ class AidoAccessibilityService : AccessibilityService() {
     // App Toggle Processor
     private lateinit var appToggleProcessor: AppToggleProcessor
 
+    // Notch Touch Detector (Circle to Search)
+    private lateinit var notchTouchDetector: NotchTouchDetector
+
     override fun onCreate() {
         super.onCreate()
         dataStoreManager = DataStoreManager(applicationContext)
         val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         undoRedoManager = UndoRedoManager(applicationContext, windowManager, dataStoreManager, serviceScope)
-        undoRedoManager = UndoRedoManager(applicationContext, windowManager, dataStoreManager, serviceScope)
+
+        notchTouchDetector = NotchTouchDetector(applicationContext, windowManager, serviceScope)
 
         searchOverlayManager = SearchOverlayManager(
             context = applicationContext,
@@ -129,6 +134,13 @@ class AidoAccessibilityService : AccessibilityService() {
             dataStoreManager.textShortcutsFlow.collect {
                 textShortcuts = it
                 Log.d(TAG, "Text shortcuts updated: ${it.size}")
+            }
+        }
+
+        // Monitor settings for Circle to Search
+        serviceScope.launch {
+            dataStoreManager.settingsFlow.collect { settings ->
+                notchTouchDetector.setEnabled(settings.isCircleToSearchEnabled)
             }
         }
     }

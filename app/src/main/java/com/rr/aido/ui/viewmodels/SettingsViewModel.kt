@@ -62,7 +62,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     allMenuOrder = currentSettings.allMenuOrder,
                     isAppToggleEnabled = currentSettings.isAppToggleEnabled,
                     isStreamingModeEnabled = currentSettings.isStreamingModeEnabled,
-                    streamingDelayMs = currentSettings.streamingDelayMs
+                    streamingDelayMs = currentSettings.streamingDelayMs,
+                    isCircleToSearchEnabled = currentSettings.isCircleToSearchEnabled
                 )
             }
         }
@@ -389,7 +390,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun updateStreamingDelay(delayMs: Int) {
         viewModelScope.launch {
             dataStoreManager.saveStreamingDelayMs(delayMs)
+            dataStoreManager.saveStreamingDelayMs(delayMs)
             _uiState.value = _uiState.value.copy(streamingDelayMs = delayMs)
+        }
+    }
+
+
+    fun toggleCircleToSearch(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStoreManager.saveCircleToSearchEnabled(enabled)
+            _uiState.value = _uiState.value.copy(isCircleToSearchEnabled = enabled)
         }
     }
 
@@ -466,6 +476,7 @@ data class SettingsUiState(
     val isAppToggleEnabled: Boolean = false,
     val isStreamingModeEnabled: Boolean = false,
     val streamingDelayMs: Int = 50,
+    val isCircleToSearchEnabled: Boolean = false,
     val expandedSections: Map<String, Boolean> = mapOf(
         "Trigger & Setup" to true, // Default expanded
         "AI Configuration" to false,

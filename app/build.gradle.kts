@@ -15,8 +15,8 @@ android {
         applicationId = "com.rr.aido"
         minSdk = 24
         targetSdk = 36
-        versionCode = 61
-        versionName = "4.1"
+        versionCode = 62
+        versionName = "4.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -164,4 +164,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    
+    // HiddenApiBypass - For Google Circle to Search trigger
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
 }
