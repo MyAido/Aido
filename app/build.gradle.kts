@@ -15,8 +15,8 @@ android {
         applicationId = "com.rr.aido"
         minSdk = 24
         targetSdk = 36
-        versionCode = 63
-        versionName = "4.3"
+        versionCode = 64
+        versionName = "4.3.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
