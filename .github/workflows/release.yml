@@ -38,8 +38,8 @@ jobs:
         run: |
           echo "${{ secrets.SIGNING_KEY }}" | base64 -di > $GITHUB_WORKSPACE/keystore.jks
 
-      - name: Build and Sign Release APK
-        run: ./gradlew assembleRelease
+      - name: Build and Sign Release APKs
+        run: ./gradlew assembleStandardRelease assembleParallelRelease
         env:
           VERSION_NAME: ${{ steps.version.outputs.VERSION }}
           KEYSTORE_FILE: ${{ github.workspace }}/keystore.jks
@@ -47,10 +47,12 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Rename APK
+      - name: Rename APKs
         run: |
-          mv app/build/outputs/apk/release/app-release.apk \
+          mv app/build/outputs/apk/standard/release/app-standard-release.apk \
              aido-${{ steps.version.outputs.VERSION }}.apk
+          mv app/build/outputs/apk/parallel/release/app-parallel-release.apk \
+             aido-parallel-${{ steps.version.outputs.VERSION }}.apk
 
       - name: Generate Changelog
         id: changelog
@@ -76,7 +78,12 @@ jobs:
             ${{ steps.changelog.outputs.CHANGELOG }}
             
             ## Download
-            - **APK**: aido-${{ steps.version.outputs.VERSION }}.apk
+            
+            - **Standard Version**: aido-${{ steps.version.outputs.VERSION }}.apk
+              *(Use this if you installed the original version or want to update)*
+            
+            - **Parallel Version**: aido-parallel-${{ steps.version.outputs.VERSION }}.apk
+              *(Use this to install alongside the Play Store / Original version. Package: com.rubex.aido)*
             
             ## Installation
             1. Download the APK file
@@ -88,14 +95,22 @@ jobs:
             **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.changelog.outputs.LAST_TAG }}...${{ steps.version.outputs.TAG }}
           files: |
             aido-${{ steps.version.outputs.VERSION }}.apk
+            aido-parallel-${{ steps.version.outputs.VERSION }}.apk
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload APK as Artifact
+      - name: Upload Standard APK as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: aido-${{ steps.version.outputs.VERSION }}
           path: aido-${{ steps.version.outputs.VERSION }}.apk
+          retention-days: 90
+
+      - name: Upload Parallel APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aido-parallel-${{ steps.version.outputs.VERSION }}
+          path: aido-parallel-${{ steps.version.outputs.VERSION }}.apk
           retention-days: 90

@@ -21,6 +21,20 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "version"
+    productFlavors {
+        create("standard") {
+            dimension = "version"
+            // Default applicationId (com.rr.aido)
+        }
+        create("parallel") {
+            dimension = "version"
+            applicationId = "com.rubex.aido"
+            versionNameSuffix = "-parallel"
+            resValue("string", "app_name", "Aido (Parallel)")
+        }
+    }
+
     signingConfigs {
         create("release") {
             // For CI builds (GitHub Actions)
